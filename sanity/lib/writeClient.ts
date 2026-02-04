@@ -7,6 +7,6 @@ export const writeClient = createClient({
   dataset: dataset || 'production',
   apiVersion: apiVersion || '2026-02-02',
   useCdn: false,
-  token: process.env.SANITY_API_WRITE_TOKEN, // Write token from environment
+  token: process.env.SANITY_API_TOKEN, // Write token from environment
   perspective: 'published',
 })
