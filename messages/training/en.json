@@ -1,0 +1,164 @@
+{
+  "title": "Our Training Plans",
+  "subtitle": "Stay up to date on our current training plans and programs designed to improve the skills and performance of FC City Boys Zürich players.",
+  "description": "Our comprehensive training programs are designed to develop technical skills, tactical awareness, and physical fitness. We focus on individual growth and team cohesion.",
+  "hero": {
+    "imageAlt": "FC City Boys Training",
+    "joinTraining": "Join Training Now",
+    "meetCoaches": "Meet Our Coaches"
+  },
+  "indoor": {
+    "title": "Indoor Training",
+    "season": "November to April",
+    "sessions": [
+      {
+        "day": "Every Thursday",
+        "time": "19:00 to 21:00",
+        "location": "Schulhaus Buhrain Seebach ZH",
+        "address": "Buhnrain 40, 8052 Zürich"
+      },
+      {
+        "day": "Every Saturday",
+        "time": "17:45 to 20:45",
+        "location": "Zentrum für Gehör und Sprache Zürich",
+        "address": "Frohalpstrasse 78, 8038 Zürich"
+      }
+    ]
+  },
+  "outdoor": {
+    "title": "Outdoor Training",
+    "season": "May to October",
+    "sessions": [
+      {
+        "day": "Every Saturday",
+        "time": "17:45 to 20:45",
+        "location": "Sportanlage Au",
+        "address": "Austrasse 2, 8152 Opfikon"
+      }
+    ]
+  },
+  "trainers": {
+    "title": "Our Trainers",
+    "trainerDescription": "Experienced professional dedicated to developing players' skills and achieving excellence in football training."
+  },
+  "highlights": {
+    "title": "Training Highlights",
+    "items": [
+      {
+        "caption": "Technical Skills Training"
+      },
+      {
+        "caption": "Tactical Analysis Session"
+      },
+      {
+        "caption": "Physical Conditioning"
+      }
+    ]
+  },
+  "overview": {
+    "title": "Excellence Through Training",
+    "description": "Our comprehensive training programs are designed to develop technical skills, tactical awareness, and physical fitness. We focus on individual growth and team cohesion.",
+    "button": "Join Training",
+    "imageAlt": "Training Overview"
+  },
+  "facilities": {
+    "title": "Our Facilities",
+    "subtitle": "World-class training facilities designed for excellence",
+    "items": [
+      {
+        "title": "Indoor Training Hall",
+        "description": "State-of-the-art indoor facility"
+      },
+      {
+        "title": "Outdoor Pitch",
+        "description": "Professional grass field"
+      },
+      {
+        "title": "Fitness Center",
+        "description": "Modern gym equipment"
+      }
+    ]
+  },
+  "statistics": {
+    "title": "Performance Statistics",
+    "items": [
+      {
+        "label": "Active Players"
+      },
+      {
+        "label": "Training Sessions"
+      },
+      {
+        "label": "Improvement Rate"
+      },
+      {
+        "label": "Certified Coaches"
+      }
+    ]
+  },
+  "roadmap": {
+    "title": "Player Development Roadmap",
+    "subtitle": "A structured pathway to excellence",
+    "phases": [
+      {
+        "title": "Foundation Phase",
+        "description": "Basic skills and coordination development for young players"
+      },
+      {
+        "title": "Development Phase",
+        "description": "Advanced techniques and tactical understanding"
+      },
+      {
+        "title": "Performance Phase",
+        "description": "Elite training and competitive preparation"
+      },
+      {
+        "title": "Excellence Phase",
+        "description": "Mastery level training and professional pathways"
+      }
+    ]
+  },
+  "gallery": {
+    "title": "Weekly Training Gallery",
+    "items": [
+      {
+        "caption": "Monday Training"
+      },
+      {
+        "caption": "Wednesday Session"
+      },
+      {
+        "caption": "Friday Practice"
+      },
+      {
+        "caption": "Weekend Match Prep"
+      }
+    ]
+  },
+  "testimonials": {
+    "title": "What They Say",
+    "items": [
+      {
+        "name": "Alex Johnson",
+        "role": "Player",
+        "quote": "The training program has transformed my game. The coaches are professional and the facilities are world-class."
+      },
+      {
+        "name": "Sarah Williams",
+        "role": "Parent",
+        "quote": "My son has improved tremendously since joining. The academy provides excellent development opportunities."
+      },
+      {
+        "name": "Michael Chen",
+        "role": "Player",
+        "quote": "The technical training and tactical sessions have taken my understanding of the game to the next level."
+      }
+    ]
+  },
+  "cta": {
+    "title": "Ready to Elevate Your Game?",
+    "description": "Join our professional training program and take your football skills to the next level",
+    "joinTraining": "Join Training Now",
+    "meetCoaches": "Meet Our Coaches"
+  }
+}

@@ -20,6 +20,23 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Environment Variables
+
+For the contact form to automatically save submissions to Sanity CMS, you need to set up a Sanity write token:
+
+1. Create a `.env.local` file in the root directory
+2. Get your Sanity write token:
+   - Go to https://sanity.io/manage
+   - Select your project
+   - Navigate to API > Tokens
+   - Create a new token with "Editor" permissions
+3. Add to `.env.local`:
+   ```
+   SANITY_API_WRITE_TOKEN=your_write_token_here
+   ```
+
+**Important:** Never commit the `.env.local` file to version control!
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

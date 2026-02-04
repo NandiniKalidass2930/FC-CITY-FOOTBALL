@@ -1,0 +1,82 @@
+{
+  "title": "Kontaktieren Sie uns",
+  "subtitle": "Kontaktieren Sie FC City Boys Zurich",
+  "hero": {
+    "heading": "KONTAKT",
+    "titleLine1": "NEHMEN SIE KONTAKT AUF MIT",
+    "titleLine2": "FC CITY BOYS ZURICH",
+    "description": "Kontaktieren Sie uns für Spielinformationen, Trainingseinheiten, Partnerschaften oder allgemeine Anfragen.",
+    "button": "Jetzt kontaktieren"
+  },
+  "cards": {
+    "email": "E-Mail",
+    "phone": "Telefon"
+  },
+  "form": {
+    "name": "Name",
+    "email": "E-Mail",
+    "subject": "Betreff",
+    "message": "Nachricht",
+    "send": "Nachricht senden",
+    "sending": "Wird gesendet...",
+    "success": "Nachricht erfolgreich gesendet!",
+    "error": "Nachricht konnte nicht gesendet werden. Bitte versuchen Sie es erneut.",
+    "description": "Füllen Sie das Formular aus und wir werden uns bald bei Ihnen melden."
+  },
+  "address": {
+    "title": "Besuchen Sie uns",
+    "street": "Geroldsweg 13a",
+    "city": "8196 Wil-ZH",
+    "country": "Schweiz",
+    "phone": "+41 44 123 4567",
+    "email": "info@fccbzh.ch",
+    "location": "Geroldsweg 13a, 8196 Wil-ZH, Schweiz"
+  },
+  "social": {
+    "title": "Folgen Sie uns",
+    "facebook": "Facebook",
+    "instagram": "Instagram",
+    "twitter": "Twitter",
+    "youtube": "YouTube"
+  },
+  "officeHours": {
+    "title": "Bürozeiten",
+    "weekdays": "Montag - Freitag",
+    "weekend": "Samstag - Sonntag",
+    "weekdaysTime": "9:00 - 18:00 Uhr",
+    "weekendTime": "Geschlossen",
+    "note": "Wir sind während der Bürozeiten für Sie da"
+  },
+  "support": {
+    "title": "Support-Informationen",
+    "general": "Allgemeine Anfragen",
+    "training": "Trainingsfragen",
+    "membership": "Mitgliedschaft",
+    "events": "Veranstaltungen & Tickets",
+    "generalEmail": "info@fccbzh.ch",
+    "trainingEmail": "training@fccbzh.ch",
+    "membershipEmail": "membership@fccbzh.ch",
+    "eventsEmail": "events@fccbzh.ch"
+  },
+  "emergency": {
+    "title": "Notfallkontakt",
+    "description": "Für dringende Angelegenheiten außerhalb der Bürozeiten",
+    "phone": "+41 44 123 4567",
+    "available": "24/7 verfügbar"
+  },
+  "map": {
+    "title": "Finden Sie uns auf der Karte",
+    "getDirections": "Wegbeschreibung",
+    "addressPreview": "Unser Standort",
+    "iframeTitle": "FC City Boys Zurich Standort"
+  },
+  "image": {
+    "heading": "Unser Gelände & Standort",
+    "subheading": "Finden Sie uns und werden Sie Teil unserer Reise",
+    "alt": "FC City Boys - Stadion und Training",
+    "connectAlt": "FC City Boys - Verbinden Sie sich mit uns"
+  },
+  "connect": {
+    "title": "Verbinden Sie sich mit uns"
+  }
+}

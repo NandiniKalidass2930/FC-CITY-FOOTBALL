@@ -1,0 +1,60 @@
+{
+  "title": "FC City Boys Zurich – More Than a Club",
+  "description": "Since our founding in 1989, we have many loyal fans and are delighted by the constantly growing number of supporters. We are united by our common love for football and the friendships that have emerged from it.\n\nIn addition, our fans support us at games in Switzerland and abroad by buying new sports clothing or covering travel and meal expenses. In good times and bad, they stand behind us and motivate us to fight so that we can celebrate further successes together.",
+  "hero": {
+    "badge": "About Us",
+    "joinNow": "Join Now"
+  },
+  "landingTitle": "FC City Boys Zurich – More Than a Club",
+  "landingDescription": "Since our founding in 1989, we have built a strong and loyal football community. Our supporters stand by us in every match, at home and abroad, sharing passion, unity, and pride. Together, we grow stronger and celebrate success as one family.",
+  "learnMore": "Learn More",
+  "stats": {
+    "members": "Members",
+    "tournaments": "Won Tournaments",
+    "projects": "Social Projects",
+    "founded": "Year of Foundation"
+  },
+  "history": {
+    "title": "Club History",
+    "content": "FC City Boys Zurich was founded in 2010 with a vision to create a premier football club that combines professional excellence with community values. Over the years, we have grown from a small local team to one of the most respected clubs in Swiss football. Our journey has been marked by dedication, passion, and an unwavering commitment to developing both players and the community."
+  },
+  "vision": {
+    "title": "Our Vision",
+    "content": "To be the leading football club in Switzerland, recognized for excellence on and off the pitch, and for our positive impact on the community."
+  },
+  "mission": {
+    "title": "Our Mission",
+    "content": "To develop talented footballers, foster team spirit, and create a positive environment where players can achieve their full potential while contributing to the community."
+  },
+  "whyJoin": {
+    "title": "Why Join Us",
+    "content": "Join FC City Boys Zurich and become part of a dynamic football community that values growth, teamwork, and excellence. Whether you're an experienced player or just starting your football journey, we offer professional coaching, competitive opportunities, and a supportive environment where every member can thrive. Experience the passion, dedication, and camaraderie that makes us more than just a club—we're a family united by our love for the beautiful game."
+  },
+  "trainingPhilosophy": {
+    "title": "Training Philosophy",
+    "content": "Our training philosophy is built on three core principles: technical excellence, tactical awareness, and physical conditioning. We believe in developing well-rounded players who excel both individually and as part of a cohesive team. Our experienced coaching staff uses modern training methods, personalized development plans, and a focus on continuous improvement. We emphasize discipline, respect, and hard work, creating an environment where players push their limits and achieve their goals."
+  },
+  "communityImpact": {
+    "title": "Community Impact",
+    "content": "FC City Boys Zurich is committed to making a positive impact beyond the football pitch. Through various community initiatives, youth programs, and social projects, we aim to inspire and support the next generation. We organize charity events, provide mentorship opportunities, and work closely with local organizations to give back to the community. Our players and supporters come together to create lasting change, proving that football has the power to unite, inspire, and transform lives."
+  },
+  "visionMission": {
+    "title": "Our Vision & Mission"
+  },
+  "cta": {
+    "title": "Become Part of the Journey",
+    "description": "Join FC City Boys Zurich and be part of a growing football family that values ambition, discipline, and community.",
+    "contactUs": "Contact Us",
+    "exploreTraining": "Explore Training"
+  },
+  "achievements": {
+    "title": "Achievements",
+    "items": [
+      "3x League Champions",
+      "2x Cup Winners",
+      "Youth Academy Excellence Award",
+      "Community Impact Award",
+      "5 Players in National Team"
+    ]
+  }
+}

@@ -1,0 +1,107 @@
+{
+  "hero": {
+    "welcome": "Welcome to",
+    "clubName": "FC City Boys Zurich",
+    "title": "FC CITY BOYS",
+    "titleZurich": "ZURICH",
+    "subtitle": "More Than a Club",
+    "description": "Founded in the 1980s, FC City Boys Zurich is a football club based in Zurich, Switzerland. Proud to be one of the first Tamil football clubs, we stand for passion, unity, and excellence on and off the field.",
+    "join": "Join Our Club",
+    "joinUs": "Join Us",
+    "viewTeam": "View Team"
+  },
+  "features": {
+    "title": "Why Choose Us",
+    "trainingExcellence": {
+      "title": "Training Excellence",
+      "description": "State-of-the-art facilities and world-class training programs"
+    },
+    "teamSpirit": {
+      "title": "Team Spirit",
+      "description": "Building strong bonds and camaraderie among players"
+    },
+    "youthDevelopment": {
+      "title": "Youth Development",
+      "description": "Nurturing young talent for the future of football"
+    },
+    "professionalCoaching": {
+      "title": "Professional Coaching",
+      "description": "Experienced coaches dedicated to your success"
+    }
+  },
+  "aboutPreview": {
+    "title": "About FC City Boys",
+    "description": "Founded with a vision to create a premier football club, FC City Boys Zurich has been at the forefront of Swiss football. We combine professional excellence with community values, creating an environment where players thrive both on and off the pitch.",
+    "learnMore": "Learn More"
+  },
+  "moreThanClub": {
+    "title": "MORE THAN A CLUB",
+    "intro": "FC City Boys Zurich – More than a club.",
+    "paragraph1": "Since our founding in 1989, we have built a strong and loyal community of football lovers. Our supporters stand by us in every match, at home and abroad, supporting the team with passion and pride.",
+    "paragraph2": "Through unity, dedication, and love for the game, we continue to grow stronger together and celebrate success as one family."
+  },
+  "gallery": {
+    "title": "Gallery",
+    "viewAll": "View All Photos"
+  },
+  "stats": {
+    "wins": "Wins",
+    "players": "Players",
+    "goals": "Goals",
+    "trophies": "Trophies"
+  },
+  "matches": {
+    "upcoming": "Upcoming Matches",
+    "description": "Don't miss our next exciting fixtures",
+    "viewAll": "View All",
+    "getTickets": "Get Tickets",
+    "home": "Home",
+    "away": "Away"
+  },
+  "news": {
+    "latest": "Latest News",
+    "description": "Stay updated with the latest from the club",
+    "viewAll": "View All",
+    "readMore": "Read More"
+  },
+  "cta": {
+    "title": "Join the City Boys Family",
+    "description": "Become a member and enjoy exclusive benefits, priority ticket access, and be part of our passionate community.",
+    "join": "Join the Club",
+    "joinClub": "Join the Club",
+    "contact": "Contact Us",
+    "contactUs": "Contact Us"
+  },
+  "sponsors": {
+    "title": "Our Sponsors",
+    "description": "Partners who support our journey",
+    "alt": "FC City Boys Zurich sponsor logo"
+  },
+  "goalsValues": {
+    "title": "Our Goals & Values",
+    "description": "The principles that guide our mission and drive our success",
+    "learnMore": "Learn more",
+    "cards": [
+      {
+        "number": "01",
+        "title": "Our goals and values",
+        "description": "Where passion, community, and sportsmanship come together. The founding members of FC City Boys Zurich laid the foundation for a legacy of sporting excellence and community spirit."
+      },
+      {
+        "number": "02",
+        "title": "Youth and Adult Engagement",
+        "description": "We want to enable Tamil youth and adults in Switzerland to play football in our club, make contacts with like-minded people, and enjoy socializing."
+      },
+      {
+        "number": "03",
+        "title": "Voluntary efforts",
+        "description": "The board, the four-person coaching team, and our members volunteer to work towards promoting the sports and personal successes of our players."
+      },
+      {
+        "number": "04",
+        "title": "Core values",
+        "description": "The goal is to continue achieving many successes. At the same time, we value mutual respect, team spirit, and fair play."
+      }
+    ]
+  }
+}

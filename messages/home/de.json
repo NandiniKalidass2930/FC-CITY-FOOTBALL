@@ -1,0 +1,107 @@
+{
+  "hero": {
+    "welcome": "Willkommen bei",
+    "clubName": "FC City Boys Zurich",
+    "title": "FC CITY BOYS",
+    "titleZurich": "ZURICH",
+    "subtitle": "Mehr als ein Verein",
+    "description": "Gegründet in den 1980er Jahren ist FC City Boys Zurich ein Fußballverein in Zürich, Schweiz. Stolz darauf, einer der ersten tamilischen Fußballvereine zu sein, stehen wir für Leidenschaft, Einheit und Exzellenz auf und außerhalb des Platzes.",
+    "join": "Unserem Verein beitreten",
+    "joinUs": "Mitmachen",
+    "viewTeam": "Team ansehen"
+  },
+  "features": {
+    "title": "Warum uns wählen",
+    "trainingExcellence": {
+      "title": "Trainings-Exzellenz",
+      "description": "Modernste Einrichtungen und erstklassige Trainingsprogramme"
+    },
+    "teamSpirit": {
+      "title": "Teamgeist",
+      "description": "Starke Bindungen und Kameradschaft unter den Spielern aufbauen"
+    },
+    "youthDevelopment": {
+      "title": "Jugendförderung",
+      "description": "Junge Talente für die Zukunft des Fußballs fördern"
+    },
+    "professionalCoaching": {
+      "title": "Professionelles Coaching",
+      "description": "Erfahrene Trainer, die sich Ihrem Erfolg widmen"
+    }
+  },
+  "aboutPreview": {
+    "title": "Über FC City Boys",
+    "description": "Gegründet mit der Vision, einen erstklassigen Fußballverein zu schaffen, steht FC City Boys Zurich an der Spitze des Schweizer Fußballs. Wir verbinden professionelle Exzellenz mit Gemeinschaftswerten und schaffen eine Umgebung, in der Spieler sowohl auf als auch außerhalb des Platzes gedeihen.",
+    "learnMore": "Mehr erfahren"
+  },
+  "moreThanClub": {
+    "title": "MEHR ALS EIN VEREIN",
+    "intro": "FC City Boys Zurich – Mehr als ein Verein.",
+    "paragraph1": "Seit unserer Gründung im Jahr 1989 haben wir eine starke und treue Gemeinschaft von Fußballliebhabern aufgebaut. Unsere Unterstützer stehen uns bei jedem Spiel bei, zu Hause und im Ausland, unterstützen das Team mit Leidenschaft und Stolz.",
+    "paragraph2": "Durch Einheit, Hingabe und Liebe zum Spiel wachsen wir weiterhin stärker zusammen und feiern Erfolg als eine Familie."
+  },
+  "gallery": {
+    "title": "Galerie",
+    "viewAll": "Alle Fotos ansehen"
+  },
+  "stats": {
+    "wins": "Siege",
+    "players": "Spieler",
+    "goals": "Tore",
+    "trophies": "Trophäen"
+  },
+  "matches": {
+    "upcoming": "Bevorstehende Spiele",
+    "description": "Verpassen Sie nicht unsere nächsten aufregenden Spiele",
+    "viewAll": "Alle anzeigen",
+    "getTickets": "Tickets kaufen",
+    "home": "Heim",
+    "away": "Auswärts"
+  },
+  "news": {
+    "latest": "Aktuelle Nachrichten",
+    "description": "Bleiben Sie auf dem Laufenden mit den neuesten Informationen vom Verein",
+    "viewAll": "Alle anzeigen",
+    "readMore": "Mehr lesen"
+  },
+  "cta": {
+    "title": "Werden Sie Teil der City Boys Familie",
+    "description": "Werden Sie Mitglied und genießen Sie exklusive Vorteile, Vorrang beim Ticketkauf und werden Sie Teil unserer leidenschaftlichen Gemeinschaft.",
+    "join": "Verein beitreten",
+    "joinClub": "Verein beitreten",
+    "contact": "Kontaktieren Sie uns",
+    "contactUs": "Kontaktieren Sie uns"
+  },
+  "sponsors": {
+    "title": "Unsere Sponsoren",
+    "description": "Partner, die unsere Reise unterstützen",
+    "alt": "FC City Boys Zurich Sponsor-Logo"
+  },
+  "goalsValues": {
+    "title": "Unsere Ziele & Werte",
+    "description": "Die Prinzipien, die unsere Mission leiten und unseren Erfolg vorantreiben",
+    "learnMore": "Mehr erfahren",
+    "cards": [
+      {
+        "number": "01",
+        "title": "Unsere Ziele und Werte",
+        "description": "Wo Leidenschaft, Gemeinschaft und Sportsgeist zusammenkommen. Die Gründungsmitglieder von FC City Boys Zurich legten den Grundstein für ein Vermächtnis sportlicher Exzellenz und Gemeinschaftsgeist."
+      },
+      {
+        "number": "02",
+        "title": "Jugend- und Erwachsenenengagement",
+        "description": "Wir möchten tamilischen Jugendlichen und Erwachsenen in der Schweiz ermöglichen, in unserem Verein Fussball zu spielen, Kontakte mit Gleichgesinnten zu knüpfen und die Geselligkeit zu genießen."
+      },
+      {
+        "number": "03",
+        "title": "Freiwillige Bemühungen",
+        "description": "Der Vorstand, das vierköpfige Trainerteam und unsere Mitglieder arbeiten ehrenamtlich daran, die sportlichen und persönlichen Erfolge unserer Spieler zu fördern."
+      },
+      {
+        "number": "04",
+        "title": "Kernwerte",
+        "description": "Das Ziel ist es, weiterhin viele Erfolge zu erzielen. Gleichzeitig schätzen wir gegenseitigen Respekt, Teamgeist und Fairplay."
+      }
+    ]
+  }
+}

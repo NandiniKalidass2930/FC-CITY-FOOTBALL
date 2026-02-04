@@ -1,0 +1,60 @@
+{
+  "title": "FC City Boys Zurich – Mehr als ein Verein",
+  "description": "Seit unserer Gründung im Jahr 1989 haben wir viele treue Fans und freuen uns über die ständig wachsende Anzahl von Unterstützern. Wir sind vereint durch unsere gemeinsame Liebe zum Fußball und die Freundschaften, die daraus entstanden sind.\n\nDarüber hinaus unterstützen uns unsere Fans bei Spielen in der Schweiz und im Ausland, indem sie neue Sportbekleidung kaufen oder Reise- und Verpflegungskosten übernehmen. In guten wie in schlechten Zeiten stehen sie hinter uns und motivieren uns zu kämpfen, damit wir gemeinsam weitere Erfolge feiern können.",
+  "hero": {
+    "badge": "Über Uns",
+    "joinNow": "Jetzt Beitreten"
+  },
+  "landingTitle": "FC City Boys Zurich – Mehr als ein Verein",
+  "landingDescription": "Seit unserer Gründung im Jahr 1989 haben wir eine starke und treue Fußballgemeinschaft aufgebaut. Unsere Unterstützer stehen uns bei jedem Spiel bei, zu Hause und im Ausland, teilen Leidenschaft, Einheit und Stolz. Gemeinsam wachsen wir stärker und feiern Erfolg als eine Familie.",
+  "learnMore": "Mehr erfahren",
+  "stats": {
+    "members": "Mitglieder",
+    "tournaments": "Gewonnene Turniere",
+    "projects": "Soziale Projekte",
+    "founded": "Gründungsjahr"
+  },
+  "history": {
+    "title": "Vereinsgeschichte",
+    "content": "FC City Boys Zurich wurde 2010 mit der Vision gegründet, einen erstklassigen Fußballverein zu schaffen, der professionelle Exzellenz mit Gemeinschaftswerten verbindet. Im Laufe der Jahre sind wir von einem kleinen lokalen Team zu einem der angesehensten Vereine im Schweizer Fußball gewachsen. Unsere Reise war geprägt von Hingabe, Leidenschaft und einem unerschütterlichen Engagement für die Entwicklung von Spielern und Gemeinschaft."
+  },
+  "vision": {
+    "title": "Unsere Vision",
+    "content": "Der führende Fußballverein in der Schweiz zu sein, anerkannt für Exzellenz auf und außerhalb des Platzes und für unsere positive Auswirkung auf die Gemeinschaft."
+  },
+  "mission": {
+    "title": "Unsere Mission",
+    "content": "Talente Fußballer zu entwickeln, Teamgeist zu fördern und eine positive Umgebung zu schaffen, in der Spieler ihr volles Potenzial erreichen können, während sie zur Gemeinschaft beitragen."
+  },
+  "whyJoin": {
+    "title": "Warum Uns Beitreten",
+    "content": "Treten Sie FC City Boys Zurich bei und werden Sie Teil einer dynamischen Fußballgemeinschaft, die Wachstum, Teamarbeit und Exzellenz schätzt. Ob Sie ein erfahrener Spieler sind oder gerade Ihre Fußballreise beginnen, wir bieten professionelles Coaching, wettbewerbsfähige Möglichkeiten und ein unterstützendes Umfeld, in dem jedes Mitglied gedeihen kann. Erleben Sie die Leidenschaft, Hingabe und Kameradschaft, die uns mehr als nur ein Verein macht—wir sind eine Familie, vereint durch unsere Liebe zum schönen Spiel."
+  },
+  "trainingPhilosophy": {
+    "title": "Trainingsphilosophie",
+    "content": "Unsere Trainingsphilosophie basiert auf drei Grundprinzipien: technische Exzellenz, taktisches Bewusstsein und körperliche Konditionierung. Wir glauben an die Entwicklung vielseitiger Spieler, die sowohl individuell als auch als Teil eines zusammenhängenden Teams hervorstechen. Unser erfahrenes Trainerteam verwendet moderne Trainingsmethoden, personalisierte Entwicklungspläne und einen Fokus auf kontinuierliche Verbesserung. Wir betonen Disziplin, Respekt und harte Arbeit und schaffen ein Umfeld, in dem Spieler ihre Grenzen überschreiten und ihre Ziele erreichen."
+  },
+  "communityImpact": {
+    "title": "Gemeinschaftsauswirkung",
+    "content": "FC City Boys Zurich ist verpflichtet, über den Fußballplatz hinaus einen positiven Einfluss zu haben. Durch verschiedene Gemeinschaftsinitiativen, Jugendprogramme und soziale Projekte wollen wir die nächste Generation inspirieren und unterstützen. Wir organisieren Wohltätigkeitsveranstaltungen, bieten Mentoring-Möglichkeiten und arbeiten eng mit lokalen Organisationen zusammen, um der Gemeinschaft etwas zurückzugeben. Unsere Spieler und Unterstützer kommen zusammen, um dauerhafte Veränderungen zu schaffen und zu beweisen, dass Fußball die Kraft hat, zu vereinen, zu inspirieren und Leben zu verändern."
+  },
+  "visionMission": {
+    "title": "Unsere Vision & Mission"
+  },
+  "cta": {
+    "title": "Werden Sie Teil Der Reise",
+    "description": "Treten Sie FC City Boys Zurich bei und werden Sie Teil einer wachsenden Fußballfamilie, die Ambitionen, Disziplin und Gemeinschaft schätzt.",
+    "contactUs": "Kontaktieren Sie Uns",
+    "exploreTraining": "Training Erkunden"
+  },
+  "achievements": {
+    "title": "Erfolge",
+    "items": [
+      "3x Meister",
+      "2x Pokalsieger",
+      "Jugendakademie Exzellenzpreis",
+      "Gemeinschaftsauswirkungspreis",
+      "5 Spieler in der Nationalmannschaft"
+    ]
+  }
+}

@@ -1,0 +1,164 @@
+{
+  "title": "Frequently Asked Questions",
+  "subtitle": "Discover answers to frequently asked questions about FC City Boys Zurich, including our history, achievements, community support, and social projects.",
+  "generalQuestions": "General Questions",
+  "heroImageAlt": "FC City Boys - FAQ",
+  "questions": [
+    {
+      "q": "What are the history and origin of FC City Boys Zurich?",
+      "a": "Founded in the 1980s, FC City Boys Zurich is one of the first Tamil football clubs in Switzerland. Our journey began with the vision to promote unity and sporting excellence among young Tamils. Over the decades, we have grown from a local club to a beacon of hope, winning our first major title in 1990. Since then, we have continuously strived to make a positive impact both on and off the field."
+    },
+    {
+      "q": "What are some of FC City Boys Zurich's greatest achievements?",
+      "a": "FC City Boys Zurich has achieved numerous tournament victories and major titles in Switzerland and abroad. Our success reflects dedication, discipline, and excellence in Tamil football culture."
+    },
+    {
+      "q": "How does the community and fan base support FC City Boys Zurich?",
+      "a": "Our fans are the backbone of the club. From supporting us during matches to contributing financially and emotionally, their passion drives us forward. They travel with us, cheer us on, and play a vital role in our journey."
+    },
+    {
+      "q": "Which social projects does FC City Boys Zurich support?",
+      "a": "We actively support social initiatives in Sri Lanka including rebuilding football facilities, organizing community tournaments, and providing aid during crises such as the tsunami and COVID-19 pandemic. Our goal is to give back and create long-lasting social impact."
+    }
+  ],
+  "categories": {
+    "clubInfo": {
+      "title": "Club Information",
+      "icon": "Info",
+      "questions": [
+        {
+          "q": "Where is FC City Boys Zurich located?",
+          "a": "FC City Boys Zurich is based in Zurich, Switzerland. Our main training facilities and administrative office are located in the heart of Zurich, making us easily accessible to players and supporters throughout the region."
+        },
+        {
+          "q": "What age groups does the club cater to?",
+          "a": "We welcome players of all ages, from youth academy programs starting at age 6 to senior teams. Our structured development pathway ensures that players can progress through age-appropriate training and competitive opportunities."
+        },
+        {
+          "q": "What makes FC City Boys Zurich unique?",
+          "a": "As one of the first Tamil football clubs in Switzerland, we combine cultural heritage with sporting excellence. Our commitment to community impact, youth development, and professional training sets us apart as a club that values both on-field success and off-field contributions."
+        }
+      ]
+    },
+    "membership": {
+      "title": "Membership & Training",
+      "icon": "Users",
+      "questions": [
+        {
+          "q": "How can I join FC City Boys Zurich?",
+          "a": "To join our club, you can contact us through our website, email, or visit our training sessions. We welcome players of all skill levels and provide trial sessions to ensure the best fit for both the player and the club."
+        },
+        {
+          "q": "What are the training schedules?",
+          "a": "Training schedules vary by team and season. Indoor training typically runs from November to April, while outdoor training takes place from May to October. Specific times and locations are available on our Training page. We recommend contacting us directly for the most current schedule."
+        },
+        {
+          "q": "What training facilities are available?",
+          "a": "We have access to state-of-the-art indoor and outdoor facilities including professional pitches, modern gym equipment, and recovery zones. Our facilities are designed to support comprehensive player development at all levels."
+        },
+        {
+          "q": "Are there membership fees?",
+          "a": "Yes, we have membership fees that cover training costs, facility access, and club operations. Fees vary depending on age group and membership type. Please contact us for detailed information about membership packages and payment options."
+        }
+      ]
+    },
+    "matches": {
+      "title": "Matches & Events",
+      "icon": "Trophy",
+      "questions": [
+        {
+          "q": "How can I attend matches?",
+          "a": "Match schedules and ticket information are available on our website and social media channels. We encourage supporters to join us at home and away matches. For ticket inquiries, please contact us directly or check our website for upcoming fixtures."
+        },
+        {
+          "q": "Does the club organize community events?",
+          "a": "Yes, we regularly organize community events, charity matches, and social gatherings. These events bring together players, supporters, and the wider community. Follow our social media and website for announcements about upcoming events."
+        },
+        {
+          "q": "Can I watch training sessions?",
+          "a": "Training sessions are generally open for observation, but we recommend contacting us in advance to confirm schedules and any specific viewing guidelines. We welcome supporters who want to see our players in action."
+        }
+      ]
+    },
+    "youth": {
+      "title": "Youth Academy",
+      "icon": "GraduationCap",
+      "questions": [
+        {
+          "q": "What age can children start at the youth academy?",
+          "a": "Our youth academy welcomes children starting from age 6. We have age-appropriate programs designed to develop fundamental skills, foster a love for football, and build character in a supportive environment."
+        },
+        {
+          "q": "What is the focus of youth development?",
+          "a": "Our youth academy focuses on technical skill development, tactical understanding, physical conditioning, and character building. We emphasize discipline, respect, teamwork, and a growth mindset to prepare young players for future success."
+        },
+        {
+          "q": "Are there pathways to senior teams?",
+          "a": "Yes, we have a clear development pathway from youth academy to senior teams. Talented and dedicated players can progress through age groups and eventually join our senior squads. Our coaches work closely with players to support their development journey."
+        }
+      ]
+    },
+    "contact": {
+      "title": "Contact & Support",
+      "icon": "Mail",
+      "questions": [
+        {
+          "q": "How can I contact the club?",
+          "a": "You can reach us via email at info@fccbzh.ch, through our website contact form, or by visiting our office. We also maintain active social media channels where you can connect with us and stay updated on club news."
+        },
+        {
+          "q": "What is the best way to get a quick response?",
+          "a": "For urgent inquiries, email is typically the fastest method. For general questions, our contact form and social media channels are also effective. We aim to respond to all inquiries within 24-48 hours."
+        },
+        {
+          "q": "Can I visit the club facilities?",
+          "a": "Yes, we welcome visitors to our facilities. We recommend scheduling a visit in advance by contacting us, so we can ensure someone is available to show you around and answer any questions you may have."
+        }
+      ]
+    },
+    "trainingAcademy": {
+      "title": "Training & Academy",
+      "icon": "GraduationCap",
+      "questions": [
+        {
+          "q": "What training programs are available?",
+          "a": "We offer comprehensive training programs for all age groups, from youth academy (ages 6-18) to senior teams. Our programs focus on technical skills, tactical awareness, physical conditioning, and character development. Each program is tailored to the specific needs and development stage of the players."
+        },
+        {
+          "q": "How often are training sessions?",
+          "a": "Training frequency varies by team level. Youth academy teams typically train 2-3 times per week, while senior teams train 3-4 times per week. During the season, additional match preparation sessions may be scheduled. All training schedules are communicated well in advance."
+        },
+        {
+          "q": "What qualifications do your coaches have?",
+          "a": "Our coaching staff consists of UEFA-licensed coaches with extensive experience in player development. Many of our coaches hold advanced coaching qualifications and have played at professional levels. We invest in continuous coach education to ensure our players receive the highest quality instruction."
+        },
+        {
+          "q": "Is there a pathway from academy to first team?",
+          "a": "Yes, we have a clear development pathway from our youth academy to our senior teams. Talented players are identified early and provided with additional support and opportunities. Many of our first-team players have progressed through our academy system, demonstrating our commitment to developing homegrown talent."
+        }
+      ]
+    },
+    "matchDays": {
+      "title": "Match Days",
+      "icon": "Trophy",
+      "questions": [
+        {
+          "q": "When are home matches played?",
+          "a": "Home matches are typically scheduled on weekends, with kickoff times varying between Saturday afternoons and Sunday mornings. Match schedules are published on our website and social media channels at the beginning of each season. We recommend checking regularly for any schedule updates."
+        },
+        {
+          "q": "How can I purchase match tickets?",
+          "a": "Match tickets can be purchased online through our website, at the stadium on match day, or through our official ticket partners. Members receive priority access and discounts on tickets. For high-demand matches, we recommend purchasing tickets in advance."
+        },
+        {
+          "q": "What facilities are available at the stadium?",
+          "a": "Our stadium facilities include covered seating areas, food and beverage concessions, merchandise shops, and accessible facilities for disabled supporters. We also provide parking facilities and public transport connections. Detailed information about stadium facilities is available on our website."
+        },
+        {
+          "q": "Can I bring children to matches?",
+          "a": "Absolutely! We welcome families and offer special family ticket packages. Children under a certain age often receive free or discounted entry. We also have designated family-friendly areas in the stadium. Please check our website for current family ticket policies and age restrictions."
+        }
+      ]
+    }
+  }
+}

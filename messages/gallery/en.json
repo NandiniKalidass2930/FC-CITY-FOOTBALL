@@ -1,0 +1,223 @@
+{
+  "title": "Our Football Club Gallery",
+  "subtitle": "Browse through an impressive collection of images of the talented players of our beloved football club.",
+  "filters": {
+    "all": "All",
+    "training": "Training Gallery",
+    "match": "Match Gallery",
+    "event": "Event Gallery"
+  },
+  "categories": {
+    "training": "Training",
+    "match": "Match",
+    "event": "Event"
+  },
+  "images": {
+    "training": [
+      {
+        "file": "train1.jpg",
+        "alt": "Training Session 1",
+        "caption": "Training Session – Zurich"
+      },
+      {
+        "file": "train2.jpg",
+        "alt": "Training Session 2",
+        "caption": "Training Drills – Zurich"
+      },
+      {
+        "file": "train3.jpg",
+        "alt": "Training Session 3",
+        "caption": "Training Practice – Zurich"
+      },
+      {
+        "file": "train4.jpg",
+        "alt": "Training Session 4",
+        "caption": "Team Training – Zurich"
+      },
+      {
+        "file": "train5.jpg",
+        "alt": "Training Session 5",
+        "caption": "Training Exercise – Zurich"
+      },
+      {
+        "file": "train6.jpg",
+        "alt": "Training Session 6",
+        "caption": "Training Session – Zurich"
+      },
+      {
+        "file": "train7.jpg",
+        "alt": "Training Session 7",
+        "caption": "Training Practice – Zurich"
+      },
+      {
+        "file": "train8.jpg",
+        "alt": "Training Session 8",
+        "caption": "Team Training – Zurich"
+      },
+      {
+        "file": "train9.jpg",
+        "alt": "Training Session 9",
+        "caption": "Training Exercise – Zurich"
+      },
+      {
+        "file": "f1.jpg",
+        "alt": "Training Field 1",
+        "caption": "Training Field – Zurich"
+      },
+      {
+        "file": "f2.jpg",
+        "alt": "Training Field 2",
+        "caption": "Training Field – Zurich"
+      },
+      {
+        "file": "f3.jpg",
+        "alt": "Training Field 3",
+        "caption": "Training Field – Zurich"
+      },
+      {
+        "file": "f4.jpg",
+        "alt": "Training Field 4",
+        "caption": "Training Field – Zurich"
+      },
+      {
+        "file": "f5.jpg",
+        "alt": "Training Field 5",
+        "caption": "Training Field – Zurich"
+      },
+      {
+        "file": "coach1.jpg",
+        "alt": "Coaching Session 1",
+        "caption": "Coaching Session – Zurich"
+      },
+      {
+        "file": "coach2.jpg",
+        "alt": "Coaching Session 2",
+        "caption": "Coaching Session – Zurich"
+      },
+      {
+        "file": "coach3.jpg",
+        "alt": "Coaching Session 3",
+        "caption": "Coaching Session – Zurich"
+      },
+      {
+        "file": "coach4.jpg",
+        "alt": "Coaching Session 4",
+        "caption": "Coaching Session – Zurich"
+      },
+      {
+        "file": "coach5.jpg",
+        "alt": "Coaching Session 5",
+        "caption": "Coaching Session – Zurich"
+      },
+      {
+        "file": "coach6.jpg",
+        "alt": "Coaching Session 6",
+        "caption": "Coaching Session – Zurich"
+      },
+      {
+        "file": "coach7.jpg",
+        "alt": "Coaching Session 7",
+        "caption": "Coaching Session – Zurich"
+      },
+      {
+        "file": "womencoach.jpg",
+        "alt": "Women's Coaching",
+        "caption": "Women's Coaching Session – Zurich"
+      }
+    ],
+    "match": [
+      {
+        "file": "ab1.jpg",
+        "folder": "about",
+        "alt": "About Us 1",
+        "caption": "Club History – Zurich"
+      },
+      {
+        "file": "ab2.jpg",
+        "folder": "about",
+        "alt": "About Us 2",
+        "caption": "Club Heritage – Zurich"
+      },
+      {
+        "file": "cont1.jpg",
+        "folder": "contact",
+        "alt": "Contact 1",
+        "caption": "Stadium View – Zurich"
+      },
+      {
+        "file": "cont2.jpg",
+        "folder": "contact",
+        "alt": "Contact 2",
+        "caption": "Ground Location – Zurich"
+      },
+      {
+        "file": "cont3.jpg",
+        "folder": "contact",
+        "alt": "Contact 3",
+        "caption": "Facility View – Zurich"
+      },
+      {
+        "file": "cont4.jpg",
+        "folder": "contact",
+        "alt": "Contact 4",
+        "caption": "Stadium – Zurich"
+      },
+      {
+        "file": "about.jpg",
+        "folder": "",
+        "alt": "About",
+        "caption": "Club About – Zurich"
+      },
+      {
+        "file": "contact.jpg",
+        "folder": "",
+        "alt": "Contact",
+        "caption": "Stadium – Zurich"
+      },
+      {
+        "file": "main.jpg",
+        "folder": "",
+        "alt": "Main",
+        "caption": "Main Stadium – Zurich"
+      },
+      {
+        "file": "home1.jpg",
+        "folder": "",
+        "alt": "Home 1",
+        "caption": "Match Action – Zurich"
+      },
+      {
+        "file": "home2.jpg",
+        "folder": "",
+        "alt": "Home 2",
+        "caption": "Match Preparation – Zurich"
+      },
+      {
+        "file": "g1.jpg",
+        "folder": "",
+        "alt": "Gallery 1",
+        "caption": "Match Moment – Zurich"
+      }
+    ],
+    "event": [
+      {
+        "file": "faq.jpg",
+        "folder": "faq",
+        "alt": "FAQ Event",
+        "caption": "Community Event – Zurich"
+      },
+      {
+        "file": "ball.jpg",
+        "folder": "",
+        "alt": "Football",
+        "caption": "Team Celebration – Zurich"
+      },
+      {
+        "file": "bg.jpg",
+        "folder": "",
+        "alt": "Background",
+        "caption": "Event Background – Zurich"
+      }
+    ]
+  }
+}

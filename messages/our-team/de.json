@@ -1,0 +1,288 @@
+{
+  "title": "Lernen Sie Unser Erste Mannschaft Kennen",
+  "subtitle": "Lernen Sie die talentierten Spieler kennen, die das Rückgrat von FC City Boys Zurich bilden und unseren Erfolg auf dem Feld vorantreiben.",
+  "playersSection": "UNSERE SPIELER",
+  "coachesSection": "UNSERE TRAINER",
+  "position": "Position",
+  "age": "Alter",
+  "nationality": "Nationalität",
+  "introduction": {
+    "title": "Lernen Sie Unser Team Kennen",
+    "subtitle": "Exzellenz Durch Einheit",
+    "description": "FC City Boys Zurich basiert auf Talent, Hingabe und unerschütterlichem Teamgeist. Unsere Spieler kommen aus verschiedenen Hintergründen, vereint durch ihre Leidenschaft für Fußball und ihr Engagement für Exzellenz. Gemeinsam streben wir danach, sowohl auf als auch außerhalb des Platzes Großartiges zu erreichen."
+  },
+  "achievements": {
+    "title": "Unsere Erfolge",
+    "subtitle": "Triumphe & Meilensteine",
+    "description": "Ein Vermächtnis des Erfolgs, das durch harte Arbeit, Entschlossenheit und unerschütterliches Engagement für Exzellenz aufgebaut wurde.",
+    "leagueChampions": "Liga-Meister",
+    "cupWinners": "Pokalsieger",
+    "seasonsPlayed": "Gespielte Saisons",
+    "totalWins": "Gesamtsiege"
+  },
+  "trainingSchedule": {
+    "title": "Trainingsplan",
+    "subtitle": "Engagement für Exzellenz",
+    "description": "Strukturierte Trainingseinheiten, die darauf ausgelegt sind, Fähigkeiten zu entwickeln, Fitness aufzubauen und Teamzusammenhalt zu fördern.",
+    "monday": "Montag",
+    "tuesday": "Dienstag",
+    "wednesday": "Mittwoch",
+    "thursday": "Donnerstag",
+    "friday": "Freitag",
+    "saturday": "Samstag",
+    "sunday": "Sonntag",
+    "time": "Zeit",
+    "location": "Ort",
+    "type": "Art",
+    "morning": "Morgen",
+    "evening": "Abend",
+    "field": "Trainingsplatz",
+    "gym": "Fitnessstudio",
+    "tactical": "Taktisch",
+    "physical": "Körperlich",
+    "technical": "Technisch",
+    "Undefined": "Allgemein",
+    "Null": "Kein Training",
+    "Rest": "Ruhetag",
+    "Technical": "Technisch",
+    "Physical": "Körperlich",
+    "Tactical": "Taktisch",
+    "Strength": "Kraft",
+    "Fitness": "Fitness"
+  },
+  "vision": {
+    "title": "Vereinsvision",
+    "subtitle": "Unser Weg Nach Vorne",
+    "description": "Wir stellen uns eine Zukunft vor, in der FC City Boys Zurich als Leuchtturm der Exzellenz im Schweizer Fußball steht, Talente fördert, Charakter aufbaut und bleibende Erinnerungen für Spieler und Unterstützer schafft.",
+    "mission": "Unsere Mission",
+    "missionText": "Weltklasse-Fußballer zu entwickeln und dabei Werte wie Respekt, Disziplin und Einheit zu fördern. Wir streben danach, eine Umgebung zu schaffen, in der jeder Spieler sein volles Potenzial erreichen kann.",
+    "values": "Unsere Werte",
+    "valuesText": "Exzellenz, Integrität, Einheit, Respekt und Leidenschaft leiten alles, was wir tun. Diese Kernwerte prägen unsere Kultur und treiben unseren Erfolg voran.",
+    "goals": "Unsere Ziele",
+    "goalsText": "Auf höchstem Niveau zu konkurrieren, Jugendtalente zu entwickeln, Gemeinschaftsbindungen zu stärken und ein Vermächtnis aufzubauen, das zukünftige Generationen inspiriert."
+  },
+  "testimonials": {
+    "title": "Was Sie Sagen",
+    "subtitle": "Stimmen Aus Unserer Gemeinschaft",
+    "description": "Hören Sie von Spielern, Trainern und Unterstützern über ihre Erfahrungen mit FC City Boys Zurich.",
+    "player1": {
+      "name": "John Smith",
+      "role": "Mannschaftskapitän",
+      "quote": "Teil von FC City Boys zu sein, war transformativ. Das Coaching, die Kameradschaft und das Engagement für Exzellenz haben mich zu einem besseren Spieler und Menschen gemacht."
+    },
+    "player2": {
+      "name": "Michael Johnson",
+      "role": "Verteidiger",
+      "quote": "Der Teamgeist hier ist unübertroffen. Wir treiben uns jeden Tag an, besser zu sein, und das macht uns erfolgreich."
+    },
+    "coach": {
+      "name": "Thomas Müller",
+      "role": "Cheftrainer",
+      "quote": "Dieser Verein repräsentiert mehr als nur Fußball. Es geht darum, Charakter aufzubauen, Einheit zu fördern und ein Vermächtnis zu schaffen, das über den Platz hinausgeht."
+    },
+    "fan": {
+      "name": "Sarah Williams",
+      "role": "Unterstützerin",
+      "quote": "Die Leidenschaft und Hingabe dieses Teams ist unglaublich. Jedes Spiel ist eine Feier dessen, worum es beim Fußball gehen sollte."
+    }
+  },
+  "cta": {
+    "title": "Begleiten Sie Unsere Reise",
+    "subtitle": "Seien Sie Teil Von Etwas Großartigem",
+    "description": "Ob Sie Spieler, Trainer oder Unterstützer sind, es gibt einen Platz für Sie in der FC City Boys Familie. Treten Sie uns bei und seien Sie Teil unserer aufregenden Reise.",
+    "joinTeam": "Dem Team Beitreten",
+    "becomeMember": "Mitglied Werden",
+    "contactUs": "Kontaktieren Sie Uns"
+  },
+  "stats": {
+    "players": "25+ Spieler",
+    "trophies": "5+ Trophäen",
+    "years": "10+ Jahre",
+    "playersLabel": "Spieler",
+    "trophiesLabel": "Trophäen",
+    "yearsLabel": "Jahre"
+  },
+  "positions": {
+    "goalkeeper": "Torwart",
+    "defender": "Verteidiger",
+    "midfielder": "Mittelfeldspieler",
+    "forward": "Stürmer"
+  },
+  "players": [
+    {
+      "id": 1,
+      "name": "Spieler 1",
+      "position": "goalkeeper",
+      "number": 1,
+      "highlight": "Schlüsselspieler",
+      "description": "Erfahrener Torwart mit außergewöhnlichen Reflexen und Führungsqualitäten."
+    },
+    {
+      "id": 2,
+      "name": "Spieler 2",
+      "position": "defender",
+      "number": 4,
+      "highlight": "Star-Verteidiger",
+      "description": "Starker Verteidiger bekannt für taktisches Bewusstsein und solide defensive Fähigkeiten."
+    },
+    {
+      "id": 3,
+      "name": "Spieler 3",
+      "position": "midfielder",
+      "number": 8,
+      "highlight": "Spielmacher",
+      "description": "Kreativer Mittelfeldspieler mit exzellentem Passspiel und Vision auf dem Feld."
+    },
+    {
+      "id": 4,
+      "name": "Spieler 4",
+      "position": "forward",
+      "number": 10,
+      "highlight": "Torschützenkönig",
+      "description": "Talentierter Stürmer mit beeindruckender Torgefährlichkeit und Geschwindigkeit."
+    },
+    {
+      "id": 5,
+      "name": "Spieler 5",
+      "position": "defender",
+      "number": 5,
+      "highlight": "Defensivführer",
+      "description": "Zuverlässiger Verteidiger mit starker Luftpräsenz und defensiver Positionierung."
+    },
+    {
+      "id": 6,
+      "name": "Spieler 6",
+      "position": "midfielder",
+      "number": 7,
+      "highlight": "Vielseitig",
+      "description": "Vielseitiger Mittelfeldspieler, der sowohl defensiv als auch offensiv beitragen kann."
+    },
+    {
+      "id": 7,
+      "name": "Spieler 7",
+      "position": "forward",
+      "number": 9,
+      "highlight": "Schnellläufer",
+      "description": "Dynamischer Stürmer mit exzellenten Dribbling- und Abschlussfähigkeiten."
+    },
+    {
+      "id": 8,
+      "name": "Spieler 8",
+      "position": "midfielder",
+      "number": 6,
+      "highlight": "Arbeitspferd",
+      "description": "Fleißiger Mittelfeldspieler bekannt für Arbeitsrate und Teambeitrag."
+    }
+  ],
+  "coaches": [
+    {
+      "id": 1,
+      "name": "Thomas",
+      "role": "Cheftrainer",
+      "description": "Erfahrener Cheftrainer mit einer bewährten Erfolgsbilanz in der Spielerentwicklung."
+    },
+    {
+      "id": 2,
+      "name": "Hans",
+      "role": "Assistenztrainer",
+      "description": "Engagierter Assistenztrainer, der sich auf taktische Analyse und Spielerentwicklung konzentriert."
+    },
+    {
+      "id": 3,
+      "name": "Peter",
+      "role": "Fitnesstrainer",
+      "description": "Experte für Fitnesstraining, spezialisiert auf sportliche Leistung und Verletzungsprävention."
+    }
+  ],
+  "highlights": {
+    "title": "Spieler-Highlights",
+    "subtitle": "Sterne der Saison",
+    "description": "Feiern Sie herausragende Leistungen und bemerkenswerte Erfolge unseres talentierten Kaders.",
+    "items": [
+      {
+        "caption": "Technische Fähigkeiten",
+        "badge": "Spieler des Monats",
+        "title": "Hervorragende Leistung",
+        "description": "Außergewöhnliche Hingabe und Fähigkeiten, die während der gesamten Saison gezeigt wurden."
+      },
+      {
+        "caption": "Taktische Analyse",
+        "badge": "Spieler des Monats",
+        "title": "Hervorragende Leistung",
+        "description": "Außergewöhnliche Hingabe und Fähigkeiten, die während der gesamten Saison gezeigt wurden."
+      },
+      {
+        "caption": "Körperliche Konditionierung",
+        "badge": "Spieler des Monats",
+        "title": "Hervorragende Leistung",
+        "description": "Außergewöhnliche Hingabe und Fähigkeiten, die während der gesamten Saison gezeigt wurden."
+      }
+    ]
+  },
+  "ourTeamSection": {
+    "title": "Unser Team",
+    "categories": {
+      "all": "Alle",
+      "under21": "Unter 21",
+      "under17": "Unter 17",
+      "under15": "Unter 15",
+      "under13": "Unter 13",
+      "under11": "Unter 11",
+      "over30": "Über 30",
+      "over50": "Über 50"
+    },
+    "ageGroups": {
+      "U21": "U21",
+      "U17": "U17",
+      "U15": "U15",
+      "U13": "U13",
+      "U11": "U11",
+      "30+": "30+",
+      "50+": "50+"
+    },
+    "teamNames": {
+      "under21": {
+        "team": "Unter 21 Team",
+        "squad": "Unter 21 Kader",
+        "players": "Unter 21 Spieler",
+        "alt": "Unter 21 Team"
+      },
+      "under17": {
+        "team": "Unter 17 Team",
+        "squad": "Unter 17 Kader",
+        "players": "Unter 17 Spieler",
+        "alt": "Unter 17 Team"
+      },
+      "under15": {
+        "team": "Unter 15 Team",
+        "squad": "Unter 15 Kader",
+        "players": "Unter 15 Spieler",
+        "alt": "Unter 15 Team"
+      },
+      "under13": {
+        "team": "Unter 13 Team",
+        "squad": "Unter 13 Kader",
+        "players": "Unter 13 Spieler",
+        "alt": "Unter 13 Team"
+      },
+      "under11": {
+        "team": "Unter 11 Team",
+        "squad": "Unter 11 Kader",
+        "players": "Unter 11 Spieler",
+        "alt": "Unter 11 Team"
+      },
+      "over30": {
+        "team": "Über 30 Team",
+        "squad": "Über 30 Kader",
+        "players": "Über 30 Spieler",
+        "alt": "Über 30 Team"
+      },
+      "over50": {
+        "team": "Über 50 Team",
+        "squad": "Über 50 Kader",
+        "players": "Über 50 Spieler",
+        "alt": "Über 50 Team"
+      }
+    }
+  }
+}

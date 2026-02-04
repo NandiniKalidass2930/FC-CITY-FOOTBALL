@@ -1,0 +1,223 @@
+{
+  "title": "Unsere Fußballverein-Galerie",
+  "subtitle": "Durchsuchen Sie eine beeindruckende Sammlung von Bildern der talentierten Spieler unseres geliebten Fußballvereins.",
+  "filters": {
+    "all": "Alle",
+    "training": "Trainings-Galerie",
+    "match": "Spiel-Galerie",
+    "event": "Event-Galerie"
+  },
+  "categories": {
+    "training": "Training",
+    "match": "Spiel",
+    "event": "Event"
+  },
+  "images": {
+    "training": [
+      {
+        "file": "train1.jpg",
+        "alt": "Trainingseinheit 1",
+        "caption": "Trainingseinheit – Zürich"
+      },
+      {
+        "file": "train2.jpg",
+        "alt": "Trainingseinheit 2",
+        "caption": "Trainingsübungen – Zürich"
+      },
+      {
+        "file": "train3.jpg",
+        "alt": "Trainingseinheit 3",
+        "caption": "Trainingstraining – Zürich"
+      },
+      {
+        "file": "train4.jpg",
+        "alt": "Trainingseinheit 4",
+        "caption": "Teamtraining – Zürich"
+      },
+      {
+        "file": "train5.jpg",
+        "alt": "Trainingseinheit 5",
+        "caption": "Trainingsübung – Zürich"
+      },
+      {
+        "file": "train6.jpg",
+        "alt": "Trainingseinheit 6",
+        "caption": "Trainingseinheit – Zürich"
+      },
+      {
+        "file": "train7.jpg",
+        "alt": "Trainingseinheit 7",
+        "caption": "Trainingstraining – Zürich"
+      },
+      {
+        "file": "train8.jpg",
+        "alt": "Trainingseinheit 8",
+        "caption": "Teamtraining – Zürich"
+      },
+      {
+        "file": "train9.jpg",
+        "alt": "Trainingseinheit 9",
+        "caption": "Trainingsübung – Zürich"
+      },
+      {
+        "file": "f1.jpg",
+        "alt": "Trainingsplatz 1",
+        "caption": "Trainingsplatz – Zürich"
+      },
+      {
+        "file": "f2.jpg",
+        "alt": "Trainingsplatz 2",
+        "caption": "Trainingsplatz – Zürich"
+      },
+      {
+        "file": "f3.jpg",
+        "alt": "Trainingsplatz 3",
+        "caption": "Trainingsplatz – Zürich"
+      },
+      {
+        "file": "f4.jpg",
+        "alt": "Trainingsplatz 4",
+        "caption": "Trainingsplatz – Zürich"
+      },
+      {
+        "file": "f5.jpg",
+        "alt": "Trainingsplatz 5",
+        "caption": "Trainingsplatz – Zürich"
+      },
+      {
+        "file": "coach1.jpg",
+        "alt": "Trainingssession 1",
+        "caption": "Trainingssession – Zürich"
+      },
+      {
+        "file": "coach2.jpg",
+        "alt": "Trainingssession 2",
+        "caption": "Trainingssession – Zürich"
+      },
+      {
+        "file": "coach3.jpg",
+        "alt": "Trainingssession 3",
+        "caption": "Trainingssession – Zürich"
+      },
+      {
+        "file": "coach4.jpg",
+        "alt": "Trainingssession 4",
+        "caption": "Trainingssession – Zürich"
+      },
+      {
+        "file": "coach5.jpg",
+        "alt": "Trainingssession 5",
+        "caption": "Trainingssession – Zürich"
+      },
+      {
+        "file": "coach6.jpg",
+        "alt": "Trainingssession 6",
+        "caption": "Trainingssession – Zürich"
+      },
+      {
+        "file": "coach7.jpg",
+        "alt": "Trainingssession 7",
+        "caption": "Trainingssession – Zürich"
+      },
+      {
+        "file": "womencoach.jpg",
+        "alt": "Frauen-Training",
+        "caption": "Frauen-Trainingssession – Zürich"
+      }
+    ],
+    "match": [
+      {
+        "file": "ab1.jpg",
+        "folder": "about",
+        "alt": "Über uns 1",
+        "caption": "Vereinsgeschichte – Zürich"
+      },
+      {
+        "file": "ab2.jpg",
+        "folder": "about",
+        "alt": "Über uns 2",
+        "caption": "Vereinserbe – Zürich"
+      },
+      {
+        "file": "cont1.jpg",
+        "folder": "contact",
+        "alt": "Kontakt 1",
+        "caption": "Stadionansicht – Zürich"
+      },
+      {
+        "file": "cont2.jpg",
+        "folder": "contact",
+        "alt": "Kontakt 2",
+        "caption": "Geländestandort – Zürich"
+      },
+      {
+        "file": "cont3.jpg",
+        "folder": "contact",
+        "alt": "Kontakt 3",
+        "caption": "Einrichtungsansicht – Zürich"
+      },
+      {
+        "file": "cont4.jpg",
+        "folder": "contact",
+        "alt": "Kontakt 4",
+        "caption": "Stadion – Zürich"
+      },
+      {
+        "file": "about.jpg",
+        "folder": "",
+        "alt": "Über",
+        "caption": "Verein Über – Zürich"
+      },
+      {
+        "file": "contact.jpg",
+        "folder": "",
+        "alt": "Kontakt",
+        "caption": "Stadion – Zürich"
+      },
+      {
+        "file": "main.jpg",
+        "folder": "",
+        "alt": "Haupt",
+        "caption": "Hauptstadion – Zürich"
+      },
+      {
+        "file": "home1.jpg",
+        "folder": "",
+        "alt": "Startseite 1",
+        "caption": "Spielaktion – Zürich"
+      },
+      {
+        "file": "home2.jpg",
+        "folder": "",
+        "alt": "Startseite 2",
+        "caption": "Spielvorbereitung – Zürich"
+      },
+      {
+        "file": "g1.jpg",
+        "folder": "",
+        "alt": "Galerie 1",
+        "caption": "Spielmoment – Zürich"
+      }
+    ],
+    "event": [
+      {
+        "file": "faq.jpg",
+        "folder": "faq",
+        "alt": "FAQ Event",
+        "caption": "Gemeinschaftsveranstaltung – Zürich"
+      },
+      {
+        "file": "ball.jpg",
+        "folder": "",
+        "alt": "Fußball",
+        "caption": "Teamfeier – Zürich"
+      },
+      {
+        "file": "bg.jpg",
+        "folder": "",
+        "alt": "Hintergrund",
+        "caption": "Event-Hintergrund – Zürich"
+      }
+    ]
+  }
+}

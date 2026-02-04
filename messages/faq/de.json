@@ -1,0 +1,164 @@
+{
+  "title": "Häufig gestellte Fragen",
+  "subtitle": "Entdecken Sie Antworten auf häufig gestellte Fragen zu FC City Boys Zurich, einschließlich unserer Geschichte, Erfolge, Gemeinschaftsunterstützung und sozialen Projekten.",
+  "generalQuestions": "Allgemeine Fragen",
+  "heroImageAlt": "FC City Boys - FAQ",
+  "questions": [
+    {
+      "q": "Was ist die Geschichte und der Ursprung von FC City Boys Zurich?",
+      "a": "Gegründet in den 1980er Jahren ist FC City Boys Zurich einer der ersten tamilischen Fußballvereine in der Schweiz. Unsere Reise begann mit der Vision, Einheit und sportliche Exzellenz unter jungen Tamilen zu fördern. Über die Jahrzehnte sind wir von einem lokalen Verein zu einem Leuchtfeuer der Hoffnung gewachsen und haben 1990 unseren ersten großen Titel gewonnen. Seitdem streben wir kontinuierlich danach, sowohl auf als auch außerhalb des Platzes einen positiven Einfluss zu haben."
+    },
+    {
+      "q": "Was sind einige der größten Erfolge von FC City Boys Zurich?",
+      "a": "FC City Boys Zurich hat zahlreiche Turniersiege und große Titel in der Schweiz und im Ausland erzielt. Unser Erfolg spiegelt Hingabe, Disziplin und Exzellenz in der tamilischen Fußballkultur wider."
+    },
+    {
+      "q": "Wie unterstützt die Gemeinschaft und die Fangemeinde FC City Boys Zurich?",
+      "a": "Unsere Fans sind das Rückgrat des Vereins. Von der Unterstützung während der Spiele bis hin zu finanziellen und emotionalen Beiträgen treibt ihre Leidenschaft uns voran. Sie reisen mit uns, feuern uns an und spielen eine wichtige Rolle auf unserer Reise."
+    },
+    {
+      "q": "Welche sozialen Projekte unterstützt FC City Boys Zurich?",
+      "a": "Wir unterstützen aktiv soziale Initiativen in Sri Lanka, einschließlich des Wiederaufbaus von Fußballanlagen, der Organisation von Gemeinschaftsturnieren und der Bereitstellung von Hilfe während Krisen wie dem Tsunami und der COVID-19-Pandemie. Unser Ziel ist es, etwas zurückzugeben und langfristige soziale Auswirkungen zu schaffen."
+    }
+  ],
+  "categories": {
+    "clubInfo": {
+      "title": "Vereinsinformationen",
+      "icon": "Info",
+      "questions": [
+        {
+          "q": "Wo befindet sich FC City Boys Zurich?",
+          "a": "FC City Boys Zurich hat seinen Sitz in Zürich, Schweiz. Unsere Haupttrainingsanlagen und Verwaltungsbüro befinden sich im Herzen von Zürich, was uns für Spieler und Unterstützer in der gesamten Region leicht zugänglich macht."
+        },
+        {
+          "q": "Welche Altersgruppen betreut der Verein?",
+          "a": "Wir heißen Spieler aller Altersgruppen willkommen, von Jugendakademie-Programmen ab 6 Jahren bis zu Seniorenteams. Unser strukturierter Entwicklungsweg stellt sicher, dass Spieler durch altersgerechtes Training und Wettkampfmöglichkeiten Fortschritte machen können."
+        },
+        {
+          "q": "Was macht FC City Boys Zurich einzigartig?",
+          "a": "Als einer der ersten tamilischen Fußballvereine in der Schweiz verbinden wir kulturelles Erbe mit sportlicher Exzellenz. Unser Engagement für Gemeinschaftsauswirkungen, Jugendentwicklung und professionelles Training zeichnet uns als Verein aus, der sowohl Erfolg auf dem Platz als auch Beiträge außerhalb des Platzes schätzt."
+        }
+      ]
+    },
+    "membership": {
+      "title": "Mitgliedschaft & Training",
+      "icon": "Users",
+      "questions": [
+        {
+          "q": "Wie kann ich FC City Boys Zurich beitreten?",
+          "a": "Um unserem Verein beizutreten, können Sie uns über unsere Website, E-Mail kontaktieren oder unsere Trainingseinheiten besuchen. Wir heißen Spieler aller Leistungsniveaus willkommen und bieten Probetraining an, um die beste Passform für Spieler und Verein zu gewährleisten."
+        },
+        {
+          "q": "Wie sind die Trainingszeiten?",
+          "a": "Die Trainingszeiten variieren je nach Team und Saison. Das Hallentraining findet typischerweise von November bis April statt, während das Freilufttraining von Mai bis Oktober stattfindet. Spezifische Zeiten und Orte finden Sie auf unserer Trainingsseite. Wir empfehlen, uns direkt für den aktuellsten Zeitplan zu kontaktieren."
+        },
+        {
+          "q": "Welche Trainingsanlagen sind verfügbar?",
+          "a": "Wir haben Zugang zu modernsten Innen- und Außenanlagen, einschließlich professioneller Plätze, moderner Fitnessgeräte und Erholungszonen. Unsere Einrichtungen sind darauf ausgelegt, umfassende Spielerentwicklung auf allen Ebenen zu unterstützen."
+        },
+        {
+          "q": "Gibt es Mitgliedsbeiträge?",
+          "a": "Ja, wir haben Mitgliedsbeiträge, die Trainingskosten, Zugang zu Einrichtungen und Vereinsbetrieb abdecken. Die Gebühren variieren je nach Altersgruppe und Mitgliedschaftstyp. Bitte kontaktieren Sie uns für detaillierte Informationen zu Mitgliedschaftspaketen und Zahlungsoptionen."
+        }
+      ]
+    },
+    "matches": {
+      "title": "Spiele & Veranstaltungen",
+      "icon": "Trophy",
+      "questions": [
+        {
+          "q": "Wie kann ich Spiele besuchen?",
+          "a": "Spielpläne und Ticketinformationen sind auf unserer Website und in unseren Social-Media-Kanälen verfügbar. Wir ermutigen Unterstützer, uns bei Heim- und Auswärtsspielen zu begleiten. Für Ticketanfragen kontaktieren Sie uns bitte direkt oder besuchen Sie unsere Website für kommende Spiele."
+        },
+        {
+          "q": "Organisiert der Verein Gemeinschaftsveranstaltungen?",
+          "a": "Ja, wir organisieren regelmäßig Gemeinschaftsveranstaltungen, Wohltätigkeitsspiele und gesellige Zusammenkünfte. Diese Veranstaltungen bringen Spieler, Unterstützer und die breitere Gemeinschaft zusammen. Folgen Sie unseren Social-Media-Kanälen und unserer Website für Ankündigungen zu kommenden Veranstaltungen."
+        },
+        {
+          "q": "Kann ich Trainingseinheiten beobachten?",
+          "a": "Trainingseinheiten sind im Allgemeinen für Beobachtungen offen, aber wir empfehlen, uns im Voraus zu kontaktieren, um Zeitpläne und spezifische Betrachtungsrichtlinien zu bestätigen. Wir heißen Unterstützer willkommen, die unsere Spieler in Aktion sehen möchten."
+        }
+      ]
+    },
+    "youth": {
+      "title": "Jugendakademie",
+      "icon": "GraduationCap",
+      "questions": [
+        {
+          "q": "In welchem Alter können Kinder in der Jugendakademie beginnen?",
+          "a": "Unsere Jugendakademie heißt Kinder ab 6 Jahren willkommen. Wir haben altersgerechte Programme, die darauf ausgelegt sind, grundlegende Fähigkeiten zu entwickeln, die Liebe zum Fußball zu fördern und Charakter in einer unterstützenden Umgebung aufzubauen."
+        },
+        {
+          "q": "Worauf liegt der Fokus der Jugendentwicklung?",
+          "a": "Unsere Jugendakademie konzentriert sich auf technische Fähigkeitsentwicklung, taktisches Verständnis, körperliche Konditionierung und Charakterbildung. Wir betonen Disziplin, Respekt, Teamwork und eine Wachstumsmentalität, um junge Spieler auf zukünftigen Erfolg vorzubereiten."
+        },
+        {
+          "q": "Gibt es Wege zu Seniorenteams?",
+          "a": "Ja, wir haben einen klaren Entwicklungsweg von der Jugendakademie zu Seniorenteams. Talentierte und engagierte Spieler können durch Altersgruppen fortschreiten und schließlich unseren Seniorenkader beitreten. Unsere Trainer arbeiten eng mit Spielern zusammen, um ihre Entwicklungsreise zu unterstützen."
+        }
+      ]
+    },
+    "contact": {
+      "title": "Kontakt & Support",
+      "icon": "Mail",
+      "questions": [
+        {
+          "q": "Wie kann ich den Verein kontaktieren?",
+          "a": "Sie können uns per E-Mail unter info@fccbzh.ch, über unser Website-Kontaktformular oder durch einen Besuch unseres Büros erreichen. Wir pflegen auch aktive Social-Media-Kanäle, über die Sie sich mit uns verbinden und über Vereinsnachrichten auf dem Laufenden bleiben können."
+        },
+        {
+          "q": "Was ist der beste Weg, um eine schnelle Antwort zu erhalten?",
+          "a": "Für dringende Anfragen ist E-Mail typischerweise die schnellste Methode. Für allgemeine Fragen sind unser Kontaktformular und Social-Media-Kanäle ebenfalls effektiv. Wir bemühen uns, alle Anfragen innerhalb von 24-48 Stunden zu beantworten."
+        },
+        {
+          "q": "Kann ich die Vereinseinrichtungen besuchen?",
+          "a": "Ja, wir heißen Besucher in unseren Einrichtungen willkommen. Wir empfehlen, einen Besuch im Voraus zu planen, indem Sie uns kontaktieren, damit wir sicherstellen können, dass jemand verfügbar ist, um Sie herumzuführen und alle Ihre Fragen zu beantworten."
+        }
+      ]
+    },
+    "trainingAcademy": {
+      "title": "Training & Akademie",
+      "icon": "GraduationCap",
+      "questions": [
+        {
+          "q": "Welche Trainingsprogramme sind verfügbar?",
+          "a": "Wir bieten umfassende Trainingsprogramme für alle Altersgruppen, von der Jugendakademie (6-18 Jahre) bis zu den Seniorenteams. Unsere Programme konzentrieren sich auf technische Fähigkeiten, taktisches Bewusstsein, körperliche Konditionierung und Charakterentwicklung. Jedes Programm ist auf die spezifischen Bedürfnisse und Entwicklungsstufe der Spieler zugeschnitten."
+        },
+        {
+          "q": "Wie oft finden Trainingseinheiten statt?",
+          "a": "Die Trainingshäufigkeit variiert je nach Teamebene. Jugendakademie-Teams trainieren typischerweise 2-3 Mal pro Woche, während Seniorenteams 3-4 Mal pro Woche trainieren. Während der Saison können zusätzliche Spielvorbereitungseinheiten geplant werden. Alle Trainingspläne werden rechtzeitig kommuniziert."
+        },
+        {
+          "q": "Welche Qualifikationen haben Ihre Trainer?",
+          "a": "Unser Trainerstab besteht aus UEFA-lizenzierten Trainern mit umfangreicher Erfahrung in der Spielerentwicklung. Viele unserer Trainer verfügen über fortgeschrittene Trainingsqualifikationen und haben auf professioneller Ebene gespielt. Wir investieren in kontinuierliche Trainerausbildung, um sicherzustellen, dass unsere Spieler die höchste Qualität der Anleitung erhalten."
+        },
+        {
+          "q": "Gibt es einen Weg von der Akademie zur ersten Mannschaft?",
+          "a": "Ja, wir haben einen klaren Entwicklungsweg von unserer Jugendakademie zu unseren Seniorenteams. Talentierte Spieler werden früh identifiziert und erhalten zusätzliche Unterstützung und Möglichkeiten. Viele unserer Spieler der ersten Mannschaft sind durch unser Akademiesystem aufgestiegen, was unser Engagement für die Entwicklung von Eigengewächsen zeigt."
+        }
+      ]
+    },
+    "matchDays": {
+      "title": "Spieltage",
+      "icon": "Trophy",
+      "questions": [
+        {
+          "q": "Wann werden Heimspiele ausgetragen?",
+          "a": "Heimspiele werden typischerweise an Wochenenden ausgetragen, mit Anstoßzeiten zwischen Samstagnachmittag und Sonntagmorgen. Spielpläne werden zu Beginn jeder Saison auf unserer Website und in unseren Social-Media-Kanälen veröffentlicht. Wir empfehlen, regelmäßig auf Aktualisierungen des Zeitplans zu überprüfen."
+        },
+        {
+          "q": "Wie kann ich Spieltickets kaufen?",
+          "a": "Spieltickets können online über unsere Website, am Stadion am Spieltag oder über unsere offiziellen Ticketpartner gekauft werden. Mitglieder erhalten Vorzugszugang und Rabatte auf Tickets. Für hoch nachgefragte Spiele empfehlen wir, Tickets im Voraus zu kaufen."
+        },
+        {
+          "q": "Welche Einrichtungen sind im Stadion verfügbar?",
+          "a": "Unsere Stadioneinrichtungen umfassen überdachte Sitzbereiche, Speisen- und Getränkekioske, Merchandise-Shops und barrierefreie Einrichtungen für behinderte Unterstützer. Wir bieten auch Parkplätze und öffentliche Verkehrsverbindungen. Detaillierte Informationen über Stadioneinrichtungen sind auf unserer Website verfügbar."
+        },
+        {
+          "q": "Kann ich Kinder zu Spielen mitbringen?",
+          "a": "Absolut! Wir heißen Familien willkommen und bieten spezielle Familienticketpakete an. Kinder unter einem bestimmten Alter erhalten oft kostenlosen oder ermäßigten Eintritt. Wir haben auch ausgewiesene familienfreundliche Bereiche im Stadion. Bitte überprüfen Sie unsere Website für aktuelle Familienticketrichtlinien und Altersbeschränkungen."
+        }
+      ]
+    }
+  }
+}

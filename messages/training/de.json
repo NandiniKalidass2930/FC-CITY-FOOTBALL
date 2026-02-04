@@ -1,0 +1,164 @@
+{
+  "title": "Unsere Trainingspläne",
+  "subtitle": "Bleiben Sie auf dem Laufenden über unsere aktuellen Trainingspläne und Programme, die darauf ausgelegt sind, die Fähigkeiten und Leistung der FC City Boys Zürich Spieler zu verbessern.",
+  "description": "Unsere umfassenden Trainingsprogramme sind darauf ausgelegt, technische Fähigkeiten, taktisches Bewusstsein und körperliche Fitness zu entwickeln. Wir konzentrieren uns auf individuelles Wachstum und Teamzusammenhalt.",
+  "hero": {
+    "imageAlt": "FC City Boys Training",
+    "joinTraining": "Jetzt am Training teilnehmen",
+    "meetCoaches": "Unsere Trainer treffen"
+  },
+  "indoor": {
+    "title": "Hallen-Training",
+    "season": "November bis April",
+    "sessions": [
+      {
+        "day": "Jeden Donnerstag",
+        "time": "19:00 bis 21:00",
+        "location": "Schulhaus Buhrain Seebach ZH",
+        "address": "Buhnrain 40, 8052 Zürich"
+      },
+      {
+        "day": "Jeden Samstag",
+        "time": "17:45 bis 20:45",
+        "location": "Zentrum für Gehör und Sprache Zürich",
+        "address": "Frohalpstrasse 78, 8038 Zürich"
+      }
+    ]
+  },
+  "outdoor": {
+    "title": "Freiluft-Training",
+    "season": "Mai bis Oktober",
+    "sessions": [
+      {
+        "day": "Jeden Samstag",
+        "time": "17:45 bis 20:45",
+        "location": "Sportanlage Au",
+        "address": "Austrasse 2, 8152 Opfikon"
+      }
+    ]
+  },
+  "trainers": {
+    "title": "Unsere Trainer",
+    "trainerDescription": "Erfahrener Profi, der sich der Entwicklung der Fähigkeiten der Spieler und der Erreichung von Exzellenz im Fußballtraining widmet."
+  },
+  "highlights": {
+    "title": "Training-Highlights",
+    "items": [
+      {
+        "caption": "Technisches Fähigkeitstraining"
+      },
+      {
+        "caption": "Taktische Analyse-Sitzung"
+      },
+      {
+        "caption": "Körperliche Konditionierung"
+      }
+    ]
+  },
+  "overview": {
+    "title": "Exzellenz durch Training",
+    "description": "Unsere umfassenden Trainingsprogramme sind darauf ausgelegt, technische Fähigkeiten, taktisches Bewusstsein und körperliche Fitness zu entwickeln. Wir konzentrieren uns auf individuelles Wachstum und Teamzusammenhalt.",
+    "button": "Am Training teilnehmen",
+    "imageAlt": "Trainingsübersicht"
+  },
+  "facilities": {
+    "title": "Unsere Einrichtungen",
+    "subtitle": "Weltklasse-Trainingsanlagen für Exzellenz",
+    "items": [
+      {
+        "title": "Hallen-Trainingshalle",
+        "description": "Modernste Indoor-Einrichtung"
+      },
+      {
+        "title": "Außenplatz",
+        "description": "Professionelles Rasenfeld"
+      },
+      {
+        "title": "Fitness-Center",
+        "description": "Moderne Fitnessgeräte"
+      }
+    ]
+  },
+  "statistics": {
+    "title": "Leistungsstatistiken",
+    "items": [
+      {
+        "label": "Aktive Spieler"
+      },
+      {
+        "label": "Trainingseinheiten"
+      },
+      {
+        "label": "Verbesserungsrate"
+      },
+      {
+        "label": "Zertifizierte Trainer"
+      }
+    ]
+  },
+  "roadmap": {
+    "title": "Spielerentwicklungs-Roadmap",
+    "subtitle": "Ein strukturierter Weg zur Exzellenz",
+    "phases": [
+      {
+        "title": "Grundlagenphase",
+        "description": "Grundlegende Fähigkeiten und Koordinationsentwicklung für junge Spieler"
+      },
+      {
+        "title": "Entwicklungsphase",
+        "description": "Fortgeschrittene Techniken und taktisches Verständnis"
+      },
+      {
+        "title": "Leistungsphase",
+        "description": "Elite-Training und Wettkampfvorbereitung"
+      },
+      {
+        "title": "Exzellenzphase",
+        "description": "Meisterebenen-Training und professionelle Wege"
+      }
+    ]
+  },
+  "gallery": {
+    "title": "Wöchentliche Trainingsgalerie",
+    "items": [
+      {
+        "caption": "Montagstraining"
+      },
+      {
+        "caption": "Mittwochssitzung"
+      },
+      {
+        "caption": "Freitagstraining"
+      },
+      {
+        "caption": "Wochenendspielvorbereitung"
+      }
+    ]
+  },
+  "testimonials": {
+    "title": "Was sie sagen",
+    "items": [
+      {
+        "name": "Alex Johnson",
+        "role": "Spieler",
+        "quote": "Das Trainingsprogramm hat mein Spiel transformiert. Die Trainer sind professionell und die Einrichtungen sind Weltklasse."
+      },
+      {
+        "name": "Sarah Williams",
+        "role": "Elternteil",
+        "quote": "Mein Sohn hat sich seit dem Beitritt enorm verbessert. Die Akademie bietet ausgezeichnete Entwicklungsmöglichkeiten."
+      },
+      {
+        "name": "Michael Chen",
+        "role": "Spieler",
+        "quote": "Das technische Training und die taktischen Sitzungen haben mein Verständnis des Spiels auf die nächste Ebene gebracht."
+      }
+    ]
+  },
+  "cta": {
+    "title": "Bereit, Ihr Spiel zu verbessern?",
+    "description": "Nehmen Sie an unserem professionellen Trainingsprogramm teil und bringen Sie Ihre Fußballfähigkeiten auf die nächste Ebene",
+    "joinTraining": "Jetzt am Training teilnehmen",
+    "meetCoaches": "Unsere Trainer treffen"
+  }
+}

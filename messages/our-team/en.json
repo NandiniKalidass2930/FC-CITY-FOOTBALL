@@ -1,0 +1,288 @@
+{
+  "title": "Get to Know Our First Team",
+  "subtitle": "Get to know the talented players who form the backbone of FC City Boys Zurich and drive our success on the field.",
+  "playersSection": "OUR PLAYERS",
+  "coachesSection": "OUR COACHES",
+  "position": "Position",
+  "age": "Age",
+  "nationality": "Nationality",
+  "introduction": {
+    "title": "Meet Our Team",
+    "subtitle": "Excellence Through Unity",
+    "description": "FC City Boys Zurich is built on a foundation of talent, dedication, and unwavering team spirit. Our players come from diverse backgrounds, united by their passion for football and commitment to excellence. Together, we strive to achieve greatness both on and off the pitch."
+  },
+  "achievements": {
+    "title": "Our Achievements",
+    "subtitle": "Triumphs & Milestones",
+    "description": "A legacy of success built through hard work, determination, and unwavering commitment to excellence.",
+    "leagueChampions": "League Champions",
+    "cupWinners": "Cup Winners",
+    "seasonsPlayed": "Seasons Played",
+    "totalWins": "Total Wins"
+  },
+  "trainingSchedule": {
+    "title": "Training Schedule",
+    "subtitle": "Commitment to Excellence",
+    "description": "Structured training sessions designed to develop skills, build fitness, and foster team cohesion.",
+    "monday": "Monday",
+    "tuesday": "Tuesday",
+    "wednesday": "Wednesday",
+    "thursday": "Thursday",
+    "friday": "Friday",
+    "saturday": "Saturday",
+    "sunday": "Sunday",
+    "time": "Time",
+    "location": "Location",
+    "type": "Type",
+    "morning": "Morning",
+    "evening": "Evening",
+    "field": "Training Field",
+    "gym": "Gym",
+    "tactical": "Tactical",
+    "physical": "Physical",
+    "technical": "Technical",
+    "Undefined": "General",
+    "Null": "No Training",
+    "Rest": "Rest Day",
+    "Technical": "Technical",
+    "Physical": "Physical",
+    "Tactical": "Tactical",
+    "Strength": "Strength",
+    "Fitness": "Fitness"
+  },
+  "vision": {
+    "title": "Club Vision",
+    "subtitle": "Our Path Forward",
+    "description": "We envision a future where FC City Boys Zurich stands as a beacon of excellence in Swiss football, nurturing talent, building character, and creating lasting memories for players and supporters alike.",
+    "mission": "Our Mission",
+    "missionText": "To develop world-class footballers while fostering values of respect, discipline, and unity. We aim to create an environment where every player can reach their full potential.",
+    "values": "Our Values",
+    "valuesText": "Excellence, Integrity, Unity, Respect, and Passion guide everything we do. These core values shape our culture and drive our success.",
+    "goals": "Our Goals",
+    "goalsText": "To compete at the highest level, develop youth talent, strengthen community bonds, and build a legacy that inspires future generations."
+  },
+  "testimonials": {
+    "title": "What They Say",
+    "subtitle": "Voices from Our Community",
+    "description": "Hear from players, coaches, and supporters about their experiences with FC City Boys Zurich.",
+    "player1": {
+      "name": "John Smith",
+      "role": "Team Captain",
+      "quote": "Being part of FC City Boys has been transformative. The coaching, the camaraderie, and the commitment to excellence have made me a better player and person."
+    },
+    "player2": {
+      "name": "Michael Johnson",
+      "role": "Defender",
+      "quote": "The team spirit here is unmatched. We push each other to be better every day, and that's what makes us successful."
+    },
+    "coach": {
+      "name": "Thomas Müller",
+      "role": "Head Coach",
+      "quote": "This club represents more than just football. It's about building character, fostering unity, and creating a legacy that extends beyond the pitch."
+    },
+    "fan": {
+      "name": "Sarah Williams",
+      "role": "Supporter",
+      "quote": "The passion and dedication of this team is incredible. Every match is a celebration of what football should be about."
+    }
+  },
+  "cta": {
+    "title": "Join Our Journey",
+    "subtitle": "Be Part of Something Great",
+    "description": "Whether you're a player, coach, or supporter, there's a place for you in the FC City Boys family. Join us and be part of our exciting journey.",
+    "joinTeam": "Join the Team",
+    "becomeMember": "Become a Member",
+    "contactUs": "Contact Us"
+  },
+  "stats": {
+    "players": "25+ Players",
+    "trophies": "5+ Trophies",
+    "years": "10+ Years",
+    "playersLabel": "Players",
+    "trophiesLabel": "Trophies",
+    "yearsLabel": "Years"
+  },
+  "positions": {
+    "goalkeeper": "Goalkeeper",
+    "defender": "Defender",
+    "midfielder": "Midfielder",
+    "forward": "Forward"
+  },
+  "players": [
+    {
+      "id": 1,
+      "name": "Player 1",
+      "position": "goalkeeper",
+      "number": 1,
+      "highlight": "Key Player",
+      "description": "Experienced goalkeeper with exceptional reflexes and leadership qualities."
+    },
+    {
+      "id": 2,
+      "name": "Player 2",
+      "position": "defender",
+      "number": 4,
+      "highlight": "Star Defender",
+      "description": "Strong defender known for tactical awareness and solid defensive skills."
+    },
+    {
+      "id": 3,
+      "name": "Player 3",
+      "position": "midfielder",
+      "number": 8,
+      "highlight": "Playmaker",
+      "description": "Creative midfielder with excellent passing and vision on the field."
+    },
+    {
+      "id": 4,
+      "name": "Player 4",
+      "position": "forward",
+      "number": 10,
+      "highlight": "Top Scorer",
+      "description": "Skilled forward with impressive goal-scoring ability and speed."
+    },
+    {
+      "id": 5,
+      "name": "Player 5",
+      "position": "defender",
+      "number": 5,
+      "highlight": "Defensive Leader",
+      "description": "Reliable defender with strong aerial presence and defensive positioning."
+    },
+    {
+      "id": 6,
+      "name": "Player 6",
+      "position": "midfielder",
+      "number": 7,
+      "highlight": "Versatile",
+      "description": "Versatile midfielder capable of both defensive and attacking contributions."
+    },
+    {
+      "id": 7,
+      "name": "Player 7",
+      "position": "forward",
+      "number": 9,
+      "highlight": "Speedster",
+      "description": "Dynamic forward with excellent dribbling and finishing skills."
+    },
+    {
+      "id": 8,
+      "name": "Player 8",
+      "position": "midfielder",
+      "number": 6,
+      "highlight": "Workhorse",
+      "description": "Hardworking midfielder known for work rate and team contribution."
+    }
+  ],
+  "coaches": [
+    {
+      "id": 1,
+      "name": "Thomas",
+      "role": "Head Coach",
+      "description": "Experienced head coach with a proven track record of developing players and achieving success."
+    },
+    {
+      "id": 2,
+      "name": "Hans",
+      "role": "Assistant Coach",
+      "description": "Dedicated assistant coach focused on tactical analysis and player development."
+    },
+    {
+      "id": 3,
+      "name": "Peter",
+      "role": "Fitness Trainer",
+      "description": "Expert fitness trainer specializing in athletic performance and injury prevention."
+    }
+  ],
+  "highlights": {
+    "title": "Player Highlights",
+    "subtitle": "Stars of the Season",
+    "description": "Celebrating outstanding performances and remarkable achievements from our talented squad.",
+    "items": [
+      {
+        "caption": "Technical Skills",
+        "badge": "Player of the Month",
+        "title": "Outstanding Performance",
+        "description": "Exceptional dedication and skill demonstrated throughout the season."
+      },
+      {
+        "caption": "Tactical Analysis",
+        "badge": "Player of the Month",
+        "title": "Outstanding Performance",
+        "description": "Exceptional dedication and skill demonstrated throughout the season."
+      },
+      {
+        "caption": "Physical Conditioning",
+        "badge": "Player of the Month",
+        "title": "Outstanding Performance",
+        "description": "Exceptional dedication and skill demonstrated throughout the season."
+      }
+    ]
+  },
+  "ourTeamSection": {
+    "title": "Our Team",
+    "categories": {
+      "all": "All",
+      "under21": "Under 21",
+      "under17": "Under 17",
+      "under15": "Under 15",
+      "under13": "Under 13",
+      "under11": "Under 11",
+      "over30": "Over 30",
+      "over50": "Over 50"
+    },
+    "ageGroups": {
+      "U21": "U21",
+      "U17": "U17",
+      "U15": "U15",
+      "U13": "U13",
+      "U11": "U11",
+      "30+": "30+",
+      "50+": "50+"
+    },
+    "teamNames": {
+      "under21": {
+        "team": "Under 21 Team",
+        "squad": "Under 21 Squad",
+        "players": "Under 21 Players",
+        "alt": "Under 21 Team"
+      },
+      "under17": {
+        "team": "Under 17 Team",
+        "squad": "Under 17 Squad",
+        "players": "Under 17 Players",
+        "alt": "Under 17 Team"
+      },
+      "under15": {
+        "team": "Under 15 Team",
+        "squad": "Under 15 Squad",
+        "players": "Under 15 Players",
+        "alt": "Under 15 Team"
+      },
+      "under13": {
+        "team": "Under 13 Team",
+        "squad": "Under 13 Squad",
+        "players": "Under 13 Players",
+        "alt": "Under 13 Team"
+      },
+      "under11": {
+        "team": "Under 11 Team",
+        "squad": "Under 11 Squad",
+        "players": "Under 11 Players",
+        "alt": "Under 11 Team"
+      },
+      "over30": {
+        "team": "Over 30 Team",
+        "squad": "Over 30 Squad",
+        "players": "Over 30 Players",
+        "alt": "Over 30 Team"
+      },
+      "over50": {
+        "team": "Over 50 Team",
+        "squad": "Over 50 Squad",
+        "players": "Over 50 Players",
+        "alt": "Over 50 Team"
+      }
+    }
+  }
+}

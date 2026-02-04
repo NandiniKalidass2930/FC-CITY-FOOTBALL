@@ -1,0 +1,82 @@
+{
+  "title": "Contact Us",
+  "subtitle": "Get in touch with FC City Boys Zurich",
+  "hero": {
+    "heading": "CONTACT US",
+    "titleLine1": "GET IN TOUCH WITH",
+    "titleLine2": "FC CITY BOYS ZURICH",
+    "description": "Reach out to us for match details, training sessions, partnerships, or general enquiries.",
+    "button": "Contact Now"
+  },
+  "cards": {
+    "email": "Email",
+    "phone": "Phone"
+  },
+  "form": {
+    "name": "Name",
+    "email": "Email",
+    "subject": "Subject",
+    "message": "Message",
+    "send": "Send Message",
+    "sending": "Sending...",
+    "success": "Message sent successfully!",
+    "error": "Failed to send message. Please try again.",
+    "description": "Fill out the form and we will contact you soon."
+  },
+  "address": {
+    "title": "Visit Us",
+    "street": "Geroldsweg 13a",
+    "city": "8196 Wil-ZH",
+    "country": "Switzerland",
+    "phone": "+41 44 123 4567",
+    "email": "info@fccbzh.ch",
+    "location": "Geroldsweg 13a, 8196 Wil-ZH, Switzerland"
+  },
+  "social": {
+    "title": "Follow Us",
+    "facebook": "Facebook",
+    "instagram": "Instagram",
+    "twitter": "Twitter",
+    "youtube": "YouTube"
+  },
+  "officeHours": {
+    "title": "Office Hours",
+    "weekdays": "Monday - Friday",
+    "weekend": "Saturday - Sunday",
+    "weekdaysTime": "9:00 AM - 6:00 PM",
+    "weekendTime": "Closed",
+    "note": "We're here to help during office hours"
+  },
+  "support": {
+    "title": "Support Information",
+    "general": "General Inquiries",
+    "training": "Training Questions",
+    "membership": "Membership",
+    "events": "Events & Tickets",
+    "generalEmail": "info@fccbzh.ch",
+    "trainingEmail": "training@fccbzh.ch",
+    "membershipEmail": "membership@fccbzh.ch",
+    "eventsEmail": "events@fccbzh.ch"
+  },
+  "emergency": {
+    "title": "Emergency Contact",
+    "description": "For urgent matters outside office hours",
+    "phone": "+41 44 123 4567",
+    "available": "Available 24/7"
+  },
+  "map": {
+    "title": "Find Us on Map",
+    "getDirections": "Get Directions",
+    "addressPreview": "Our Location",
+    "iframeTitle": "FC City Boys Zurich Location"
+  },
+  "image": {
+    "heading": "Our Ground & Location",
+    "subheading": "Find Us and Join Our Journey",
+    "alt": "FC City Boys - Stadium and Training",
+    "connectAlt": "FC City Boys - Connect With Us"
+  },
+  "connect": {
+    "title": "Connect With Us"
+  }
+}
