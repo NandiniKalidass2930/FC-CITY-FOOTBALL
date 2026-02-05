@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from "framer-motion"
 import { X, ChevronLeft, ChevronRight } from "lucide-react"
 import Image from "next/image"
 import Masonry from "react-masonry-css"
-import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { useLanguage, useTranslations } from "@/contexts/language-context"
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
@@ -195,8 +194,6 @@ export default function GalleryPage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-white text-gray-900">
-      <Navigation />
-      
       <main className="flex-1">
         {/* ================= HERO SECTION - Contact Page Style ================= */}
         <section className="relative min-h-[500px] sm:min-h-[600px] md:min-h-[700px] overflow-hidden">

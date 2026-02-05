@@ -4,7 +4,6 @@ import { motion, useScroll, useTransform, useMotionValue, useSpring, AnimatePres
 import { Users, Trophy, Target, Calendar, Star, Quote, ArrowRight, Clock, MapPin, Activity, Award, Heart, Sparkles } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
-import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { useLanguage, useTranslations } from "@/contexts/language-context"
 import { Button } from "@/components/ui/button"
@@ -703,8 +702,6 @@ export default function TeamPage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-white dark:bg-[#0f172a] text-gray-900 dark:text-white">
-      <Navigation />
-      
       <main className="flex-1">
         {/* ================= HERO SECTION - Cinematic ================= */}
         <section

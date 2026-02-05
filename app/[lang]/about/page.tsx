@@ -14,7 +14,6 @@ import {
 import Image from "next/image"
 import Link from "next/link"
 
-import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { useLanguage, useTranslations } from "@/contexts/language-context"
 import { Button } from "@/components/ui/button"
@@ -259,9 +258,6 @@ export default function AboutPage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-white text-gray-900">
-
-      <Navigation />
-
       <main className="flex-1">
 
         {/* ================= HERO ================= */}

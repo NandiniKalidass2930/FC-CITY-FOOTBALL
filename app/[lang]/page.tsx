@@ -6,7 +6,6 @@ import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { useLanguage } from "@/contexts/language-context"
 import { SpotlightCard } from "@/components/spotlight-card"
@@ -314,8 +313,6 @@ export default function Home({ params }: { params: Promise<{ lang: string }> }) 
 
   return (
     <div className="flex min-h-screen flex-col bg-white dark:bg-[#0f172a]">
-      <Navigation />
-      
       {/* ================= HERO SECTION ================= */}
       <section className="relative min-h-[95vh] flex items-center overflow-hidden">
         {/* Background Video */}

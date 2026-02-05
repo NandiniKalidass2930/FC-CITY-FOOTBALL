@@ -6,7 +6,6 @@ import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from
 import { Mail, MapPin, Send, Clock, HelpCircle, Phone, Facebook, Instagram, Twitter, Youtube, ExternalLink, CheckCircle2 } from "lucide-react"
 import Image from "next/image"
 
-import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { useLanguage } from "@/contexts/language-context"
 import { PremiumImageCard } from "@/components/premium-image-card"
@@ -488,8 +487,6 @@ export default function ContactPage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-white text-gray-900">
-      <Navigation />
-
       <main className="flex-1">
         {/* ================= MODERN FOOTBALL CLUB HERO BANNER ================= */}
         <section className="relative min-h-[600px] sm:min-h-[700px] md:min-h-[800px] overflow-hidden">

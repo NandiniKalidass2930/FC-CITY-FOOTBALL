@@ -301,6 +301,19 @@
   .shadow-premium-lg {
     box-shadow: 0 10px 15px -3px rgba(0, 84, 168, 0.1), 0 4px 6px -2px rgba(0, 84, 168, 0.05);
   }
+
+  /*
+    Mobile perf: ensure the main navbar is visible immediately on first paint.
+    Framer Motion sets an initial off-screen transform (y:-100) inline on SSR.
+    On small screens that can look like the hamburger "loads late" until hydration.
+    We override ONLY on <lg to keep desktop behavior unchanged.
+  */
+  @media (max-width: 1023px) {
+    nav[data-site-nav="main"] {
+      transform: translate3d(0, 0, 0) !important;
+      opacity: 1 !important;
+    }
+  }
 }
 
 .clip-diagonal {

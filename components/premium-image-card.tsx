@@ -9,6 +9,7 @@ interface PremiumImageCardProps {
   alt: string
   className?: string
   imageClassName?: string
+  sizes?: string
   priority?: boolean
   children?: ReactNode
   height?: string
@@ -22,6 +23,7 @@ export function PremiumImageCard({
   alt,
   className = "",
   imageClassName = "",
+  sizes = "100vw",
   priority = false,
   children,
   height = "h-[300px] sm:h-[360px] md:h-[420px] lg:h-[480px]",
@@ -65,6 +67,7 @@ export function PremiumImageCard({
         alt={alt}
         fill
         className={`object-cover transition-all duration-700 ease-out ${disableHoverZoom ? '' : 'group-hover:scale-110'} ${imageClassName}`}
+        sizes={sizes}
         priority={priority}
         unoptimized={unoptimized}
       />

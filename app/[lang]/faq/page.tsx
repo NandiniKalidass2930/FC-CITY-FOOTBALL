@@ -5,7 +5,6 @@ import * as React from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Info, Trophy, Users, Heart, ChevronDown } from "lucide-react"
 import Image from "next/image"
-import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { useLanguage } from "@/contexts/language-context"
 import { PremiumImageCard } from "@/components/premium-image-card"
@@ -193,8 +192,6 @@ export default function FAQPage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-white text-gray-900">
-      <Navigation />
-      
       <main className="flex-1">
         {/* ================= PREMIUM HERO SECTION ================= */}
         <section className="relative pt-24 sm:pt-28 md:pt-32 pb-24 sm:pb-28 md:pb-32 bg-gradient-to-br from-white via-blue-50/20 to-white overflow-hidden">

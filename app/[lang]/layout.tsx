@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { LanguageProvider } from "@/contexts/language-context";
 import { ScrollToTop } from "@/components/ui/scroll-to-top";
+import { NavigationShell } from "@/components/navigation-shell";
 import { generateMetadata as generateSEOMetadata, generateStructuredData } from "@/lib/seo";
-import Script from "next/script";
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
   const { lang } = await params;
@@ -28,7 +28,7 @@ export default async function LangLayout({
   children: React.ReactNode;
   params: Promise<{ lang: string }>;
 }) {
-  const { lang } = await params;
+  await params;
   
   // Generate structured data
   const organizationData = generateStructuredData("SportsOrganization");
@@ -37,17 +37,18 @@ export default async function LangLayout({
   return (
     <>
       {/* Structured Data */}
-      <Script
+      <script
         id="organization-schema"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationData) }}
       />
-      <Script
+      <script
         id="website-schema"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteData) }}
       />
       <LanguageProvider>
+        <NavigationShell />
         {children}
         <ScrollToTop />
       </LanguageProvider>

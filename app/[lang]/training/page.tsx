@@ -3,10 +3,9 @@
 import * as React from "react"
 import { useMemo, useState, useEffect } from "react"
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform, useInView } from "framer-motion"
-import { Calendar, Clock, MapPin, Users, Trophy, Target, TrendingUp, Award, Star, Quote, ArrowRight, ChevronLeft, ChevronRight, Zap, Activity, BarChart3, GraduationCap } from "lucide-react"
+import { Calendar, Clock, MapPin, Users, Trophy, Target, TrendingUp, Award, Quote, ArrowRight, ChevronLeft, ChevronRight, Zap, Activity, BarChart3, GraduationCap } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
-import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { useLanguage, useTranslations } from "@/contexts/language-context"
 import { Button } from "@/components/ui/button"
@@ -361,14 +360,14 @@ function Carousel({ children, autoplay = true }: { children: React.ReactNode[]; 
           </button>
 
           {/* Dots Indicator */}
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center z-10">
             {children.map((_, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentIndex(index)}
-                className={`w-2 h-2 rounded-full transition-all ${
+                className={`mx-0.5 md:mx-1 h-1.5 w-1.5 md:h-2 md:w-2 rounded-full transition-all ${
                   index === currentIndex
-                    ? "bg-[#3b3dac] w-8"
+                    ? "bg-[#3b3dac] w-6 md:w-8"
                     : "bg-gray-300 hover:bg-gray-400"
                 }`}
                 aria-label={`Go to slide ${index + 1}`}
@@ -828,8 +827,6 @@ export default function TrainingPage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-white text-gray-900">
-      <Navigation />
-      
       <main className="flex-1">
         {/* ================= CINEMATIC HERO SECTION ================= */}
         <section className="relative py-16 sm:py-20 md:py-24 lg:py-32 overflow-hidden bg-gradient-to-br from-[#3b3dac] via-blue-600 to-[#3b3dac]">
@@ -928,7 +925,7 @@ export default function TrainingPage() {
                     src={trainingData?.heroImage?.asset ? urlFor(trainingData.heroImage).url() : "/images/training/train1.jpg"}
                     alt={trainingData?.heroTitle ? getLocalizedContent(trainingData.heroTitle, language) : t("hero.imageAlt")}
                     height="h-[400px] sm:h-[450px] md:h-[500px] lg:h-[550px]"
-                    unoptimized={trainingData?.heroImage?.asset ? true : false}
+                    sizes="(max-width: 1024px) 100vw, 50vw"
                     rounded="rounded-3xl"
                     priority
                   />
@@ -983,7 +980,7 @@ export default function TrainingPage() {
                           alt={item.caption}
                           fill
                           className="object-contain brightness-100 group-hover:brightness-110 transition-all duration-500"
-                          sizes="100vw"
+                          sizes="(max-width: 768px) 100vw, 1000px"
                           priority={index === 0}
                         />
                       ) : (
@@ -1042,7 +1039,6 @@ export default function TrainingPage() {
                         fill
                         className="object-cover brightness-100 group-hover:brightness-110 transition-all duration-500"
                         sizes="(max-width: 768px) 100vw, 50vw"
-                        unoptimized={true}
                       />
                     ) : (
                       <Image
