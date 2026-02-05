@@ -9,7 +9,6 @@ import Image from "next/image"
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { useLanguage } from "@/contexts/language-context"
-import { useSiteSettings } from "@/contexts/site-settings-context"
 import { PremiumImageCard } from "@/components/premium-image-card"
 import { client } from "@/sanity/lib/client"
 import { getLocalizedContent, getLocalizedText } from "@/lib/sanity-locale"
@@ -349,7 +348,6 @@ interface ContactPageData {
 /* ---------------- Page Component ---------------- */
 export default function ContactPage() {
   const { t, getHref, language } = useLanguage()
-  const { settings: siteSettings, loading: siteSettingsLoading } = useSiteSettings()
   const [contactData, setContactData] = useState<ContactPageData | null>(null)
   const [loading, setLoading] = useState(true)
 
@@ -364,8 +362,7 @@ export default function ContactPage() {
   const [isSuccess, setIsSuccess] = React.useState(false)
   const [error, setError] = React.useState<string | null>(null)
 
-  // Fetch contact page data from Sanity (only page-specific content like title/description)
-  // Email, phone, address, and mapEmbedUrl now come from siteSettings
+  // Fetch all contact page data from Sanity (including email, phone, address, mapEmbedUrl)
   useEffect(() => {
     async function fetchContactData() {
       try {
@@ -373,6 +370,10 @@ export default function ContactPage() {
         const query = `*[_type == "contactPage"][0] {
           title,
           description,
+          address,
+          phone,
+          email,
+          mapEmbedUrl,
           openingHours,
           socialLinks[] {
             platform,
@@ -640,14 +641,14 @@ export default function ContactPage() {
                 <h3 className="text-xl font-bold mb-3 text-gray-900 text-center">
                   {t("contact", "cards.email")}
                 </h3>
-                {siteSettingsLoading ? (
+                {loading ? (
                   <p className="text-gray-400 text-base text-center">Loading...</p>
-                ) : siteSettings?.email ? (
+                ) : contactData?.email ? (
                   <a
-                    href={`mailto:${siteSettings.email}`}
+                    href={`mailto:${contactData.email}`}
                     className="text-[#3b3dac] text-base font-semibold hover:text-[#4c4ebd] transition-colors duration-200 text-center block break-all"
                   >
-                    {siteSettings.email}
+                    {contactData.email}
                   </a>
                 ) : (
                   <a
@@ -664,14 +665,14 @@ export default function ContactPage() {
                 <h3 className="text-xl font-bold mb-3 text-gray-900 text-center">
                   {t("contact", "cards.phone")}
                 </h3>
-                {siteSettingsLoading ? (
+                {loading ? (
                   <p className="text-gray-400 text-base text-center">Loading...</p>
-                ) : siteSettings?.phone ? (
+                ) : contactData?.phone ? (
                   <a
-                    href={`tel:${siteSettings.phone}`}
+                    href={`tel:${contactData.phone}`}
                     className="text-gray-700 text-base font-semibold hover:text-[#3b3dac] transition-colors duration-200 text-center block"
                   >
-                    {siteSettings.phone}
+                    {contactData.phone}
                   </a>
                 ) : (
                   <a
@@ -688,11 +689,11 @@ export default function ContactPage() {
                 <h3 className="text-xl font-bold mb-3 text-gray-900 text-center">
                   {t("contact", "address.title")}
                 </h3>
-                {siteSettingsLoading ? (
+                {loading ? (
                   <p className="text-gray-400 text-sm text-center">Loading...</p>
-                ) : siteSettings?.address ? (
+                ) : contactData?.address ? (
                   <p className="text-gray-600 text-sm leading-relaxed text-center whitespace-pre-line">
-                    {siteSettings.address[language as "en" | "de"] || siteSettings.address.en || siteSettings.address.de || ""}
+                    {getLocalizedText(contactData.address, language) || ""}
                   </p>
                 ) : (
                   <p className="text-gray-600 text-sm leading-relaxed text-center">
@@ -871,9 +872,9 @@ export default function ContactPage() {
                   <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2 leading-tight tracking-wide">
                     {t("contact", "map.title")}
                   </h2>
-                  {siteSettings?.address ? (
+                  {contactData?.address ? (
                     <p className="text-gray-600 text-sm sm:text-base">
-                      {(siteSettings.address[language as "en" | "de"] || siteSettings.address.en || siteSettings.address.de || "").split('\n')[0]}
+                      {getLocalizedText(contactData.address, language)?.split('\n')[0] || ""}
                     </p>
                   ) : (
                     <p className="text-gray-600 text-sm sm:text-base">
@@ -882,9 +883,9 @@ export default function ContactPage() {
                   )}
                 </div>
                 <div className="relative w-full h-[450px] sm:h-[500px] md:h-[600px] p-4">
-                  {siteSettings?.mapEmbedUrl ? (
+                  {contactData?.mapEmbedUrl ? (
                     <iframe
-                      src={siteSettings.mapEmbedUrl}
+                      src={contactData.mapEmbedUrl}
                       width="100%"
                       height="100%"
                       style={{ border: 0, borderRadius: '0.5rem' }}

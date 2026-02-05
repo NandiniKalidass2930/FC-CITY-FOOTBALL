@@ -202,7 +202,7 @@ const achievementIconMap: Record<string, React.ComponentType<{ className?: strin
   Star,
 }
 
-type TeamCategory = "all" | "under21" | "under17" | "under15" | "under13" | "under11" | "over30" | "over50"
+type TeamCategory = "all" | "under21" | "under17" | "under15" | "under13" | "under11" | "over30" | "over50" | "fcCityGirls"
 
 interface Player {
   _id: string
@@ -213,6 +213,14 @@ interface Player {
   description?: { en?: string; de?: string } | string
   image?: any
   category?: string
+}
+
+interface TeamGroupPhoto {
+  _id: string
+  title?: string
+  badgeName?: string
+  category: string
+  image: any
 }
 
 interface Coach {
@@ -273,6 +281,7 @@ function mapTeamCategoryToSanityCategory(category: TeamCategory): string | undef
     "under11": "Under 11",
     "over30": "Over 30",
     "over50": "Over 50",
+    "fcCityGirls": "FC City Girls",
   }
   return categoryMap[category] || undefined
 }
@@ -284,10 +293,14 @@ export default function TeamPage() {
   const heroRef = useRef<HTMLDivElement>(null)
   const [activeCategory, setActiveCategory] = useState<TeamCategory>("all")
   const [categoryChangeKey, setCategoryChangeKey] = useState(0) // Track category changes for image reload
+  const marqueeSetRef = useRef<HTMLDivElement>(null)
+  const [marqueeSetWidth, setMarqueeSetWidth] = useState(0)
+  const [marqueeDurationSec, setMarqueeDurationSec] = useState(50)
   
   // Sanity data state
   const [players, setPlayers] = useState<Player[]>([])
   const [coaches, setCoaches] = useState<Coach[]>([])
+  const [teamGroupPhotos, setTeamGroupPhotos] = useState<TeamGroupPhoto[]>([])
   const [teamPageData, setTeamPageData] = useState<TeamPageData | null>(null)
   const [loading, setLoading] = useState(true)
   const [dataRefreshKey, setDataRefreshKey] = useState(0) // Force refresh key
@@ -329,6 +342,30 @@ export default function TeamPage() {
         })
         if (isMounted) {
           setPlayers(playersData || [])
+        }
+
+        // Fetch team group photos (independent of players)
+        const teamGroupPhotosQuery = `*[_type == "teamGroupPhoto"] {
+          _id,
+          title,
+          badgeName,
+          category,
+          image {
+            asset-> {
+              _id,
+              _type,
+              url
+            },
+            hotspot,
+            crop
+          }
+        }`
+        const teamGroupPhotosData = await client.fetch(teamGroupPhotosQuery, {}, {
+          next: { revalidate: 0 },
+          cache: 'no-store' as any
+        })
+        if (isMounted) {
+          setTeamGroupPhotos(teamGroupPhotosData || [])
         }
         
         // Fetch coaches with localized fields
@@ -502,8 +539,77 @@ export default function TeamPage() {
       { key: "under11", label: ourTeamSection.categories.under11 || "Under 11" },
       { key: "over30", label: ourTeamSection.categories.over30 || "Over 30" },
       { key: "over50", label: ourTeamSection.categories.over50 || "Over 50" },
+      { key: "fcCityGirls", label: (ourTeamSection.categories as any).fcCityGirls || "FC City Girls" },
     ]
   }, [teamMessages])
+
+  const teamGroupPhotoByCategory = useMemo(() => {
+    const map = new Map<string, TeamGroupPhoto>()
+    for (const doc of teamGroupPhotos) {
+      if (doc?.category && doc?.image && !map.has(doc.category)) {
+        map.set(doc.category, doc)
+      }
+    }
+    return map
+  }, [teamGroupPhotos])
+
+  // Group photo data (stored in teamGroupPhoto docs)
+  const activeCategoryGroupPhoto = useMemo(() => {
+    if (activeCategory === "all") return null
+    const sanityCategory = mapTeamCategoryToSanityCategory(activeCategory)
+    if (!sanityCategory) return null
+    return teamGroupPhotoByCategory.get(sanityCategory)?.image || null
+  }, [activeCategory, teamGroupPhotoByCategory])
+
+  const allCategoryGroupPhotos = useMemo(() => {
+    return categories
+      .filter((c) => c.key !== "all")
+      .map((c) => {
+        const sanityCategory = mapTeamCategoryToSanityCategory(c.key)
+        const doc = sanityCategory ? teamGroupPhotoByCategory.get(sanityCategory) : undefined
+        const groupPhoto = doc?.image || null
+        const badgeName = doc?.badgeName || ""
+        return {
+          key: c.key,
+          label: c.label,
+          groupPhoto,
+          badgeName,
+        }
+      })
+  }, [categories, teamGroupPhotoByCategory])
+
+  // Auto-sliding marquee ONLY for "All" category
+  useEffect(() => {
+    if (activeCategory !== "all") return
+    if (!marqueeSetRef.current) return
+
+    const el = marqueeSetRef.current
+
+    const update = () => {
+      const nextWidth = el.scrollWidth || el.getBoundingClientRect().width || 0
+      setMarqueeSetWidth(nextWidth)
+
+      // Slow, professional speed: ~30px/s, clamped to sensible range
+      const pxPerSec = 30
+      const duration = nextWidth > 0 ? nextWidth / pxPerSec : 50
+      setMarqueeDurationSec(Math.max(35, Math.min(120, duration)))
+    }
+
+    update()
+
+    let ro: ResizeObserver | null = null
+    if (typeof ResizeObserver !== "undefined") {
+      ro = new ResizeObserver(() => update())
+      ro.observe(el)
+    } else {
+      window.addEventListener("resize", update)
+    }
+
+    return () => {
+      if (ro) ro.disconnect()
+      else window.removeEventListener("resize", update)
+    }
+  }, [activeCategory, allCategoryGroupPhotos.length])
   
   // Parallax scroll effect
   const { scrollYProgress } = useScroll({
@@ -811,6 +917,159 @@ export default function TeamPage() {
                 })}
               </div>
             </div>
+          </div>
+
+          {/* Group Photo Section (must be BELOW the category buttons) */}
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 mt-8">
+            {activeCategory === "all" ? (
+              <div className="overflow-hidden">
+                <div
+                  className={`flex gap-4 sm:gap-6 w-max pb-2 team-marquee-track hover:[animation-play-state:paused]`}
+                  style={
+                    {
+                      ["--team-marquee-width" as any]: `${marqueeSetWidth}px`,
+                      ["--team-marquee-duration" as any]: `${marqueeDurationSec}s`,
+                    } as React.CSSProperties
+                  }
+                >
+                  <div ref={marqueeSetRef} className="flex gap-4 sm:gap-6 w-max">
+                    {allCategoryGroupPhotos.map((item) => (
+                      <motion.div
+                        key={`group-slider-${item.key}-${categoryChangeKey}`}
+                        variants={zoomIn}
+                        initial="hidden"
+                        animate="visible"
+                        className="relative min-w-[280px] sm:min-w-[360px] lg:min-w-[420px]"
+                      >
+                        <div className="relative group rounded-2xl overflow-hidden bg-white dark:bg-gray-800 shadow-lg hover:shadow-2xl hover:shadow-[#3b3dac]/20 dark:hover:shadow-[#3b3dac]/30 transition-all duration-500 border border-gray-200 dark:border-gray-700">
+                          <div className="relative w-full aspect-[16/9] overflow-hidden">
+                            {item.groupPhoto ? (
+                              <Image
+                                key={`group-photo-${item.key}-${categoryChangeKey}-${pathname}`}
+                                src={urlFor(item.groupPhoto)
+                                  .width(1200)
+                                  .height(675)
+                                  .quality(85)
+                                  .format("webp")
+                                  .url()}
+                                alt={`${item.label} group photo`}
+                                fill
+                                className="object-cover transition-all duration-300 ease-in-out group-hover:scale-105 group-hover:brightness-110"
+                                sizes="(max-width: 640px) 280px, (max-width: 1024px) 360px, 420px"
+                                quality={90}
+                              />
+                            ) : (
+                              <div className="w-full h-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+                                <span className="text-gray-400 text-sm">No group photo</span>
+                              </div>
+                            )}
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+                            <div className="absolute bottom-3 left-3 right-3">
+                              <span className="inline-block px-3 py-1 rounded-full bg-[#3b3dac]/80 text-white text-xs font-bold uppercase tracking-wider">
+                              {item.badgeName || item.label}
+                              </span>
+                              </div>
+                          </div>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+
+                  {/* Duplicate set for seamless infinite loop */}
+                  <div aria-hidden="true" className="flex gap-4 sm:gap-6 w-max">
+                    {allCategoryGroupPhotos.map((item) => (
+                      <motion.div
+                        key={`group-slider-dup-${item.key}-${categoryChangeKey}`}
+                        variants={zoomIn}
+                        initial="hidden"
+                        animate="visible"
+                        className="relative min-w-[280px] sm:min-w-[360px] lg:min-w-[420px]"
+                      >
+                        <div className="relative group rounded-2xl overflow-hidden bg-white dark:bg-gray-800 shadow-lg hover:shadow-2xl hover:shadow-[#3b3dac]/20 dark:hover:shadow-[#3b3dac]/30 transition-all duration-500 border border-gray-200 dark:border-gray-700">
+                          <div className="relative w-full aspect-[16/9] overflow-hidden">
+                            {item.groupPhoto ? (
+                              <Image
+                                key={`group-photo-dup-${item.key}-${categoryChangeKey}-${pathname}`}
+                                src={urlFor(item.groupPhoto)
+                                  .width(1200)
+                                  .height(675)
+                                  .quality(85)
+                                  .format("webp")
+                                  .url()}
+                                alt={`${item.label} group photo`}
+                                fill
+                                className="object-cover transition-all duration-300 ease-in-out group-hover:scale-105 group-hover:brightness-110"
+                                sizes="(max-width: 640px) 280px, (max-width: 1024px) 360px, 420px"
+                                quality={90}
+                              />
+                            ) : (
+                              <div className="w-full h-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+                                <span className="text-gray-400 text-sm">No group photo</span>
+                              </div>
+                            )}
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+                            <div className="absolute bottom-3 left-3 right-3">
+                              <span className="inline-block px-3 py-1 rounded-full bg-[#3b3dac]/80 text-white text-xs font-bold uppercase tracking-wider">
+                                {item.badgeName || item.label}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+                </div>
+
+                <style jsx global>{`
+                  @keyframes teamMarqueeLtr {
+                    from {
+                      transform: translateX(calc(-1 * var(--team-marquee-width, 0px)));
+                    }
+                    to {
+                      transform: translateX(0);
+                    }
+                  }
+                  .team-marquee-track {
+                    will-change: transform;
+                    animation: teamMarqueeLtr var(--team-marquee-duration, 50s) linear infinite;
+                  }
+                `}</style>
+              </div>
+            ) : (
+              <motion.div
+                key={`group-photo-single-${activeCategory}-${categoryChangeKey}`}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+                className="max-w-7xl mx-auto"
+              >
+                <div className="relative group rounded-2xl overflow-hidden bg-white dark:bg-gray-800 shadow-lg hover:shadow-2xl hover:shadow-[#3b3dac]/20 dark:hover:shadow-[#3b3dac]/30 transition-all duration-500 border border-gray-200 dark:border-gray-700">
+                  <div className="relative w-full aspect-[16/9] overflow-hidden">
+                    {activeCategoryGroupPhoto ? (
+                      <Image
+                        key={`group-photo-${activeCategory}-${categoryChangeKey}-${pathname}`}
+                        src={urlFor(activeCategoryGroupPhoto)
+                          .width(1600)
+                          .height(900)
+                          .quality(85)
+                          .format("webp")
+                          .url()}
+                        alt="Team group photo"
+                        fill
+                        className="object-cover transition-all duration-300 ease-in-out group-hover:scale-105 group-hover:brightness-110"
+                        sizes="(max-width: 1280px) 100vw, 1280px"
+                        quality={90}
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+                        <span className="text-gray-400 text-sm">No group photo</span>
+                      </div>
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+                  </div>
+                </div>
+              </motion.div>
+            )}
           </div>
 
           {/* Players Grid */}

@@ -8,6 +8,7 @@ import { authorType } from "./authorType";
 import { playerType } from "./playerType";
 import { coachType } from "./coachType";
 import { trainerType } from "./trainerType";
+import { teamGroupPhotoType } from "./teamGroupPhotoType"
 
 import { heroType } from "./heroType";
 import { sponsorType } from "./sponsorType";
@@ -18,7 +19,6 @@ import { trainingPageType } from "./trainingPageType";
 
 import { contactPageType } from "./contactPageType";
 import { contactMessageType } from "./contactMessageType";
-import { siteSettingsType } from "./siteSettingsType";
 import { faqType } from "./faqType";
 import { footerType } from "./footerType";
 import { localeString, localeText } from "./localeString";
@@ -33,6 +33,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     localeString,
     localeText,
     playerType,
+    teamGroupPhotoType,
     coachType,
     trainerType,
     heroType,
@@ -44,7 +45,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     
     contactPageType,
     contactMessageType,
-    siteSettingsType,
     faqType,
     footerType,
   ],

@@ -5,16 +5,9 @@ import Image from "next/image"
 import { motion } from "framer-motion"
 import { Facebook, Twitter, Instagram, Youtube, Mail } from "lucide-react"
 import { useLanguage } from "@/contexts/language-context"
-import { useSiteSettings } from "@/contexts/site-settings-context"
 import { client } from "@/sanity/lib/client"
 import { urlFor } from "@/sanity/lib/image"
 import { useState, useEffect, useMemo } from "react"
-
-// Types for Footer data
-interface FooterLink {
-  title: string
-  url: string
-}
 
 interface SocialLink {
   platform: "Facebook" | "Instagram" | "Twitter" | "YouTube"
@@ -33,44 +26,34 @@ interface FooterData {
   clubName?: string
   description?: string
   email?: string
-  clubLinks?: FooterLink[]
-  supportLinks?: FooterLink[]
-  legalLinks?: FooterLink[]
   socialLinks?: SocialLink[]
   copyrightText?: string
 }
 
-// Fallback data
-const fallbackFooterLinks = {
+// Keep Footer navigation links aligned with Navbar routing (/en, /de) and existing pages
+const footerNavLinks = {
   club: [
-    { key: "aboutUs", href: "/about" },
-    { key: "history", href: "/history" },
-    { key: "stadium", href: "/stadium" },
-    { key: "academy", href: "/academy" },
+    { key: "about", href: "/about" },
+    { key: "ourTeam", href: "/our-team" },
+    { key: "gallery", href: "/gallery" },
+    { key: "training", href: "/training" },
   ],
   support: [
-    { key: "contact", href: "/contact" },
-    { key: "tickets", href: "/tickets" },
-    { key: "membership", href: "/membership" },
     { key: "faq", href: "/faq" },
-  ],
-  legal: [
-    { key: "privacyPolicy", href: "/privacy" },
-    { key: "termsOfService", href: "/terms" },
-    { key: "cookiePolicy", href: "/cookies" },
+    { key: "contact", href: "/contact" },
   ],
 }
 
-const fallbackSocialLinks = [
-  { icon: Facebook, href: "#", label: "Facebook" },
-  { icon: Twitter, href: "#", label: "Twitter" },
-  { icon: Instagram, href: "#", label: "Instagram" },
-  { icon: Youtube, href: "#", label: "YouTube" },
-]
+// Avoid rendering placeholder social links (e.g. "#") - show only configured links
+const fallbackSocialLinks: Array<{
+  icon: any
+  href: string
+  label: string
+  platform?: string
+}> = []
 
 export function Footer() {
   const { t, getHref, language } = useLanguage()
-  const { settings, loading: siteSettingsLoading } = useSiteSettings()
   const [footerData, setFooterData] = useState<FooterData | null>(null)
   const [loading, setLoading] = useState(true)
 
@@ -91,18 +74,6 @@ export function Footer() {
           clubName,
           description,
           email,
-          clubLinks[] {
-            title,
-            url
-          },
-          supportLinks[] {
-            title,
-            url
-          },
-          legalLinks[] {
-            title,
-            url
-          },
           socialLinks[] {
             platform,
             url
@@ -125,45 +96,40 @@ export function Footer() {
     fetchFooterData()
   }, [language])
 
-  // Map platform names to icon components
-  const platformIconMap: Record<string, React.ComponentType<{ className?: string }>> = {
-    Facebook,
-    Instagram,
-    Twitter,
-    YouTube: Youtube,
-  }
-
-  // Get social links from Sanity or use fallback
+  // Get social links from Sanity (ordered), or use fallback
   const socialLinks = useMemo(() => {
-    if (footerData?.socialLinks && footerData.socialLinks.length > 0) {
-      return footerData.socialLinks.map((link) => {
-        const Icon = platformIconMap[link.platform]
-        return {
-          icon: Icon || Facebook,
-          href: link.url,
-          label: link.platform,
-          platform: link.platform,
-        }
+    const urlsByPlatform = new Map<string, string>()
+
+    for (const link of footerData?.socialLinks || []) {
+      const url = typeof link?.url === "string" ? link.url.trim() : ""
+      if (!url || url === "#") continue
+      urlsByPlatform.set(link.platform, url)
+    }
+
+    const ordered = [
+      { platform: "Facebook", icon: Facebook, label: "Facebook" },
+      { platform: "Twitter", icon: Twitter, label: "Twitter / X" },
+      { platform: "Instagram", icon: Instagram, label: "Instagram" },
+      { platform: "YouTube", icon: Youtube, label: "YouTube" },
+    ] as const
+
+    const fromSanity = ordered
+      .map((item) => {
+        const href = urlsByPlatform.get(item.platform)
+        return href ? { ...item, href } : null
       })
-    }
-    return fallbackSocialLinks
+      .filter(Boolean) as Array<{
+      platform: string
+      icon: any
+      label: string
+      href: string
+    }>
+
+    return fromSanity.length > 0 ? fromSanity : fallbackSocialLinks
   }, [footerData?.socialLinks])
-
-  // Helper to determine if URL is external
-  const isExternalUrl = (url: string) => {
-    return url.startsWith("http://") || url.startsWith("https://")
-  }
-
-  // Helper to get proper href
-  const getLinkHref = (url: string) => {
-    if (isExternalUrl(url)) {
-      return url
-    }
-    return getHref(url)
-  }
   
-  // Use footer email, then site settings email, then fallback to translation
-  const email = footerData?.email || settings?.email || t("footer", "email")
+  // Use footer email or fallback to translation
+  const email = footerData?.email || t("footer", "email")
   
   // Get club name from footer or fallback
   const clubName = footerData?.clubName || t("footer", "clubName")
@@ -228,7 +194,7 @@ export function Footer() {
             )}
 
             {/* Email */}
-            {!loading && !siteSettingsLoading && email && (
+            {!loading && email && (
               <motion.a
                 href={`mailto:${email}`}
                 className="flex items-center gap-3 text-gray-300 hover:text-white transition-colors duration-300 group"
@@ -251,57 +217,24 @@ export function Footer() {
               {t("footer", "club")}
               <span className="absolute bottom-0 left-0 w-12 h-0.5 bg-gradient-to-r from-[#3b3dac] to-transparent" />
             </h4>
-            {footerData?.clubLinks && footerData.clubLinks.length > 0 ? (
-              <ul className="space-y-3">
-                {footerData.clubLinks.map((link, index) => (
-                  <li key={`${link.url}-${index}`}>
-                    <motion.div
-                      whileHover={{ x: 6 }}
-                      transition={{ duration: 0.2 }}
+            <ul className="space-y-3">
+              {footerNavLinks.club.map((link) => (
+                <li key={link.href}>
+                  <motion.div
+                    whileHover={{ x: 6 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <Link
+                      href={getHref(link.href)}
+                      className="text-gray-400 hover:text-white transition-colors duration-300 text-sm sm:text-base relative group inline-block"
                     >
-                      {isExternalUrl(link.url) ? (
-                        <a
-                          href={link.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-gray-400 hover:text-white transition-colors duration-300 text-sm sm:text-base relative group inline-block"
-                        >
-                          {link.title}
-                          <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#3b3dac] group-hover:w-full transition-all duration-300" />
-                        </a>
-                      ) : (
-                        <Link
-                          href={getLinkHref(link.url)}
-                          className="text-gray-400 hover:text-white transition-colors duration-300 text-sm sm:text-base relative group inline-block"
-                        >
-                          {link.title}
-                          <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#3b3dac] group-hover:w-full transition-all duration-300" />
-                        </Link>
-                      )}
-                    </motion.div>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <ul className="space-y-3">
-                {fallbackFooterLinks.club.map((link) => (
-                  <li key={link.href}>
-                    <motion.div
-                      whileHover={{ x: 6 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <Link
-                        href={getHref(link.href)}
-                        className="text-gray-400 hover:text-white transition-colors duration-300 text-sm sm:text-base relative group inline-block"
-                      >
-                        {t("footer", link.key)}
-                        <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#3b3dac] group-hover:w-full transition-all duration-300" />
-                      </Link>
-                    </motion.div>
-                  </li>
-                ))}
-              </ul>
-            )}
+                      {t("navbar", link.key)}
+                      <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#3b3dac] group-hover:w-full transition-all duration-300" />
+                    </Link>
+                  </motion.div>
+                </li>
+              ))}
+            </ul>
           </motion.div>
 
           {/* Support Links */}
@@ -315,60 +248,27 @@ export function Footer() {
               {t("footer", "support")}
               <span className="absolute bottom-0 left-0 w-12 h-0.5 bg-gradient-to-r from-[#3b3dac] to-transparent" />
             </h4>
-            {footerData?.supportLinks && footerData.supportLinks.length > 0 ? (
-              <ul className="space-y-3">
-                {footerData.supportLinks.map((link, index) => (
-                  <li key={`${link.url}-${index}`}>
-                    <motion.div
-                      whileHover={{ x: 6 }}
-                      transition={{ duration: 0.2 }}
+            <ul className="space-y-3">
+              {footerNavLinks.support.map((link) => (
+                <li key={link.href}>
+                  <motion.div
+                    whileHover={{ x: 6 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <Link
+                      href={getHref(link.href)}
+                      className="text-gray-400 hover:text-white transition-colors duration-300 text-sm sm:text-base relative group inline-block"
                     >
-                      {isExternalUrl(link.url) ? (
-                        <a
-                          href={link.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-gray-400 hover:text-white transition-colors duration-300 text-sm sm:text-base relative group inline-block"
-                        >
-                          {link.title}
-                          <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#3b3dac] group-hover:w-full transition-all duration-300" />
-                        </a>
-                      ) : (
-                        <Link
-                          href={getLinkHref(link.url)}
-                          className="text-gray-400 hover:text-white transition-colors duration-300 text-sm sm:text-base relative group inline-block"
-                        >
-                          {link.title}
-                          <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#3b3dac] group-hover:w-full transition-all duration-300" />
-                        </Link>
-                      )}
-                    </motion.div>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <ul className="space-y-3">
-                {fallbackFooterLinks.support.map((link) => (
-                  <li key={link.href}>
-                    <motion.div
-                      whileHover={{ x: 6 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <Link
-                        href={getHref(link.href)}
-                        className="text-gray-400 hover:text-white transition-colors duration-300 text-sm sm:text-base relative group inline-block"
-                      >
-                        {t("footer", link.key)}
-                        <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#3b3dac] group-hover:w-full transition-all duration-300" />
-                      </Link>
-                    </motion.div>
-                  </li>
-                ))}
-              </ul>
-            )}
+                      {t("navbar", link.key)}
+                      <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#3b3dac] group-hover:w-full transition-all duration-300" />
+                    </Link>
+                  </motion.div>
+                </li>
+              ))}
+            </ul>
           </motion.div>
 
-          {/* Legal & Social */}
+          {/* Follow Us */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -376,60 +276,9 @@ export function Footer() {
             transition={{ duration: 0.6, delay: 0.3 }}
           >
             <h4 className="text-lg sm:text-xl font-bold text-white mb-6 relative">
-              {t("footer", "legal")}
+              Follow Us
               <span className="absolute bottom-0 left-0 w-12 h-0.5 bg-gradient-to-r from-[#3b3dac] to-transparent" />
             </h4>
-            {footerData?.legalLinks && footerData.legalLinks.length > 0 ? (
-              <ul className="space-y-3 mb-8">
-                {footerData.legalLinks.map((link, index) => (
-                  <li key={`${link.url}-${index}`}>
-                    <motion.div
-                      whileHover={{ x: 6 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      {isExternalUrl(link.url) ? (
-                        <a
-                          href={link.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-gray-400 hover:text-white transition-colors duration-300 text-sm sm:text-base relative group inline-block"
-                        >
-                          {link.title}
-                          <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#3b3dac] group-hover:w-full transition-all duration-300" />
-                        </a>
-                      ) : (
-                        <Link
-                          href={getLinkHref(link.url)}
-                          className="text-gray-400 hover:text-white transition-colors duration-300 text-sm sm:text-base relative group inline-block"
-                        >
-                          {link.title}
-                          <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#3b3dac] group-hover:w-full transition-all duration-300" />
-                        </Link>
-                      )}
-                    </motion.div>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <ul className="space-y-3 mb-8">
-                {fallbackFooterLinks.legal.map((link) => (
-                  <li key={link.href}>
-                    <motion.div
-                      whileHover={{ x: 6 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <Link
-                        href={getHref(link.href)}
-                        className="text-gray-400 hover:text-white transition-colors duration-300 text-sm sm:text-base relative group inline-block"
-                      >
-                        {t("footer", link.key)}
-                        <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#3b3dac] group-hover:w-full transition-all duration-300" />
-                      </Link>
-                    </motion.div>
-                  </li>
-                ))}
-              </ul>
-            )}
 
             {/* Social Media Icons - Circular with dark backgrounds */}
             {socialLinks.length > 0 ? (
@@ -452,11 +301,11 @@ export function Footer() {
                       whileTap={{ scale: 0.95 }}
                     >
                       {/* Icon Background - Dark circular with border */}
-                      <div className="relative w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#1a1b4d] border border-gray-600/50 group-hover:border-[#3b3dac]/70 flex items-center justify-center overflow-hidden transition-all duration-300">
+                      <div className="relative w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/15 border border-white/20 backdrop-blur-sm flex items-center justify-center overflow-hidden transition-all duration-300 group-hover:bg-white group-hover:border-white/60 shadow-sm shadow-black/20">
                         <Icon className="h-5 w-5 sm:h-6 sm:w-6 text-white group-hover:text-[#3b3dac] transition-colors duration-300 relative z-10" />
                         
                         {/* Subtle glow on hover */}
-                        <div className="absolute inset-0 bg-[#3b3dac]/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                        <div className="absolute inset-0 bg-[#3b3dac]/10 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                       </div>
                     </motion.a>
                   )

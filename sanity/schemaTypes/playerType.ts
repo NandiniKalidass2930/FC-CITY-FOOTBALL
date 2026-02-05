@@ -85,6 +85,7 @@ export const playerType = defineType({
           "Under 11",
           "Over 30",
           "Over 50",
+          "FC City Girls",
         ],
       },
     }),

@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { LanguageProvider } from "@/contexts/language-context";
-import { SiteSettingsProvider } from "@/contexts/site-settings-context";
 import { ScrollToTop } from "@/components/ui/scroll-to-top";
 import { generateMetadata as generateSEOMetadata, generateStructuredData } from "@/lib/seo";
 import Script from "next/script";
@@ -49,10 +48,8 @@ export default async function LangLayout({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteData) }}
       />
       <LanguageProvider>
-        <SiteSettingsProvider>
-          {children}
-          <ScrollToTop />
-        </SiteSettingsProvider>
+        {children}
+        <ScrollToTop />
       </LanguageProvider>
     </>
   );

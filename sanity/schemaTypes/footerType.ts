@@ -6,12 +6,13 @@ export const footerType = defineType({
   type: "document",
   
   // Singleton pattern - only one footer document allowed
+  // @ts-expect-error Sanity Studio supports this, but the installed schema types don't include it
   __experimental_actions: [
     // "create",
     "update",
     // "delete",
     "publish",
-  ],
+  ] as const,
   
   preview: {
     select: {
