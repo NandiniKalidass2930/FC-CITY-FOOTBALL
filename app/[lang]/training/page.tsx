@@ -365,7 +365,8 @@ function Carousel({ children, autoplay = true }: { children: React.ReactNode[]; 
               <button
                 key={index}
                 onClick={() => setCurrentIndex(index)}
-                className={`mx-0.5 md:mx-1 h-1.5 w-1.5 md:h-2 md:w-2 rounded-full transition-all ${
+                data-carousel-dot
+                className={`mx-0.5 md:mx-1 p-0 h-1.5 w-1.5 md:h-2 md:w-2 rounded-full transition-all ${
                   index === currentIndex
                     ? "bg-[#3b3dac] w-6 md:w-8"
                     : "bg-gray-300 hover:bg-gray-400"

@@ -214,7 +214,7 @@
   
   /* Ensure minimum touch target size */
   @media (max-width: 768px) {
-    button:not([class*="icon-xs"]):not([class*="icon-sm"]),
+    button:not([class*="icon-xs"]):not([class*="icon-sm"]):not([data-carousel-dot]),
     a[role="button"] {
       min-height: 44px;
       min-width: 44px;
