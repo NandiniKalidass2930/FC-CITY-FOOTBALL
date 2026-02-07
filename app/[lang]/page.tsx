@@ -76,16 +76,34 @@ const fadeInUp = {
 }
 
 interface HeroData {
-  title?: { en?: string; de?: string } | string
-  titleZurich?: { en?: string; de?: string } | string
-  subtitle?: { en?: string; de?: string } | string
-  description?: { en?: string; de?: string } | string
-  primaryButtonText?: { en?: string; de?: string } | string
-  primaryButtonLink?: string
-  secondaryButtonText?: { en?: string; de?: string } | string
-  secondaryButtonLink?: string
-  backgroundVideo?: any
-  backgroundVideoUrl?: string
+  heroMediaType?: "image" | "video"
+  heroImage?: any
+  heroVideo?: {
+    videoFile?: { asset?: { url?: string; _id?: string } }
+    videoUrl?: string
+    posterImage?: any
+  }
+  preClubMediaType?: "image" | "video"
+  preClubImage?: any
+  preClubVideo?: {
+    videoFile?: { asset?: { url?: string; _id?: string } }
+    videoUrl?: string
+    posterImage?: any
+  }
+  heroTitle?: { en?: string; de?: string } | string
+  heroTitleZurich?: { en?: string; de?: string } | string
+  heroSubtitle?: { en?: string; de?: string } | string
+  heroDescription?: { en?: string; de?: string } | string
+  heroButtons?: {
+    primary?: {
+      text?: { en?: string; de?: string } | string
+      link?: string
+    }
+    secondary?: {
+      text?: { en?: string; de?: string } | string
+      link?: string
+    }
+  }
   aboutSection?: {
     image?: any
     title?: { en?: string; de?: string } | string
@@ -144,6 +162,8 @@ export default function Home({ params }: { params: Promise<{ lang: string }> }) 
   const [heroData, setHeroData] = useState<HeroData | null>(null)
   const [sponsors, setSponsors] = useState<Sponsor[]>([])
   const [loading, setLoading] = useState(true)
+  const [heroVideoFailed, setHeroVideoFailed] = useState(false)
+  const [preClubVideoFailed, setPreClubVideoFailed] = useState(false)
 
   // Fetch data from Sanity
   useEffect(() => {
@@ -154,21 +174,78 @@ export default function Home({ params }: { params: Promise<{ lang: string }> }) 
         // Fetch hero section (single document) with video asset URL
         // Fetch with no cache for instant updates
         const heroQuery = `*[_type == "hero"][0] {
-          title,
-          titleZurich,
-          subtitle,
-          description,
-          primaryButtonText,
-          primaryButtonLink,
-          secondaryButtonText,
-          secondaryButtonLink,
-          backgroundVideo {
+          heroMediaType,
+          heroImage {
             asset-> {
-              url,
-              _id
+              _id,
+              _type,
+              url
+            },
+            hotspot,
+            crop
+          },
+          heroVideo {
+            videoFile {
+              asset-> {
+                _id,
+                _type,
+                url
+              }
+            },
+            videoUrl,
+            posterImage {
+              asset-> {
+                _id,
+                _type,
+                url
+              },
+              hotspot,
+              crop
             }
           },
-          backgroundVideoUrl,
+          preClubMediaType,
+          preClubImage {
+            asset-> {
+              _id,
+              _type,
+              url
+            },
+            hotspot,
+            crop
+          },
+          preClubVideo {
+            videoFile {
+              asset-> {
+                _id,
+                _type,
+                url
+              }
+            },
+            videoUrl,
+            posterImage {
+              asset-> {
+                _id,
+                _type,
+                url
+              },
+              hotspot,
+              crop
+            }
+          },
+          "heroTitle": title,
+          "heroTitleZurich": titleZurich,
+          "heroSubtitle": subtitle,
+          "heroDescription": description,
+          "heroButtons": {
+            "primary": {
+              "text": primaryButtonText,
+              "link": primaryButtonLink
+            },
+            "secondary": {
+              "text": secondaryButtonText,
+              "link": secondaryButtonLink
+            }
+          },
           aboutSection {
             image {
               asset-> {
@@ -295,106 +372,203 @@ export default function Home({ params }: { params: Promise<{ lang: string }> }) 
 
   // Helper to get localized href
   const getHref = (path: string) => `/${language}${path}`
-  
-  // Helper to get video source (from Sanity hero section or fallback)
-  // Priority: hero backgroundVideo > hero backgroundVideoUrl > fallback
-  const getVideoSource = () => {
-    // First check hero section backgroundVideo (uploaded file)
-    if (heroData?.backgroundVideo?.asset?.url) {
-      return heroData.backgroundVideo.asset.url
-    }
-    // Then check hero section backgroundVideoUrl (external URL)
-    if (heroData?.backgroundVideoUrl) {
-      return heroData.backgroundVideoUrl
-    }
-    // Fallback to existing video
-    return "/images/home/football_video_hd.mp4"
-  }
 
   return (
     <div className="flex min-h-screen flex-col bg-white dark:bg-[#0f172a]">
       {/* ================= HERO SECTION ================= */}
-      <section className="relative min-h-[95vh] flex items-center overflow-hidden">
-        {/* Background Video */}
-        <video
-          key={getVideoSource()} // Force re-render when video source changes
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover"
-          onError={(e) => {
-            // Fallback to default video on error
-            const video = e.currentTarget
-            if (video.src !== "/images/home/football_video_hd.mp4") {
-              video.src = "/images/home/football_video_hd.mp4"
+      <section className="relative w-screen left-1/2 -translate-x-1/2 min-h-[95vh] flex items-center justify-center overflow-hidden opacity-100">
+        {/* Background Media (Sanity-controlled) */}
+        <div className="absolute inset-0 z-0 pointer-events-none">
+          {(() => {
+            const mediaType = heroData?.heroMediaType
+            const videoSrc = heroData?.heroVideo?.videoFile?.asset?.url || heroData?.heroVideo?.videoUrl
+            const posterSrc = heroData?.heroVideo?.posterImage?.asset
+              ? urlFor(heroData.heroVideo.posterImage).width(1920).height(1080).quality(80).format("webp").url()
+              : undefined
+            const heroImageSrc = heroData?.heroImage?.asset
+              ? urlFor(heroData.heroImage).width(1920).height(1080).quality(80).format("webp").url()
+              : undefined
+            const fallbackImageForVideo = posterSrc || heroImageSrc
+
+            if (mediaType === "video" && videoSrc && !heroVideoFailed) {
+              return (
+                <video
+                  key={videoSrc}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  preload="none"
+                  poster={fallbackImageForVideo}
+                  className="absolute inset-0 w-full h-full object-cover"
+                  onError={() => setHeroVideoFailed(true)}
+                  aria-hidden="true"
+                >
+                  <source src={videoSrc} />
+                </video>
+              )
             }
-          }}
-        >
-          <source src={getVideoSource()} type="video/mp4" />
-        </video>
-        
-        {/* Subtle Dark Overlay for Text Readability */}
-        <div className="absolute inset-0 bg-[#1a1a5e]/40 dark:bg-[#020617]/45 z-10" />
-        
-        {/* Content Container - Left Aligned */}
-        <div className="relative z-20 container mx-auto px-6 lg:px-12">
-          <div className="flex flex-col items-start justify-center min-h-[85vh] max-w-4xl">
+
+            // If media is "image", or video failed, show a poster/fallback image when available
+            const fallbackImageSrc = mediaType === "video" ? fallbackImageForVideo : heroImageSrc
+            if (!fallbackImageSrc) return null
+
+            return (
+              <Image
+                src={fallbackImageSrc}
+                alt="Hero background"
+                fill
+                sizes="100vw"
+                className="object-cover"
+                loading="lazy"
+                priority={false}
+              />
+            )
+          })()}
+        </div>
+
+        {/* Dark overlay (above media, below text) */}
+        <div className="absolute inset-0 z-10 bg-black/45 pointer-events-none" />
+
+        {/* Centered Content (above overlay) */}
+        <div className="relative z-20 w-full flex items-center justify-center min-h-[95vh] text-center text-white">
+          <div className="flex flex-col items-center justify-center max-w-4xl w-full">
             <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.3 }} // Reduced delay and duration for instant feel
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
               className="space-y-6 sm:space-y-8 w-full"
             >
-              <motion.h1
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }} // Reduced delay and duration
-                className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black uppercase leading-tight tracking-tight text-left"
-              >
-                <span className="block text-white drop-shadow-2xl">
-                  {heroData?.title ? getLocalizedContent(heroData.title, language) : t("home", "hero.title")}
-                </span>
-                <span className="block text-white drop-shadow-2xl mt-2">
-                  {heroData?.titleZurich ? getLocalizedContent(heroData.titleZurich, language) : t("home", "hero.titleZurich")}
-                </span>
-              </motion.h1>
-              <motion.h2
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: 0.05 }} // Minimal delay
-                className="text-2xl sm:text-3xl md:text-4xl font-bold text-white drop-shadow-lg text-left"
-              >
-                {heroData?.subtitle ? getLocalizedContent(heroData.subtitle, language) : t("home", "hero.subtitle")}
-              </motion.h2>
-              <motion.p
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: 0.1 }} // Minimal delay
-                className="text-white max-w-2xl text-lg sm:text-xl leading-relaxed drop-shadow-md text-left"
-              >
-                {heroData?.description ? getLocalizedContent(heroData.description, language) : t("home", "hero.description")}
-              </motion.p>
+              {(() => {
+                const heroTitle = heroData?.heroTitle ? getLocalizedContent(heroData.heroTitle, language) : ""
+                const heroTitleZurich = heroData?.heroTitleZurich ? getLocalizedContent(heroData.heroTitleZurich, language) : ""
+                const heroSubtitle = heroData?.heroSubtitle ? getLocalizedContent(heroData.heroSubtitle, language) : ""
+                const heroDescription = heroData?.heroDescription ? getLocalizedText(heroData.heroDescription, language) : ""
+                const primaryText = heroData?.heroButtons?.primary?.text
+                  ? getLocalizedContent(heroData.heroButtons.primary.text, language)
+                  : ""
+                const primaryLink = heroData?.heroButtons?.primary?.link || ""
+                const secondaryText = heroData?.heroButtons?.secondary?.text
+                  ? getLocalizedContent(heroData.heroButtons.secondary.text, language)
+                  : ""
+                const secondaryLink = heroData?.heroButtons?.secondary?.link || ""
+
+                const hasAnyHeroContent = Boolean(
+                  heroTitle ||
+                    heroTitleZurich ||
+                    heroSubtitle ||
+                    heroDescription ||
+                    (primaryText && primaryLink) ||
+                    (secondaryText && secondaryLink)
+                )
+
+                if (hasAnyHeroContent) return null
+
+                return (
+                  <div className="mx-auto max-w-2xl rounded-2xl border border-white/20 bg-black/35 px-6 py-5 text-white">
+                    <p className="text-lg font-bold">Hero content isn’t published in Sanity yet.</p>
+                    <p className="mt-2 text-sm text-white/90">
+                      Open Sanity Studio → <span className="font-semibold">Hero Section</span> and publish:
+                      Title / Subtitle / Description and button text + links.
+                    </p>
+                  </div>
+                )
+              })()}
+              {(() => {
+                const heroTitle = heroData?.heroTitle ? getLocalizedContent(heroData.heroTitle, language) : ""
+                const heroTitleZurich = heroData?.heroTitleZurich ? getLocalizedContent(heroData.heroTitleZurich, language) : ""
+                const hasTitle = Boolean(heroTitle || heroTitleZurich)
+
+                if (!hasTitle) return null
+
+                return (
+                  <motion.h1
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black uppercase leading-tight tracking-tight text-center"
+                  >
+                    {heroTitle ? <span className="block text-white drop-shadow-2xl">{heroTitle}</span> : null}
+                    {heroTitleZurich ? (
+                      <span className="block text-white drop-shadow-2xl mt-2">{heroTitleZurich}</span>
+                    ) : null}
+                  </motion.h1>
+                )
+              })()}
+
+              {(() => {
+                const heroSubtitle = heroData?.heroSubtitle ? getLocalizedContent(heroData.heroSubtitle, language) : ""
+                if (!heroSubtitle) return null
+
+                return (
+                  <motion.h2
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: 0.05 }}
+                    className="text-2xl sm:text-3xl md:text-4xl font-bold text-white drop-shadow-lg text-center"
+                  >
+                    {heroSubtitle}
+                  </motion.h2>
+                )
+              })()}
+
+              {(() => {
+                const heroDescription = heroData?.heroDescription ? getLocalizedText(heroData.heroDescription, language) : ""
+                if (!heroDescription) return null
+
+                return (
+                  <motion.p
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: 0.1 }}
+                    className="text-white max-w-2xl mx-auto text-lg sm:text-xl leading-relaxed drop-shadow-md text-center"
+                  >
+                    {heroDescription}
+                  </motion.p>
+                )
+              })()}
+
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: 0.15 }} // Minimal delay
-                className="flex flex-col sm:flex-row gap-4 pt-6 justify-start"
+                transition={{ duration: 0.3, delay: 0.15 }}
+                className="flex flex-col sm:flex-row gap-4 pt-6 justify-center"
               >
-                <Link href={heroData?.primaryButtonLink ? getHref(heroData.primaryButtonLink) : getHref("/contact")}>
-                  <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                    <Button className="w-full sm:w-auto px-12 py-5 sm:px-16 sm:py-6 text-lg sm:text-xl bg-[#3b3dac] text-white hover:bg-[#4c4ebd] font-semibold shadow-md hover:shadow-lg transition-all duration-300 rounded-xl group">
-                      {heroData?.primaryButtonText ? getLocalizedContent(heroData.primaryButtonText, language) : t("home", "hero.join")} <ArrowRight className="ml-2 h-5 w-5 sm:h-6 sm:w-6 group-hover:translate-x-1 transition-transform duration-300" />
-                    </Button>
-                  </motion.div>
-                </Link>
-                <Link href={heroData?.secondaryButtonLink ? getHref(heroData.secondaryButtonLink) : getHref("/our-team")}>
-                  <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                    <Button className="w-full sm:w-auto px-12 py-5 sm:px-16 sm:py-6 text-lg sm:text-xl bg-[#3b3dac] text-white hover:bg-[#4c4ebd] font-semibold shadow-md hover:shadow-lg transition-all duration-300 rounded-xl group">
-                      {heroData?.secondaryButtonText ? getLocalizedContent(heroData.secondaryButtonText, language) : t("home", "hero.viewTeam")} <ArrowRight className="ml-2 h-5 w-5 sm:h-6 sm:w-6 group-hover:translate-x-1 transition-transform duration-300" />
-                    </Button>
-                  </motion.div>
-                </Link>
+                {(() => {
+                  const primary = heroData?.heroButtons?.primary
+                  const primaryText = primary?.text ? getLocalizedContent(primary.text, language) : ""
+                  const primaryHref = primary?.link ? getHref(primary.link) : ""
+                  if (!primaryText || !primaryHref) return null
+
+                  return (
+                    <Link href={primaryHref}>
+                      <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                        <Button className="w-full sm:w-auto px-12 py-5 sm:px-16 sm:py-6 text-lg sm:text-xl bg-[#3b3dac] text-white hover:bg-[#4c4ebd] font-semibold shadow-md hover:shadow-lg transition-all duration-300 rounded-xl group">
+                          {primaryText}{" "}
+                          <ArrowRight className="ml-2 h-5 w-5 sm:h-6 sm:w-6 group-hover:translate-x-1 transition-transform duration-300" />
+                        </Button>
+                      </motion.div>
+                    </Link>
+                  )
+                })()}
+
+                {(() => {
+                  const secondary = heroData?.heroButtons?.secondary
+                  const secondaryText = secondary?.text ? getLocalizedContent(secondary.text, language) : ""
+                  const secondaryHref = secondary?.link ? getHref(secondary.link) : ""
+                  if (!secondaryText || !secondaryHref) return null
+
+                  return (
+                    <Link href={secondaryHref}>
+                      <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                        <Button className="w-full sm:w-auto px-12 py-5 sm:px-16 sm:py-6 text-lg sm:text-xl bg-[#3b3dac] text-white hover:bg-[#4c4ebd] font-semibold shadow-md hover:shadow-lg transition-all duration-300 rounded-xl group">
+                          {secondaryText}{" "}
+                          <ArrowRight className="ml-2 h-5 w-5 sm:h-6 sm:w-6 group-hover:translate-x-1 transition-transform duration-300" />
+                        </Button>
+                      </motion.div>
+                    </Link>
+                  )
+                })()}
               </motion.div>
             </motion.div>
           </div>
@@ -452,6 +626,91 @@ export default function Home({ params }: { params: Promise<{ lang: string }> }) 
               </motion.div>
             </motion.div>
           </motion.div>
+        </div>
+      </section>
+
+      {/* ================= PRE-CLUB MEDIA (FULL BLEED) ================= */}
+      <section
+        className="relative overflow-hidden opacity-100 bg-black"
+        style={{
+          width: "100vw",
+          marginLeft: "calc(-50vw + 50%)",
+          marginRight: "calc(-50vw + 50%)",
+        }}
+      >
+        <div className="relative w-full overflow-hidden flex items-center justify-center text-center min-h-[55vh] sm:min-h-[65vh] md:min-h-[75vh] lg:min-h-[85vh] xl:min-h-[90vh]">
+          {/* Media */}
+          <div className="absolute inset-0 z-0 pointer-events-none">
+            {(() => {
+              const mediaType = heroData?.preClubMediaType
+              const videoSrc = heroData?.preClubVideo?.videoFile?.asset?.url || heroData?.preClubVideo?.videoUrl
+              const posterSrc = heroData?.preClubVideo?.posterImage?.asset
+                ? urlFor(heroData.preClubVideo.posterImage).width(1920).height(1080).quality(80).format("webp").url()
+                : undefined
+              const imageSrc = heroData?.preClubImage?.asset
+                ? urlFor(heroData.preClubImage).width(1920).height(1080).quality(80).format("webp").url()
+                : undefined
+              const fallbackImage = posterSrc || imageSrc
+
+              if (mediaType === "video" && videoSrc && !preClubVideoFailed) {
+                return (
+                  <video
+                    key={videoSrc}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    preload="none"
+                    poster={fallbackImage}
+                    className="absolute inset-0 w-full h-full object-cover"
+                    onError={() => setPreClubVideoFailed(true)}
+                    aria-hidden="true"
+                  >
+                    <source src={videoSrc} />
+                  </video>
+                )
+              }
+
+              if (mediaType === "image" && imageSrc) {
+                return (
+                  <Image
+                    src={imageSrc}
+                    alt="Pre-club background"
+                    fill
+                    sizes="100vw"
+                    className="object-cover w-full h-full"
+                    loading="lazy"
+                    priority={false}
+                  />
+                )
+              }
+
+              // Video fallback (poster or image) if video fails or no video is set
+              if (mediaType === "video" && fallbackImage) {
+                return (
+                  <Image
+                    src={fallbackImage}
+                    alt="Pre-club background"
+                    fill
+                    sizes="100vw"
+                    className="object-cover w-full h-full"
+                    loading="lazy"
+                    priority={false}
+                  />
+                )
+              }
+
+              return null
+            })()}
+          </div>
+
+          {/* Overlay for readability (kept even if no text) */}
+          <div
+            className="absolute inset-0 z-10 pointer-events-none"
+            style={{
+              background: "linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.65))",
+            }}
+          />
         </div>
       </section>
                   

@@ -1,12 +1,10 @@
 "use client"
 
-import { motion, useScroll, useTransform, useMotionValue, useSpring, AnimatePresence } from "framer-motion"
-import { Users, Trophy, Target, Calendar, Star, Quote, ArrowRight, Clock, MapPin, Activity, Award, Heart, Sparkles } from "lucide-react"
+import { motion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion"
+import { Trophy, Target, Calendar, Star, Quote, Clock, MapPin, Activity, Award, Heart, Sparkles } from "lucide-react"
 import Image from "next/image"
-import Link from "next/link"
 import { Footer } from "@/components/footer"
 import { useLanguage, useTranslations } from "@/contexts/language-context"
-import { Button } from "@/components/ui/button"
 import { useRef, useState, useEffect, useMemo } from "react"
 import { useInView } from "framer-motion"
 import { usePathname } from "next/navigation"
@@ -116,16 +114,6 @@ function Counter({
 
 /* ---------------- Animation Variants ---------------- */
 
-const fadeInUp = {
-  hidden: { opacity: 0, y: 60, scale: 0.95 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: { duration: 0.8 },
-  },
-}
-
 const fadeInDown = {
   hidden: { opacity: 0, y: -20, scale: 0.98 }, // Reduced movement and duration
   visible: {
@@ -219,7 +207,8 @@ interface TeamGroupPhoto {
   title?: string
   badgeName?: string
   category: string
-  image: any
+  image?: any
+  groupPhotos?: any[]
 }
 
 interface Coach {
@@ -234,17 +223,6 @@ interface TeamPageData {
   heroBackgroundImage?: any
   heroTitle?: { en?: string; de?: string } | string
   heroSubtitle?: { en?: string; de?: string } | string
-  teamInfoCard?: {
-    image?: any
-    title?: { en?: string; de?: string } | string
-    subtitle?: { en?: string; de?: string } | string
-    description?: { en?: string; de?: string } | string
-    stats?: {
-      players?: string
-      trophies?: string
-      years?: string
-    }
-  }
   playerHighlights?: Array<{
     player?: { _ref: string }
     image?: any
@@ -286,7 +264,7 @@ function mapTeamCategoryToSanityCategory(category: TeamCategory): string | undef
 }
 
 export default function TeamPage() {
-  const { getHref, getMessages, language } = useLanguage()
+  const { getMessages, language } = useLanguage()
   const { t } = useTranslations("our-team")
   const pathname = usePathname()
   const heroRef = useRef<HTMLDivElement>(null)
@@ -295,6 +273,9 @@ export default function TeamPage() {
   const marqueeSetRef = useRef<HTMLDivElement>(null)
   const [marqueeSetWidth, setMarqueeSetWidth] = useState(0)
   const [marqueeDurationSec, setMarqueeDurationSec] = useState(50)
+  const activeGroupMarqueeSetRef = useRef<HTMLDivElement>(null)
+  const [activeGroupMarqueeWidth, setActiveGroupMarqueeWidth] = useState(0)
+  const [activeGroupMarqueeDurationSec, setActiveGroupMarqueeDurationSec] = useState(30)
   
   // Sanity data state
   const [players, setPlayers] = useState<Player[]>([])
@@ -349,6 +330,15 @@ export default function TeamPage() {
           title,
           badgeName,
           category,
+          groupPhotos[] {
+            asset-> {
+              _id,
+              _type,
+              url
+            },
+            hotspot,
+            crop
+          },
           image {
             asset-> {
               _id,
@@ -404,25 +394,6 @@ export default function TeamPage() {
           },
           heroTitle,
           heroSubtitle,
-          teamInfoCard {
-            image {
-              asset-> {
-                _id,
-                _type,
-                url
-              },
-              hotspot,
-              crop
-            },
-            title,
-            subtitle,
-            description,
-            stats {
-              players,
-              trophies,
-              years
-            }
-          },
           playerHighlights[] | order(order asc) {
             _key,
             player-> {
@@ -545,7 +516,9 @@ export default function TeamPage() {
   const teamGroupPhotoByCategory = useMemo(() => {
     const map = new Map<string, TeamGroupPhoto>()
     for (const doc of teamGroupPhotos) {
-      if (doc?.category && doc?.image && !map.has(doc.category)) {
+      const hasAnyPhotos =
+        (Array.isArray(doc?.groupPhotos) && doc.groupPhotos.length > 0) || Boolean(doc?.image)
+      if (doc?.category && hasAnyPhotos && !map.has(doc.category)) {
         map.set(doc.category, doc)
       }
     }
@@ -553,11 +526,17 @@ export default function TeamPage() {
   }, [teamGroupPhotos])
 
   // Group photo data (stored in teamGroupPhoto docs)
-  const activeCategoryGroupPhoto = useMemo(() => {
+  const activeCategoryGroupPhotos = useMemo(() => {
     if (activeCategory === "all") return null
     const sanityCategory = mapTeamCategoryToSanityCategory(activeCategory)
     if (!sanityCategory) return null
-    return teamGroupPhotoByCategory.get(sanityCategory)?.image || null
+    const doc = teamGroupPhotoByCategory.get(sanityCategory)
+    const photos = (doc?.groupPhotos && doc.groupPhotos.length > 0)
+      ? doc.groupPhotos
+      : doc?.image
+        ? [doc.image]
+        : []
+    return photos.length > 0 ? photos : null
   }, [activeCategory, teamGroupPhotoByCategory])
 
   const allCategoryGroupPhotos = useMemo(() => {
@@ -566,7 +545,10 @@ export default function TeamPage() {
       .map((c) => {
         const sanityCategory = mapTeamCategoryToSanityCategory(c.key)
         const doc = sanityCategory ? teamGroupPhotoByCategory.get(sanityCategory) : undefined
-        const groupPhoto = doc?.image || null
+        const groupPhoto =
+          (doc?.groupPhotos && doc.groupPhotos.length > 0)
+            ? doc.groupPhotos[0]
+            : doc?.image || null
         const badgeName = doc?.badgeName || ""
         return {
           key: c.key,
@@ -576,6 +558,40 @@ export default function TeamPage() {
         }
       })
   }, [categories, teamGroupPhotoByCategory])
+
+  // Auto-sliding marquee for the ACTIVE category when it has multiple group photos
+  useEffect(() => {
+    if (activeCategory === "all") return
+    if (!activeGroupMarqueeSetRef.current) return
+    if (!activeCategoryGroupPhotos || activeCategoryGroupPhotos.length <= 1) return
+
+    const el = activeGroupMarqueeSetRef.current
+
+    const update = () => {
+      const nextWidth = el.scrollWidth || el.getBoundingClientRect().width || 0
+      setActiveGroupMarqueeWidth(nextWidth)
+
+      // ~35px/s, clamped
+      const pxPerSec = 35
+      const duration = nextWidth > 0 ? nextWidth / pxPerSec : 30
+      setActiveGroupMarqueeDurationSec(Math.max(20, Math.min(90, duration)))
+    }
+
+    update()
+
+    let ro: ResizeObserver | null = null
+    if (typeof ResizeObserver !== "undefined") {
+      ro = new ResizeObserver(() => update())
+      ro.observe(el)
+    } else {
+      window.addEventListener("resize", update)
+    }
+
+    return () => {
+      if (ro) ro.disconnect()
+      else window.removeEventListener("resize", update)
+    }
+  }, [activeCategory, activeCategoryGroupPhotos?.length])
 
   // Auto-sliding marquee ONLY for "All" category
   useEffect(() => {
@@ -789,83 +805,6 @@ export default function TeamPage() {
           </div>
         </section>
 
-        {/* ================= TEAM INTRODUCTION ================= */}
-        <section className="py-20 sm:py-24 md:py-28 bg-gray-50 dark:bg-[#1e293b] relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-[#3b3dac]/5 to-transparent" />
-          
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-100px" }}
-              variants={staggerContainer}
-              className="max-w-5xl mx-auto"
-            >
-              <motion.div variants={fadeInDown} className="text-center mb-12">
-                <span className="inline-block px-4 py-2 rounded-full bg-[#3b3dac]/10 dark:bg-[#3b3dac]/20 text-[#3b3dac] dark:text-blue-400 font-semibold text-sm uppercase tracking-wider mb-4">
-                  {teamPageData?.teamInfoCard?.subtitle ? getLocalizedContent(teamPageData.teamInfoCard.subtitle, language) : t("introduction.subtitle")}
-                </span>
-                <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-gray-900 dark:text-white mb-6">
-                  {teamPageData?.teamInfoCard?.title ? getLocalizedContent(teamPageData.teamInfoCard.title, language) : t("introduction.title")}
-                </h2>
-              </motion.div>
-
-              <motion.div variants={fadeInUp} className="grid md:grid-cols-2 gap-8 items-center">
-                <div className="relative group">
-                  <div className="absolute -inset-4 bg-gradient-to-r from-[#3b3dac] to-blue-400 rounded-3xl blur-xl opacity-30 group-hover:opacity-50 transition-opacity" />
-                  <div className="relative rounded-3xl overflow-hidden shadow-2xl">
-                    <Image
-                      key={`team-info-${pathname}`} // Force re-render on route change
-                      src={teamPageData?.teamInfoCard?.image?.asset 
-                        ? urlFor(teamPageData.teamInfoCard.image).url() 
-                        : "/images/contact.jpg"}
-                      alt={teamPageData?.teamInfoCard?.title 
-                        ? getLocalizedContent(teamPageData.teamInfoCard.title, language) 
-                        : "Team"}
-                      width={600}
-                      height={400}
-                      className="w-full h-auto object-cover transition-all duration-500 ease-in-out group-hover:scale-105 group-hover:brightness-110"
-                      unoptimized={teamPageData?.teamInfoCard?.image?.asset ? true : false}
-                      style={{
-                        filter: "drop-shadow(0 0 0 rgba(59, 61, 172, 0))",
-                      }}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out" />
-                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out"
-                         style={{ boxShadow: '0 12px 32px rgba(59, 61, 172, 0.3)' }} />
-                  </div>
-                </div>
-
-                <div className="space-y-6">
-                  <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
-                    {teamPageData?.teamInfoCard?.description ? getLocalizedText(teamPageData.teamInfoCard.description, language) : t("introduction.description")}
-                  </p>
-                  <div className="flex flex-wrap gap-4">
-                    {teamPageData?.teamInfoCard?.stats?.players && (
-                      <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white dark:bg-gray-800 shadow-md">
-                        <Users className="h-5 w-5 text-[#3b3dac]" />
-                        <span className="font-semibold text-gray-900 dark:text-white">{teamPageData.teamInfoCard.stats.players} {t("stats.playersLabel")}</span>
-                      </div>
-                    )}
-                    {teamPageData?.teamInfoCard?.stats?.trophies && (
-                      <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white dark:bg-gray-800 shadow-md">
-                        <Trophy className="h-5 w-5 text-[#3b3dac]" />
-                        <span className="font-semibold text-gray-900 dark:text-white">{teamPageData.teamInfoCard.stats.trophies} {t("stats.trophiesLabel")}</span>
-                      </div>
-                    )}
-                    {teamPageData?.teamInfoCard?.stats?.years && (
-                      <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white dark:bg-gray-800 shadow-md">
-                        <Star className="h-5 w-5 text-[#3b3dac]" />
-                        <span className="font-semibold text-gray-900 dark:text-white">{teamPageData.teamInfoCard.stats.years} {t("stats.yearsLabel")}</span>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </motion.div>
-            </motion.div>
-          </div>
-        </section>
-
         {/* ================= OUR TEAM SECTION WITH CATEGORY TABS ================= */}
         <section className="py-16 sm:py-20 md:py-24 bg-white dark:bg-[#0f172a] relative">
           {/* Category Filter Tabs */}
@@ -1040,31 +979,129 @@ export default function TeamPage() {
                 transition={{ duration: 0.3 }}
                 className="max-w-7xl mx-auto"
               >
-                <div className="relative group rounded-2xl overflow-hidden bg-white dark:bg-gray-800 shadow-lg hover:shadow-2xl hover:shadow-[#3b3dac]/20 dark:hover:shadow-[#3b3dac]/30 transition-all duration-500 border border-gray-200 dark:border-gray-700">
-                  <div className="relative w-full aspect-[16/9] overflow-hidden">
-                    {activeCategoryGroupPhoto ? (
-                      <Image
-                        key={`group-photo-${activeCategory}-${categoryChangeKey}-${pathname}`}
-                        src={urlFor(activeCategoryGroupPhoto)
-                          .width(1600)
-                          .height(900)
-                          .quality(85)
-                          .format("webp")
-                          .url()}
-                        alt="Team group photo"
-                        fill
-                        className="object-cover transition-all duration-300 ease-in-out group-hover:scale-105 group-hover:brightness-110"
-                        sizes="(max-width: 1280px) 100vw, 1280px"
-                        quality={90}
-                      />
-                    ) : (
-                      <div className="w-full h-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
-                        <span className="text-gray-400 text-sm">No group photo</span>
+                {activeCategoryGroupPhotos && activeCategoryGroupPhotos.length > 1 ? (
+                  <div className="relative group rounded-2xl overflow-hidden bg-white dark:bg-gray-800 shadow-lg hover:shadow-2xl hover:shadow-[#3b3dac]/20 dark:hover:shadow-[#3b3dac]/30 transition-all duration-500 border border-gray-200 dark:border-gray-700">
+                    <div className="relative w-full aspect-[16/9] overflow-hidden">
+                      <div
+                        className="absolute inset-0 overflow-x-auto overscroll-x-contain touch-pan-x"
+                        style={{ WebkitOverflowScrolling: "touch" } as any}
+                      >
+                        <div
+                          className={`flex gap-4 sm:gap-6 w-max group-photo-marquee-track hover:[animation-play-state:paused]`}
+                          style={
+                            {
+                              ["--group-marquee-width" as any]: `${activeGroupMarqueeWidth}px`,
+                              ["--group-marquee-duration" as any]: `${activeGroupMarqueeDurationSec}s`,
+                            } as React.CSSProperties
+                          }
+                        >
+                          <div
+                            ref={activeGroupMarqueeSetRef}
+                            className="flex gap-4 sm:gap-6 w-max"
+                          >
+                            {activeCategoryGroupPhotos.map((img, idx) => (
+                              <div
+                                key={`active-group-${activeCategory}-${idx}-${categoryChangeKey}`}
+                                className="relative min-w-[280px] sm:min-w-[420px] lg:min-w-[520px] snap-center"
+                              >
+                                <Image
+                                  src={urlFor(img)
+                                    .width(1600)
+                                    .height(900)
+                                    .quality(80)
+                                    .format("webp")
+                                    .url()}
+                                  alt="Team group photo"
+                                  width={1600}
+                                  height={900}
+                                  loading="lazy"
+                                  className="h-full w-full object-cover"
+                                  sizes="(max-width: 640px) 280px, (max-width: 1024px) 420px, 520px"
+                                  quality={85}
+                                />
+                              </div>
+                            ))}
+                          </div>
+
+                          {/* Duplicate set for seamless infinite loop */}
+                          <div aria-hidden="true" className="flex gap-4 sm:gap-6 w-max">
+                            {activeCategoryGroupPhotos.map((img, idx) => (
+                              <div
+                                key={`active-group-dup-${activeCategory}-${idx}-${categoryChangeKey}`}
+                                className="relative min-w-[280px] sm:min-w-[420px] lg:min-w-[520px] snap-center"
+                              >
+                                <Image
+                                  src={urlFor(img)
+                                    .width(1600)
+                                    .height(900)
+                                    .quality(80)
+                                    .format("webp")
+                                    .url()}
+                                  alt="Team group photo"
+                                  width={1600}
+                                  height={900}
+                                  loading="lazy"
+                                  className="h-full w-full object-cover"
+                                  sizes="(max-width: 640px) 280px, (max-width: 1024px) 420px, 520px"
+                                  quality={85}
+                                />
+                              </div>
+                            ))}
+                          </div>
+                        </div>
                       </div>
-                    )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
+                    </div>
                   </div>
-                </div>
+                ) : (
+                  <div className="relative group rounded-2xl overflow-hidden bg-white dark:bg-gray-800 shadow-lg hover:shadow-2xl hover:shadow-[#3b3dac]/20 dark:hover:shadow-[#3b3dac]/30 transition-all duration-500 border border-gray-200 dark:border-gray-700">
+                    <div className="relative w-full aspect-[16/9] overflow-hidden">
+                      {activeCategoryGroupPhotos && activeCategoryGroupPhotos[0] ? (
+                        <Image
+                          key={`group-photo-${activeCategory}-${categoryChangeKey}-${pathname}`}
+                          src={urlFor(activeCategoryGroupPhotos[0])
+                            .width(1600)
+                            .height(900)
+                            .quality(85)
+                            .format("webp")
+                            .url()}
+                          alt="Team group photo"
+                          fill
+                          loading="lazy"
+                          className="object-cover transition-all duration-300 ease-in-out group-hover:scale-105 group-hover:brightness-110"
+                          sizes="(max-width: 1280px) 100vw, 1280px"
+                          quality={90}
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+                          <span className="text-gray-400 text-sm">No group photo</span>
+                        </div>
+                      )}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+                    </div>
+                  </div>
+                )}
+
+                <style jsx global>{`
+                  @keyframes groupMarqueeRtl {
+                    from {
+                      transform: translateX(0);
+                    }
+                    to {
+                      transform: translateX(calc(-1 * var(--group-marquee-width, 0px)));
+                    }
+                  }
+                  .group-photo-marquee-track {
+                    will-change: transform;
+                    animation: groupMarqueeRtl var(--group-marquee-duration, 30s) linear infinite;
+                  }
+                  @media (hover: none) and (pointer: coarse) {
+                    .group-photo-marquee-track {
+                      animation: none;
+                    }
+                  }
+                `}</style>
               </motion.div>
             )}
           </div>

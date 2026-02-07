@@ -5,12 +5,14 @@
     "all": "All",
     "training": "Training Gallery",
     "match": "Match Gallery",
-    "event": "Event Gallery"
+    "event": "Event Gallery",
+    "video": "Video"
   },
   "categories": {
     "training": "Training",
     "match": "Match",
-    "event": "Event"
+    "event": "Event",
+    "video": "Video"
   },
   "images": {
     "training": [

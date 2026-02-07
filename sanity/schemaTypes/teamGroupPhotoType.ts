@@ -56,10 +56,34 @@ export const teamGroupPhotoType = defineType({
     }),
 
     defineField({
+      name: "groupPhotos",
+      title: "Group Photos",
+      type: "array",
+      description: "Upload multiple group photos for this category. If multiple are provided, the site will auto-slide them.",
+      of: [
+        {
+          type: "image",
+          options: { hotspot: true },
+        },
+      ],
+      validation: (Rule) =>
+        Rule.custom((value, context) => {
+          const doc = context?.document as any
+          const legacyImage = doc?.image
+          const hasLegacyImage = Boolean(legacyImage?.asset)
+          const hasGroupPhotos = Array.isArray(value) && value.length > 0
+          if (!hasGroupPhotos && !hasLegacyImage) {
+            return "Add at least one image (either Group Photos or the legacy Group Photo field)."
+          }
+          return true
+        }),
+    }),
+
+    defineField({
       name: "image",
-      title: "Group Photo",
+      title: "Group Photo (Legacy)",
       type: "image",
-      validation: (Rule) => Rule.required(),
+      hidden: ({ document }) => Array.isArray((document as any)?.groupPhotos) && ((document as any)?.groupPhotos?.length || 0) > 0,
       options: {
         hotspot: true,
       },

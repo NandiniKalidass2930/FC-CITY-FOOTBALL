@@ -19,6 +19,138 @@ export const heroType = defineType({
 
   fields: [
     defineField({
+      name: "heroMediaType",
+      title: "Hero Background Media Type",
+      type: "string",
+      initialValue: "image",
+      validation: (Rule) => Rule.required(),
+      options: {
+        layout: "radio",
+        list: [
+          { title: "Image", value: "image" },
+          { title: "Video", value: "video" },
+        ],
+      },
+    }),
+
+    defineField({
+      name: "heroImage",
+      title: "Hero Background Image",
+      type: "image",
+      options: { hotspot: true },
+      hidden: ({ document }) => document?.heroMediaType !== "image",
+    }),
+
+    defineField({
+      name: "heroVideo",
+      title: "Hero Background Video",
+      type: "object",
+      hidden: ({ document }) => document?.heroMediaType !== "video",
+      validation: (Rule) =>
+        Rule.custom((value, context) => {
+          const mediaType = (context?.document as any)?.heroMediaType
+          if (mediaType !== "video") return true
+
+          const hasFile = Boolean((value as any)?.videoFile?.asset)
+          const hasUrl = Boolean((value as any)?.videoUrl)
+
+          if (!hasFile && !hasUrl) {
+            return "Provide either a video upload or a video URL."
+          }
+          return true
+        }),
+      fields: [
+        defineField({
+          name: "videoFile",
+          title: "Video Upload",
+          type: "file",
+          options: {
+            accept: "video/*",
+          },
+        }),
+        defineField({
+          name: "videoUrl",
+          title: "Video URL (alternative)",
+          type: "url",
+          description: "If the video is hosted externally, paste the URL here instead of uploading.",
+        }),
+        defineField({
+          name: "posterImage",
+          title: "Fallback/Poster Image",
+          type: "image",
+          options: { hotspot: true },
+          description: "Shown while the video loads and used as a fallback if the video fails.",
+        }),
+      ],
+    }),
+
+    defineField({
+      name: "preClubMediaType",
+      title: "Pre-Club Media Type (Above “More Than A Club”)",
+      type: "string",
+      initialValue: "image",
+      validation: (Rule) => Rule.required(),
+      options: {
+        layout: "radio",
+        list: [
+          { title: "Image", value: "image" },
+          { title: "Video", value: "video" },
+        ],
+      },
+    }),
+
+    defineField({
+      name: "preClubImage",
+      title: "Pre-Club Image",
+      type: "image",
+      options: { hotspot: true },
+      hidden: ({ document }) => document?.preClubMediaType !== "image",
+    }),
+
+    defineField({
+      name: "preClubVideo",
+      title: "Pre-Club Video",
+      type: "object",
+      hidden: ({ document }) => document?.preClubMediaType !== "video",
+      validation: (Rule) =>
+        Rule.custom((value, context) => {
+          const mediaType = (context?.document as any)?.preClubMediaType
+          if (mediaType !== "video") return true
+
+          const hasFile = Boolean((value as any)?.videoFile?.asset)
+          const hasUrl = Boolean((value as any)?.videoUrl)
+
+          if (!hasFile && !hasUrl) {
+            return "Provide either a video upload or a video URL."
+          }
+          return true
+        }),
+      fields: [
+        defineField({
+          name: "videoFile",
+          title: "Video Upload",
+          type: "file",
+          options: {
+            accept: "video/*",
+          },
+        }),
+        defineField({
+          name: "videoUrl",
+          title: "Video URL (alternative)",
+          type: "url",
+          description: "If the video is hosted externally, paste the URL here instead of uploading.",
+        }),
+        defineField({
+          name: "posterImage",
+          title: "Fallback/Poster Image",
+          type: "image",
+          options: { hotspot: true },
+          description: "Shown while the video loads and used as a fallback if the video fails.",
+        }),
+      ],
+    }),
+
+    defineField({
       name: "title",
       title: "Main Title",
       type: "object",
@@ -138,22 +270,6 @@ export const heroType = defineType({
       title: "Secondary Button Link",
       type: "string",
       initialValue: "/our-team",
-    }),
-
-    defineField({
-      name: "backgroundVideo",
-      title: "Background Video",
-      type: "file",
-      options: {
-        accept: "video/*",
-      },
-    }),
-
-    defineField({
-      name: "backgroundVideoUrl",
-      title: "Background Video URL (Alternative)",
-      type: "url",
-      description: "If video is hosted externally, use this instead of uploading",
     }),
 
     // Home Page Additional Sections
