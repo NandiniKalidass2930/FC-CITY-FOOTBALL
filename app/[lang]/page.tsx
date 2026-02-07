@@ -400,7 +400,7 @@ export default function Home({ params }: { params: Promise<{ lang: string }> }) 
                   playsInline
                   preload="none"
                   poster={fallbackImageForVideo}
-                  className="absolute inset-0 w-full h-full object-cover"
+                  className="absolute inset-0 w-full h-full object-cover object-[50%_15%] md:object-[50%_12%] lg:object-[50%_10%] [filter:contrast(1.06)_saturate(1.06)_brightness(1.04)]"
                   onError={() => setHeroVideoFailed(true)}
                   aria-hidden="true"
                 >
@@ -419,7 +419,7 @@ export default function Home({ params }: { params: Promise<{ lang: string }> }) 
                 alt="Hero background"
                 fill
                 sizes="100vw"
-                className="object-cover"
+                className="object-cover object-[50%_15%] md:object-[50%_12%] lg:object-[50%_10%]"
                 loading="lazy"
                 priority={false}
               />
@@ -427,17 +427,14 @@ export default function Home({ params }: { params: Promise<{ lang: string }> }) 
           })()}
         </div>
 
-        {/* Dark overlay (above media, below text) */}
-        <div className="absolute inset-0 z-10 bg-black/45 pointer-events-none" />
-
-        {/* Centered Content (above overlay) */}
+        {/* Centered Content (above media) */}
         <div className="relative z-20 w-full flex items-center justify-center min-h-[95vh] text-center text-white">
           <div className="flex flex-col items-center justify-center max-w-4xl w-full">
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
-              className="space-y-6 sm:space-y-8 w-full"
+              className="translate-y-6 sm:translate-y-8 md:translate-y-10 space-y-6 sm:space-y-8 w-full rounded-3xl bg-black/10 backdrop-blur-[2px] px-6 py-8 sm:px-8 sm:py-10"
             >
               {(() => {
                 const heroTitle = heroData?.heroTitle ? getLocalizedContent(heroData.heroTitle, language) : ""

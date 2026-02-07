@@ -270,12 +270,6 @@ export default function TeamPage() {
   const heroRef = useRef<HTMLDivElement>(null)
   const [activeCategory, setActiveCategory] = useState<TeamCategory>("all")
   const [categoryChangeKey, setCategoryChangeKey] = useState(0) // Track category changes for image reload
-  const marqueeSetRef = useRef<HTMLDivElement>(null)
-  const [marqueeSetWidth, setMarqueeSetWidth] = useState(0)
-  const [marqueeDurationSec, setMarqueeDurationSec] = useState(50)
-  const activeGroupMarqueeSetRef = useRef<HTMLDivElement>(null)
-  const [activeGroupMarqueeWidth, setActiveGroupMarqueeWidth] = useState(0)
-  const [activeGroupMarqueeDurationSec, setActiveGroupMarqueeDurationSec] = useState(30)
   
   // Sanity data state
   const [players, setPlayers] = useState<Player[]>([])
@@ -558,73 +552,6 @@ export default function TeamPage() {
         }
       })
   }, [categories, teamGroupPhotoByCategory])
-
-  // Auto-sliding marquee for the ACTIVE category when it has multiple group photos
-  useEffect(() => {
-    if (activeCategory === "all") return
-    if (!activeGroupMarqueeSetRef.current) return
-    if (!activeCategoryGroupPhotos || activeCategoryGroupPhotos.length <= 1) return
-
-    const el = activeGroupMarqueeSetRef.current
-
-    const update = () => {
-      const nextWidth = el.scrollWidth || el.getBoundingClientRect().width || 0
-      setActiveGroupMarqueeWidth(nextWidth)
-
-      // ~35px/s, clamped
-      const pxPerSec = 35
-      const duration = nextWidth > 0 ? nextWidth / pxPerSec : 30
-      setActiveGroupMarqueeDurationSec(Math.max(20, Math.min(90, duration)))
-    }
-
-    update()
-
-    let ro: ResizeObserver | null = null
-    if (typeof ResizeObserver !== "undefined") {
-      ro = new ResizeObserver(() => update())
-      ro.observe(el)
-    } else {
-      window.addEventListener("resize", update)
-    }
-
-    return () => {
-      if (ro) ro.disconnect()
-      else window.removeEventListener("resize", update)
-    }
-  }, [activeCategory, activeCategoryGroupPhotos?.length])
-
-  // Auto-sliding marquee ONLY for "All" category
-  useEffect(() => {
-    if (activeCategory !== "all") return
-    if (!marqueeSetRef.current) return
-
-    const el = marqueeSetRef.current
-
-    const update = () => {
-      const nextWidth = el.scrollWidth || el.getBoundingClientRect().width || 0
-      setMarqueeSetWidth(nextWidth)
-
-      // Slow, professional speed: ~30px/s, clamped to sensible range
-      const pxPerSec = 30
-      const duration = nextWidth > 0 ? nextWidth / pxPerSec : 50
-      setMarqueeDurationSec(Math.max(35, Math.min(120, duration)))
-    }
-
-    update()
-
-    let ro: ResizeObserver | null = null
-    if (typeof ResizeObserver !== "undefined") {
-      ro = new ResizeObserver(() => update())
-      ro.observe(el)
-    } else {
-      window.addEventListener("resize", update)
-    }
-
-    return () => {
-      if (ro) ro.disconnect()
-      else window.removeEventListener("resize", update)
-    }
-  }, [activeCategory, allCategoryGroupPhotos.length])
   
   // Parallax scroll effect
   const { scrollYProgress } = useScroll({
@@ -858,118 +785,50 @@ export default function TeamPage() {
           {/* Group Photo Section (must be BELOW the category buttons) */}
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 mt-8">
             {activeCategory === "all" ? (
-              <div className="overflow-hidden">
-                <div
-                  className={`flex gap-4 sm:gap-6 w-max pb-2 team-marquee-track hover:[animation-play-state:paused]`}
-                  style={
-                    {
-                      ["--team-marquee-width" as any]: `${marqueeSetWidth}px`,
-                      ["--team-marquee-duration" as any]: `${marqueeDurationSec}s`,
-                    } as React.CSSProperties
-                  }
-                >
-                  <div ref={marqueeSetRef} className="flex gap-4 sm:gap-6 w-max">
-                    {allCategoryGroupPhotos.map((item) => (
-                      <motion.div
-                        key={`group-slider-${item.key}-${categoryChangeKey}`}
-                        variants={zoomIn}
-                        initial="hidden"
-                        animate="visible"
-                        className="relative min-w-[280px] sm:min-w-[360px] lg:min-w-[420px]"
-                      >
-                        <div className="relative group rounded-2xl overflow-hidden bg-white dark:bg-gray-800 shadow-lg hover:shadow-2xl hover:shadow-[#3b3dac]/20 dark:hover:shadow-[#3b3dac]/30 transition-all duration-500 border border-gray-200 dark:border-gray-700">
-                          <div className="relative w-full aspect-[16/9] overflow-hidden">
-                            {item.groupPhoto ? (
-                              <Image
-                                key={`group-photo-${item.key}-${categoryChangeKey}-${pathname}`}
-                                src={urlFor(item.groupPhoto)
-                                  .width(1200)
-                                  .height(675)
-                                  .quality(85)
-                                  .format("webp")
-                                  .url()}
-                                alt={`${item.label} group photo`}
-                                fill
-                                className="object-cover transition-all duration-300 ease-in-out group-hover:scale-105 group-hover:brightness-110"
-                                sizes="(max-width: 640px) 280px, (max-width: 1024px) 360px, 420px"
-                                quality={90}
-                              />
-                            ) : (
-                              <div className="w-full h-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
-                                <span className="text-gray-400 text-sm">No group photo</span>
-                              </div>
-                            )}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
-                            <div className="absolute bottom-3 left-3 right-3">
-                              <span className="inline-block px-3 py-1 rounded-full bg-[#3b3dac]/80 text-white text-xs font-bold uppercase tracking-wider">
-                              {item.badgeName || item.label}
-                              </span>
-                              </div>
-                          </div>
-                        </div>
-                      </motion.div>
-                    ))}
-                  </div>
-
-                  {/* Duplicate set for seamless infinite loop */}
-                  <div aria-hidden="true" className="flex gap-4 sm:gap-6 w-max">
-                    {allCategoryGroupPhotos.map((item) => (
-                      <motion.div
-                        key={`group-slider-dup-${item.key}-${categoryChangeKey}`}
-                        variants={zoomIn}
-                        initial="hidden"
-                        animate="visible"
-                        className="relative min-w-[280px] sm:min-w-[360px] lg:min-w-[420px]"
-                      >
-                        <div className="relative group rounded-2xl overflow-hidden bg-white dark:bg-gray-800 shadow-lg hover:shadow-2xl hover:shadow-[#3b3dac]/20 dark:hover:shadow-[#3b3dac]/30 transition-all duration-500 border border-gray-200 dark:border-gray-700">
-                          <div className="relative w-full aspect-[16/9] overflow-hidden">
-                            {item.groupPhoto ? (
-                              <Image
-                                key={`group-photo-dup-${item.key}-${categoryChangeKey}-${pathname}`}
-                                src={urlFor(item.groupPhoto)
-                                  .width(1200)
-                                  .height(675)
-                                  .quality(85)
-                                  .format("webp")
-                                  .url()}
-                                alt={`${item.label} group photo`}
-                                fill
-                                className="object-cover transition-all duration-300 ease-in-out group-hover:scale-105 group-hover:brightness-110"
-                                sizes="(max-width: 640px) 280px, (max-width: 1024px) 360px, 420px"
-                                quality={90}
-                              />
-                            ) : (
-                              <div className="w-full h-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
-                                <span className="text-gray-400 text-sm">No group photo</span>
-                              </div>
-                            )}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
-                            <div className="absolute bottom-3 left-3 right-3">
-                              <span className="inline-block px-3 py-1 rounded-full bg-[#3b3dac]/80 text-white text-xs font-bold uppercase tracking-wider">
-                                {item.badgeName || item.label}
-                              </span>
+              <div className="max-w-7xl mx-auto">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                  {allCategoryGroupPhotos.map((item) => (
+                    <motion.div
+                      key={`group-grid-${item.key}-${categoryChangeKey}`}
+                      variants={zoomIn}
+                      initial="hidden"
+                      animate="visible"
+                      className="relative"
+                    >
+                      <div className="relative group rounded-2xl overflow-hidden bg-white dark:bg-gray-800 shadow-lg hover:shadow-2xl hover:shadow-[#3b3dac]/20 dark:hover:shadow-[#3b3dac]/30 transition-all duration-500 border border-gray-200 dark:border-gray-700">
+                        <div className="relative w-full aspect-[16/9] overflow-hidden">
+                          {item.groupPhoto ? (
+                            <Image
+                              key={`group-photo-grid-${item.key}-${categoryChangeKey}-${pathname}`}
+                              src={urlFor(item.groupPhoto)
+                                .width(1200)
+                                .height(675)
+                                .quality(80)
+                                .format("webp")
+                                .url()}
+                              alt={`${item.label} group photo`}
+                              fill
+                              loading="lazy"
+                              className="object-cover transition-all duration-300 ease-in-out group-hover:scale-105 group-hover:brightness-110"
+                              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                              quality={85}
+                            />
+                          ) : (
+                            <div className="w-full h-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+                              <span className="text-gray-400 text-sm">No group photo</span>
                             </div>
+                          )}
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+                          <div className="absolute bottom-3 left-3 right-3">
+                            <span className="inline-block px-3 py-1 rounded-full bg-[#3b3dac]/80 text-white text-xs font-bold uppercase tracking-wider">
+                              {item.badgeName || item.label}
+                            </span>
                           </div>
                         </div>
-                      </motion.div>
-                    ))}
-                  </div>
+                      </div>
+                    </motion.div>
+                  ))}
                 </div>
-
-                <style jsx global>{`
-                  @keyframes teamMarqueeLtr {
-                    from {
-                      transform: translateX(calc(-1 * var(--team-marquee-width, 0px)));
-                    }
-                    to {
-                      transform: translateX(0);
-                    }
-                  }
-                  .team-marquee-track {
-                    will-change: transform;
-                    animation: teamMarqueeLtr var(--team-marquee-duration, 50s) linear infinite;
-                  }
-                `}</style>
               </div>
             ) : (
               <motion.div
@@ -979,129 +838,59 @@ export default function TeamPage() {
                 transition={{ duration: 0.3 }}
                 className="max-w-7xl mx-auto"
               >
-                {activeCategoryGroupPhotos && activeCategoryGroupPhotos.length > 1 ? (
-                  <div className="relative group rounded-2xl overflow-hidden bg-white dark:bg-gray-800 shadow-lg hover:shadow-2xl hover:shadow-[#3b3dac]/20 dark:hover:shadow-[#3b3dac]/30 transition-all duration-500 border border-gray-200 dark:border-gray-700">
-                    <div className="relative w-full aspect-[16/9] overflow-hidden">
-                      <div
-                        className="absolute inset-0 overflow-x-auto overscroll-x-contain touch-pan-x"
-                        style={{ WebkitOverflowScrolling: "touch" } as any}
-                      >
-                        <div
-                          className={`flex gap-4 sm:gap-6 w-max group-photo-marquee-track hover:[animation-play-state:paused]`}
-                          style={
-                            {
-                              ["--group-marquee-width" as any]: `${activeGroupMarqueeWidth}px`,
-                              ["--group-marquee-duration" as any]: `${activeGroupMarqueeDurationSec}s`,
-                            } as React.CSSProperties
-                          }
-                        >
-                          <div
-                            ref={activeGroupMarqueeSetRef}
-                            className="flex gap-4 sm:gap-6 w-max"
-                          >
-                            {activeCategoryGroupPhotos.map((img, idx) => (
-                              <div
-                                key={`active-group-${activeCategory}-${idx}-${categoryChangeKey}`}
-                                className="relative min-w-[280px] sm:min-w-[420px] lg:min-w-[520px] snap-center"
-                              >
-                                <Image
-                                  src={urlFor(img)
-                                    .width(1600)
-                                    .height(900)
-                                    .quality(80)
-                                    .format("webp")
-                                    .url()}
-                                  alt="Team group photo"
-                                  width={1600}
-                                  height={900}
-                                  loading="lazy"
-                                  className="h-full w-full object-cover"
-                                  sizes="(max-width: 640px) 280px, (max-width: 1024px) 420px, 520px"
-                                  quality={85}
-                                />
-                              </div>
-                            ))}
-                          </div>
-
-                          {/* Duplicate set for seamless infinite loop */}
-                          <div aria-hidden="true" className="flex gap-4 sm:gap-6 w-max">
-                            {activeCategoryGroupPhotos.map((img, idx) => (
-                              <div
-                                key={`active-group-dup-${activeCategory}-${idx}-${categoryChangeKey}`}
-                                className="relative min-w-[280px] sm:min-w-[420px] lg:min-w-[520px] snap-center"
-                              >
-                                <Image
-                                  src={urlFor(img)
-                                    .width(1600)
-                                    .height(900)
-                                    .quality(80)
-                                    .format("webp")
-                                    .url()}
-                                  alt="Team group photo"
-                                  width={1600}
-                                  height={900}
-                                  loading="lazy"
-                                  className="h-full w-full object-cover"
-                                  sizes="(max-width: 640px) 280px, (max-width: 1024px) 420px, 520px"
-                                  quality={85}
-                                />
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
-                    </div>
+                {!activeCategoryGroupPhotos || activeCategoryGroupPhotos.length === 0 ? (
+                  <div className="w-full rounded-2xl bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-8 text-center">
+                    <p className="text-gray-600 dark:text-gray-400">No group photos found.</p>
                   </div>
-                ) : (
+                ) : activeCategoryGroupPhotos.length === 1 ? (
                   <div className="relative group rounded-2xl overflow-hidden bg-white dark:bg-gray-800 shadow-lg hover:shadow-2xl hover:shadow-[#3b3dac]/20 dark:hover:shadow-[#3b3dac]/30 transition-all duration-500 border border-gray-200 dark:border-gray-700">
                     <div className="relative w-full aspect-[16/9] overflow-hidden">
-                      {activeCategoryGroupPhotos && activeCategoryGroupPhotos[0] ? (
-                        <Image
-                          key={`group-photo-${activeCategory}-${categoryChangeKey}-${pathname}`}
-                          src={urlFor(activeCategoryGroupPhotos[0])
-                            .width(1600)
-                            .height(900)
-                            .quality(85)
-                            .format("webp")
-                            .url()}
-                          alt="Team group photo"
-                          fill
-                          loading="lazy"
-                          className="object-cover transition-all duration-300 ease-in-out group-hover:scale-105 group-hover:brightness-110"
-                          sizes="(max-width: 1280px) 100vw, 1280px"
-                          quality={90}
-                        />
-                      ) : (
-                        <div className="w-full h-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
-                          <span className="text-gray-400 text-sm">No group photo</span>
-                        </div>
-                      )}
+                      <Image
+                        key={`group-photo-${activeCategory}-${categoryChangeKey}-${pathname}`}
+                        src={urlFor(activeCategoryGroupPhotos[0])
+                          .width(1600)
+                          .height(900)
+                          .quality(85)
+                          .format("webp")
+                          .url()}
+                        alt="Team group photo"
+                        fill
+                        loading="lazy"
+                        className="object-cover transition-all duration-300 ease-in-out group-hover:scale-105 group-hover:brightness-110"
+                        sizes="(max-width: 1280px) 100vw, 1280px"
+                        quality={90}
+                      />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
                     </div>
                   </div>
+                ) : (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                    {activeCategoryGroupPhotos.map((img, idx) => (
+                      <div
+                        key={`active-group-stack-${activeCategory}-${idx}-${categoryChangeKey}`}
+                        className="relative group rounded-2xl overflow-hidden bg-white dark:bg-gray-800 shadow-lg hover:shadow-2xl hover:shadow-[#3b3dac]/20 dark:hover:shadow-[#3b3dac]/30 transition-all duration-500 border border-gray-200 dark:border-gray-700"
+                      >
+                        <div className="relative w-full aspect-[16/9] overflow-hidden">
+                          <Image
+                            src={urlFor(img)
+                              .width(1600)
+                              .height(900)
+                              .quality(80)
+                              .format("webp")
+                              .url()}
+                            alt="Team group photo"
+                            fill
+                            loading="lazy"
+                            className="object-cover transition-all duration-300 ease-in-out group-hover:scale-105 group-hover:brightness-110"
+                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 50vw"
+                            quality={85}
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 )}
-
-                <style jsx global>{`
-                  @keyframes groupMarqueeRtl {
-                    from {
-                      transform: translateX(0);
-                    }
-                    to {
-                      transform: translateX(calc(-1 * var(--group-marquee-width, 0px)));
-                    }
-                  }
-                  .group-photo-marquee-track {
-                    will-change: transform;
-                    animation: groupMarqueeRtl var(--group-marquee-duration, 30s) linear infinite;
-                  }
-                  @media (hover: none) and (pointer: coarse) {
-                    .group-photo-marquee-track {
-                      animation: none;
-                    }
-                  }
-                `}</style>
               </motion.div>
             )}
           </div>
