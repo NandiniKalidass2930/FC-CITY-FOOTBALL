@@ -463,7 +463,12 @@ export default function Home({ params }: { params: Promise<{ lang: string }> }) 
                     (secondaryText && secondaryLink)
                 )
 
-                if (hasAnyHeroContent) return null
+                // Never show the "missing hero content" notice while data is still loading.
+                // This prevents a 1s flash on refresh in production.
+                if (loading || hasAnyHeroContent) return null
+
+                // Keep the notice available in dev for authors, but never show it in production.
+                if (process.env.NODE_ENV === "production") return null
 
                 return (
                   <div className="mx-auto max-w-2xl rounded-2xl border border-white/20 bg-black/35 px-6 py-5 text-white">

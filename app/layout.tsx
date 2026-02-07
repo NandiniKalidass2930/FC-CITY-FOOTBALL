@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/contexts/language-context";
@@ -22,12 +22,6 @@ export const metadata: Metadata = {
   description: "Official website of FC City Boys Zurich - Professional football club dedicated to excellence, passion, and community spirit. Join us on our journey to greatness.",
   keywords: ["football club", "FC City Boys", "Zurich football", "professional football", "football academy", "Swiss football"],
   authors: [{ name: "FC City Boys" }],
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 5,
-  },
-  themeColor: "#0054A8",
   icons: {
     icon: [
       { url: "/images/logo.png", type: "image/png", sizes: "any" },
@@ -58,6 +52,13 @@ export const metadata: Metadata = {
       },
     ],
   },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: "#0054A8",
 };
 
 export default function RootLayout({

@@ -7,6 +7,14 @@ const defaultLocale = 'en'
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
+  // Always force the root route to the default language.
+  // This avoids Accept-Language variance and prevents redirect loops on some deployments.
+  if (pathname === '/') {
+    const url = request.nextUrl.clone()
+    url.pathname = `/${defaultLocale}`
+    return NextResponse.redirect(url, 308)
+  }
+
   // Check if pathname already has a locale
   const pathnameHasLocale = locales.some(
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
@@ -60,6 +68,6 @@ export const config = {
      * - images (public images)
      * - studio (Sanity Studio)
      */
-    '/((?!api|_next/static|_next/image|favicon.ico|images|studio).*)',
+    '/((?!api|_next/static|_next/image|favicon.ico|images|studio|_vercel).*)',
   ],
 }
