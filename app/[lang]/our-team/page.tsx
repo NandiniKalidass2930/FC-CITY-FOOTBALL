@@ -838,34 +838,23 @@ export default function TeamPage() {
                     </div>
                   </div>
                 ) : (
-                  <div className="overflow-x-auto overscroll-x-contain touch-pan-x scrollbar-hide">
-                    <div className="grid grid-flow-col auto-cols-[minmax(280px,1fr)] sm:auto-cols-[minmax(420px,1fr)] gap-4 sm:gap-6 w-max py-1">
-                      {activeCategoryGroupPhotos.map((img, idx) => (
-                        <div
-                          key={`active-group-row-${activeCategory}-${idx}-${categoryChangeKey}`}
-                          className="relative group rounded-2xl overflow-hidden bg-white dark:bg-gray-800 shadow-lg hover:shadow-2xl hover:shadow-[#3b3dac]/20 dark:hover:shadow-[#3b3dac]/30 transition-all duration-500 border border-gray-200 dark:border-gray-700"
-                        >
-                          <div className="relative w-full aspect-[16/9] overflow-hidden">
-                            <Image
-                              src={urlFor(img)
-                                .width(1600)
-                                .height(900)
-                                .quality(80)
-                                .format("webp")
-                                .url()}
-                              alt="Team group photo"
-                              fill
-                              loading="lazy"
-                              className="object-cover object-top transition-all duration-300 ease-in-out group-hover:scale-105 group-hover:brightness-110"
-                              sizes="(max-width: 640px) 90vw, (max-width: 1024px) 420px, 520px"
-                              quality={85}
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
+                  <TeamGroupPhotosMarquee
+                    items={(() => {
+                      const sanityCategory = mapTeamCategoryToSanityCategory(activeCategory)
+                      const doc = sanityCategory ? teamGroupPhotoByCategory.get(sanityCategory) : undefined
+                      const badge = (doc?.badgeName || categories.find((c) => c.key === activeCategory)?.label || "")
+                        .toUpperCase()
+
+                      return activeCategoryGroupPhotos.map((img, idx) => ({
+                        key: `${activeCategory}-${idx}-${categoryChangeKey}`,
+                        badge,
+                        imageUrl: urlFor(img).width(1600).height(900).quality(80).format("webp").url(),
+                        alt: `${badge} group photo`,
+                      }))
+                    })()}
+                    // slow, smooth marquee-style speed
+                    pxPerSecond={22}
+                  />
                 )}
               </motion.div>
             )}
