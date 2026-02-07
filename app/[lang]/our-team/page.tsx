@@ -1,6 +1,6 @@
 "use client"
 
-import { motion, useReducedMotion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion"
+import { motion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion"
 import { Trophy, Target, Calendar, Star, Quote, Clock, MapPin, Activity, Award, Heart, Sparkles } from "lucide-react"
 import Image from "next/image"
 import { Footer } from "@/components/footer"
@@ -267,7 +267,6 @@ export default function TeamPage() {
   const { getMessages, language } = useLanguage()
   const { t } = useTranslations("our-team")
   const pathname = usePathname()
-  const prefersReducedMotion = useReducedMotion()
   const heroRef = useRef<HTMLDivElement>(null)
   const [activeCategory, setActiveCategory] = useState<TeamCategory>("all")
   const [categoryChangeKey, setCategoryChangeKey] = useState(0) // Track category changes for image reload
@@ -588,62 +587,58 @@ export default function TeamPage() {
     }
   }, [activeCategory, allCategoryGroupPhotos.length])
 
-  // Auto-slide the team cards (right-to-left) every 3 seconds, smooth + infinite loop.
+  // Continuous running slider / marquee (left-to-right), infinite + smooth + non-stop.
   // Uses native scrolling so touch/trackpad scrolling stays natural.
   useEffect(() => {
     if (activeCategory !== "all") return
     if (!teamCardsScrollRef.current) return
-    if (!teamCardsSetRef.current) return
     if (allCategoryGroupPhotos.length <= 1) return
     if (teamCardsSetWidth <= 0) return
-    if (teamCardsAutoScrollPaused) return
 
     const scroller = teamCardsScrollRef.current
-    const setEl = teamCardsSetRef.current
 
-    const getStepPx = () => {
-      const first = setEl.children?.[0] as HTMLElement | undefined
-      const second = setEl.children?.[1] as HTMLElement | undefined
-      if (first && second) {
-        const step = second.offsetLeft - first.offsetLeft
-        if (step > 0) return step
-      }
-      if (first) return first.getBoundingClientRect().width + 24
-      return 320
-    }
+    // Only animate if content actually overflows
+    if (scroller.scrollWidth <= scroller.clientWidth) return
 
-    let timeoutId = 0
-    let intervalId = 0
+    // Fixed speed across all screen sizes (px/sec)
+    const pxPerSec = 22
 
-    const wrapIfNeeded = () => {
+    // Start from the duplicated half so we can scroll "backwards" seamlessly
+    // (decreasing scrollLeft makes cards appear to move left-to-right).
+    scroller.scrollLeft = teamCardsSetWidth
+
+    const wrap = () => {
       if (teamCardsSetWidth <= 0) return
-      // When we enter the duplicated set, wrap back by one full set width (seamless).
-      if (scroller.scrollLeft >= teamCardsSetWidth) {
-        scroller.scrollLeft -= teamCardsSetWidth
+      if (scroller.scrollLeft <= 0) scroller.scrollLeft += teamCardsSetWidth
+      else if (scroller.scrollLeft >= teamCardsSetWidth) scroller.scrollLeft -= teamCardsSetWidth
+    }
+
+    let raf = 0
+    let lastTs = 0
+
+    const tick = (ts: number) => {
+      if (!lastTs) lastTs = ts
+      const dt = (ts - lastTs) / 1000
+      lastTs = ts
+
+      if (!teamCardsAutoScrollPaused) {
+        let next = scroller.scrollLeft - pxPerSec * dt
+        // Keep scrollLeft in [0, teamCardsSetWidth) for seamless looping
+        while (next <= 0) next += teamCardsSetWidth
+        while (next >= teamCardsSetWidth) next -= teamCardsSetWidth
+        scroller.scrollLeft = next
       }
+
+      raf = window.requestAnimationFrame(tick)
     }
 
-    const tick = () => {
-      const step = getStepPx()
-      scroller.scrollBy({ left: step, behavior: "smooth" })
-
-      // After the smooth scroll completes, wrap if needed.
-      window.clearTimeout(timeoutId)
-      timeoutId = window.setTimeout(wrapIfNeeded, 750)
-    }
-
-    // Start after a short delay so layout settles (avoids tiny jump on first paint)
-    timeoutId = window.setTimeout(tick, 600)
-    intervalId = window.setInterval(tick, 3000)
-
-    // Also guard against manual scroll crossing the boundary
-    const onScroll = () => wrapIfNeeded()
+    raf = window.requestAnimationFrame(tick)
+    const onScroll = () => wrap()
     scroller.addEventListener("scroll", onScroll, { passive: true })
 
     return () => {
-      window.clearTimeout(timeoutId)
-      window.clearInterval(intervalId)
-      scroller.removeEventListener("scroll", onScroll as any)
+      window.cancelAnimationFrame(raf)
+      scroller.removeEventListener("scroll", onScroll)
     }
   }, [activeCategory, allCategoryGroupPhotos.length, teamCardsAutoScrollPaused, teamCardsSetWidth])
   
@@ -769,9 +764,6 @@ export default function TeamPage() {
             }}
           />
 
-          {/* Dark blue tint overlay (improves text contrast without hiding the photo) */}
-          <div className="absolute inset-0 z-[4] pointer-events-none bg-[#061a4d]/25" />
-
           {/* Light Vignette Effect */}
           <div 
             className="absolute inset-0 z-[5]"
@@ -782,7 +774,7 @@ export default function TeamPage() {
 
           {/* Gradient Overlay - Enhanced */}
           <motion.div 
-            className="absolute inset-0 z-[6] bg-gradient-to-b from-[#03103a]/75 via-[#061a4d]/45 to-black/55"
+            className="absolute inset-0 z-[6] bg-gradient-to-b from-black/50 via-black/40 to-black/60"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1 }}
@@ -792,8 +784,7 @@ export default function TeamPage() {
           <div 
             className="absolute inset-0 z-[6]"
             style={{
-              background:
-                "radial-gradient(ellipse at center, rgba(6, 26, 77, 0.05) 0%, rgba(6, 26, 77, 0.25) 55%, rgba(0, 0, 0, 0.7) 100%)"
+              background: "radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.2) 50%, rgba(0, 0, 0, 0.6) 100%)"
             }}
           />
 
@@ -802,22 +793,14 @@ export default function TeamPage() {
             {/* Main Heading - Fade In + Slide Up */}
             <motion.h1 
               className="text-white text-4xl sm:text-5xl md:text-6xl font-black mb-4 drop-shadow-2xl"
-              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, x: -48, scale: 0.98 }}
-              animate={
-                prefersReducedMotion
-                  ? { opacity: 1 }
-                  : { opacity: 1, x: 0, scale: [0.98, 1.015, 1] } // subtle zoom-in/out
-              }
-              transition={
-                prefersReducedMotion
-                  ? { duration: 0 }
-                  : {
-                      duration: 1.1,
-                      ease: [0.25, 0.46, 0.45, 0.94],
-                      delay: 0.25,
-                    }
-              }
-              style={{ willChange: "opacity, transform" }}
+              initial={{ opacity: 0, y: 60 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ 
+                duration: 1.2, 
+                ease: [0.25, 0.46, 0.45, 0.94], // Custom easing for smooth entrance
+                delay: 0.3
+              }}
+              style={{ willChange: "opacity, transform" }} // Performance optimization
             >
               {teamPageData?.heroTitle ? getLocalizedContent(teamPageData.heroTitle, language) : t("title")}
             </motion.h1>
@@ -825,22 +808,14 @@ export default function TeamPage() {
             {/* Subtitle - Delayed Fade In + Slide Up */}
             <motion.p 
               className="text-white/90 text-lg md:text-xl max-w-3xl mx-auto drop-shadow-lg"
-              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, x: -32, scale: 0.99 }}
-              animate={
-                prefersReducedMotion
-                  ? { opacity: 1 }
-                  : { opacity: 1, x: 0, scale: [0.99, 1.01, 1] }
-              }
-              transition={
-                prefersReducedMotion
-                  ? { duration: 0 }
-                  : {
-                      duration: 1.0,
-                      ease: [0.25, 0.46, 0.45, 0.94],
-                      delay: 0.45,
-                    }
-              }
-              style={{ willChange: "opacity, transform" }}
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ 
+                duration: 1, 
+                ease: [0.25, 0.46, 0.45, 0.94],
+                delay: 0.6 // Slight delay after heading
+              }}
+              style={{ willChange: "opacity, transform" }} // Performance optimization
             >
               {teamPageData?.heroSubtitle ? getLocalizedContent(teamPageData.heroSubtitle, language) : t("subtitle")}
             </motion.p>

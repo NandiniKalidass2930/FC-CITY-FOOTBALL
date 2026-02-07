@@ -428,8 +428,8 @@ export default function Home({ params }: { params: Promise<{ lang: string }> }) 
         </div>
 
         {/* Soft blue overlay for consistent readability (keeps faces visible) */}
-        <div className="absolute inset-0 z-10 pointer-events-none bg-[#0b1e6b]/25" />
-        <div className="absolute inset-0 z-10 pointer-events-none bg-gradient-to-b from-[#0b1e6b]/15 via-[#0b1e6b]/20 to-[#0b1e6b]/30" />
+        <div className="absolute inset-0 z-10 pointer-events-none bg-[#0b1e6b]/40" />
+        <div className="absolute inset-0 z-10 pointer-events-none bg-gradient-to-b from-[#0b1e6b]/25 via-[#0b1e6b]/40 to-[#0b1e6b]/55" />
 
         {/* Centered Content (above media) */}
         <div className="relative z-20 w-full flex items-center justify-center min-h-[95svh] md:min-h-[95vh] text-center text-white">
