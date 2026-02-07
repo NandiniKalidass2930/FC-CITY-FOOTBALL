@@ -1,6 +1,6 @@
 "use client"
 
-import { motion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion"
+import { motion, useReducedMotion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion"
 import { Trophy, Target, Calendar, Star, Quote, Clock, MapPin, Activity, Award, Heart, Sparkles } from "lucide-react"
 import Image from "next/image"
 import { Footer } from "@/components/footer"
@@ -267,6 +267,7 @@ export default function TeamPage() {
   const { getMessages, language } = useLanguage()
   const { t } = useTranslations("our-team")
   const pathname = usePathname()
+  const prefersReducedMotion = useReducedMotion()
   const heroRef = useRef<HTMLDivElement>(null)
   const [activeCategory, setActiveCategory] = useState<TeamCategory>("all")
   const [categoryChangeKey, setCategoryChangeKey] = useState(0) // Track category changes for image reload
@@ -753,8 +754,8 @@ export default function TeamPage() {
                 ? `url('${urlFor(teamPageData.heroBackgroundImage).url()}')`
                 : "url('/images/main.jpg')",
               backgroundSize: "cover",
-              // Shift image slightly upward so lower players' faces remain visible across breakpoints
-              backgroundPosition: "center -10%",
+              // Shift image upward so faces/upper body stay in frame (smaller Y% = higher focus)
+              backgroundPosition: "50% 20%",
               y: backgroundY, // Parallax scroll
               opacity: backgroundOpacity,
               x: driftTransform, // Subtle left-to-right drift
@@ -768,6 +769,9 @@ export default function TeamPage() {
             }}
           />
 
+          {/* Dark blue tint overlay (improves text contrast without hiding the photo) */}
+          <div className="absolute inset-0 z-[4] pointer-events-none bg-[#061a4d]/25" />
+
           {/* Light Vignette Effect */}
           <div 
             className="absolute inset-0 z-[5]"
@@ -778,7 +782,7 @@ export default function TeamPage() {
 
           {/* Gradient Overlay - Enhanced */}
           <motion.div 
-            className="absolute inset-0 z-[6] bg-gradient-to-b from-black/50 via-black/40 to-black/60"
+            className="absolute inset-0 z-[6] bg-gradient-to-b from-[#03103a]/75 via-[#061a4d]/45 to-black/55"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1 }}
@@ -788,7 +792,8 @@ export default function TeamPage() {
           <div 
             className="absolute inset-0 z-[6]"
             style={{
-              background: "radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.2) 50%, rgba(0, 0, 0, 0.6) 100%)"
+              background:
+                "radial-gradient(ellipse at center, rgba(6, 26, 77, 0.05) 0%, rgba(6, 26, 77, 0.25) 55%, rgba(0, 0, 0, 0.7) 100%)"
             }}
           />
 
@@ -797,14 +802,22 @@ export default function TeamPage() {
             {/* Main Heading - Fade In + Slide Up */}
             <motion.h1 
               className="text-white text-4xl sm:text-5xl md:text-6xl font-black mb-4 drop-shadow-2xl"
-              initial={{ opacity: 0, y: 60 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ 
-                duration: 1.2, 
-                ease: [0.25, 0.46, 0.45, 0.94], // Custom easing for smooth entrance
-                delay: 0.3
-              }}
-              style={{ willChange: "opacity, transform" }} // Performance optimization
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, x: -48, scale: 0.98 }}
+              animate={
+                prefersReducedMotion
+                  ? { opacity: 1 }
+                  : { opacity: 1, x: 0, scale: [0.98, 1.015, 1] } // subtle zoom-in/out
+              }
+              transition={
+                prefersReducedMotion
+                  ? { duration: 0 }
+                  : {
+                      duration: 1.1,
+                      ease: [0.25, 0.46, 0.45, 0.94],
+                      delay: 0.25,
+                    }
+              }
+              style={{ willChange: "opacity, transform" }}
             >
               {teamPageData?.heroTitle ? getLocalizedContent(teamPageData.heroTitle, language) : t("title")}
             </motion.h1>
@@ -812,14 +825,22 @@ export default function TeamPage() {
             {/* Subtitle - Delayed Fade In + Slide Up */}
             <motion.p 
               className="text-white/90 text-lg md:text-xl max-w-3xl mx-auto drop-shadow-lg"
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ 
-                duration: 1, 
-                ease: [0.25, 0.46, 0.45, 0.94],
-                delay: 0.6 // Slight delay after heading
-              }}
-              style={{ willChange: "opacity, transform" }} // Performance optimization
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, x: -32, scale: 0.99 }}
+              animate={
+                prefersReducedMotion
+                  ? { opacity: 1 }
+                  : { opacity: 1, x: 0, scale: [0.99, 1.01, 1] }
+              }
+              transition={
+                prefersReducedMotion
+                  ? { duration: 0 }
+                  : {
+                      duration: 1.0,
+                      ease: [0.25, 0.46, 0.45, 0.94],
+                      delay: 0.45,
+                    }
+              }
+              style={{ willChange: "opacity, transform" }}
             >
               {teamPageData?.heroSubtitle ? getLocalizedContent(teamPageData.heroSubtitle, language) : t("subtitle")}
             </motion.p>
