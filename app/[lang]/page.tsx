@@ -376,7 +376,7 @@ export default function Home({ params }: { params: Promise<{ lang: string }> }) 
   return (
     <div className="flex min-h-screen flex-col bg-white dark:bg-[#0f172a]">
       {/* ================= HERO SECTION ================= */}
-      <section className="relative w-screen left-1/2 -translate-x-1/2 min-h-[95vh] flex items-center justify-center overflow-hidden opacity-100">
+      <section className="relative w-screen left-1/2 -translate-x-1/2 min-h-[95svh] md:min-h-[95vh] flex items-center justify-center overflow-hidden opacity-100">
         {/* Background Media (Sanity-controlled) */}
         <div className="absolute inset-0 z-0 pointer-events-none">
           {(() => {
@@ -427,14 +427,18 @@ export default function Home({ params }: { params: Promise<{ lang: string }> }) 
           })()}
         </div>
 
+        {/* Soft blue overlay for consistent readability (keeps faces visible) */}
+        <div className="absolute inset-0 z-10 pointer-events-none bg-[#0b1e6b]/25" />
+        <div className="absolute inset-0 z-10 pointer-events-none bg-gradient-to-b from-[#0b1e6b]/15 via-[#0b1e6b]/20 to-[#0b1e6b]/30" />
+
         {/* Centered Content (above media) */}
-        <div className="relative z-20 w-full flex items-center justify-center min-h-[95vh] text-center text-white">
+        <div className="relative z-20 w-full flex items-center justify-center min-h-[95svh] md:min-h-[95vh] text-center text-white">
           <div className="flex flex-col items-center justify-center max-w-4xl w-full">
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
-              className="translate-y-6 sm:translate-y-8 md:translate-y-10 space-y-6 sm:space-y-8 w-full rounded-3xl bg-black/10 backdrop-blur-[2px] px-6 py-8 sm:px-8 sm:py-10"
+              className="translate-y-6 sm:translate-y-8 md:translate-y-10 space-y-6 sm:space-y-8 w-full px-6 sm:px-8"
             >
               {(() => {
                 const heroTitle = heroData?.heroTitle ? getLocalizedContent(heroData.heroTitle, language) : ""
@@ -659,7 +663,7 @@ export default function Home({ params }: { params: Promise<{ lang: string }> }) 
                     playsInline
                     preload="none"
                     poster={fallbackImage}
-                    className="absolute inset-0 w-full h-full object-cover"
+                    className="absolute inset-0 w-full h-full object-cover [filter:contrast(1.06)_saturate(1.06)_brightness(1.06)]"
                     onError={() => setPreClubVideoFailed(true)}
                     aria-hidden="true"
                   >
@@ -700,14 +704,6 @@ export default function Home({ params }: { params: Promise<{ lang: string }> }) 
               return null
             })()}
           </div>
-
-          {/* Overlay for readability (kept even if no text) */}
-          <div
-            className="absolute inset-0 z-10 pointer-events-none"
-            style={{
-              background: "linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.65))",
-            }}
-          />
         </div>
       </section>
                   
@@ -829,7 +825,7 @@ export default function Home({ params }: { params: Promise<{ lang: string }> }) 
       {/* ================= CTA - Join the City Boys Family ================= */}
       <section className="relative min-h-[500px] sm:min-h-[600px] md:min-h-[700px] overflow-hidden">
         <div 
-          className="absolute inset-0 bg-cover bg-no-repeat bg-center bg-fixed" 
+          className="absolute inset-0 bg-cover bg-no-repeat bg-center bg-scroll md:bg-fixed" 
           style={{ 
             backgroundImage: heroData?.ctaSection?.backgroundImage?.asset 
               ? `url('${urlFor(heroData.ctaSection.backgroundImage).url()}')`

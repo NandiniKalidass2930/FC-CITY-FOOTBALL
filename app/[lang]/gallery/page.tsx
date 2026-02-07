@@ -392,7 +392,7 @@ export default function GalleryPage() {
         <section className="relative min-h-[500px] sm:min-h-[600px] md:min-h-[700px] overflow-hidden">
           {/* Stadium Background Image */}
           <div
-            className="absolute inset-0 bg-cover bg-no-repeat bg-center bg-fixed"
+            className="absolute inset-0 bg-cover bg-no-repeat bg-center bg-scroll md:bg-fixed"
             style={{
               backgroundImage: "url('/images/about/ab1.jpg')",
             }}

@@ -270,6 +270,12 @@ export default function TeamPage() {
   const heroRef = useRef<HTMLDivElement>(null)
   const [activeCategory, setActiveCategory] = useState<TeamCategory>("all")
   const [categoryChangeKey, setCategoryChangeKey] = useState(0) // Track category changes for image reload
+
+  // Auto-scroll (left -> right) for "All" team category cards
+  const teamCardsScrollRef = useRef<HTMLDivElement | null>(null)
+  const teamCardsSetRef = useRef<HTMLDivElement | null>(null)
+  const [teamCardsSetWidth, setTeamCardsSetWidth] = useState(0)
+  const [teamCardsAutoScrollPaused, setTeamCardsAutoScrollPaused] = useState(false)
   
   // Sanity data state
   const [players, setPlayers] = useState<Player[]>([])
@@ -552,6 +558,69 @@ export default function TeamPage() {
         }
       })
   }, [categories, teamGroupPhotoByCategory])
+
+  // Measure the width of one full set of team cards for seamless looping
+  useEffect(() => {
+    if (activeCategory !== "all") return
+    if (!teamCardsSetRef.current) return
+
+    const el = teamCardsSetRef.current
+
+    const update = () => {
+      const w = el.scrollWidth || el.getBoundingClientRect().width || 0
+      setTeamCardsSetWidth(w)
+    }
+
+    update()
+
+    let ro: ResizeObserver | null = null
+    if (typeof ResizeObserver !== "undefined") {
+      ro = new ResizeObserver(() => update())
+      ro.observe(el)
+    } else {
+      window.addEventListener("resize", update)
+    }
+
+    return () => {
+      if (ro) ro.disconnect()
+      else window.removeEventListener("resize", update)
+    }
+  }, [activeCategory, allCategoryGroupPhotos.length])
+
+  // Smooth, continuous left-to-right auto-scroll that still allows touch scroll
+  useEffect(() => {
+    if (activeCategory !== "all") return
+    if (!teamCardsScrollRef.current) return
+    if (allCategoryGroupPhotos.length <= 1) return
+    if (teamCardsSetWidth <= 0) return
+
+    const scroller = teamCardsScrollRef.current
+    let raf = 0
+    let lastTs = 0
+
+    const isCoarse = typeof window !== "undefined" && window.matchMedia?.("(pointer: coarse)")?.matches
+    const pxPerSec = isCoarse ? 14 : 24 // slow, professional; slower on mobile
+
+    const tick = (ts: number) => {
+      if (!lastTs) lastTs = ts
+      const dt = (ts - lastTs) / 1000
+      lastTs = ts
+
+      if (!teamCardsAutoScrollPaused) {
+        scroller.scrollLeft += pxPerSec * dt
+
+        // Loop seamlessly by wrapping when passing one full set width
+        if (scroller.scrollLeft >= teamCardsSetWidth) {
+          scroller.scrollLeft -= teamCardsSetWidth
+        }
+      }
+
+      raf = window.requestAnimationFrame(tick)
+    }
+
+    raf = window.requestAnimationFrame(tick)
+    return () => window.cancelAnimationFrame(raf)
+  }, [activeCategory, allCategoryGroupPhotos.length, teamCardsAutoScrollPaused, teamCardsSetWidth])
   
   // Parallax scroll effect
   const { scrollYProgress } = useScroll({
@@ -660,7 +729,8 @@ export default function TeamPage() {
                 ? `url('${urlFor(teamPageData.heroBackgroundImage).url()}')`
                 : "url('/images/main.jpg')",
               backgroundSize: "cover",
-              backgroundPosition: "center top",
+              // Shift image slightly upward so lower players' faces remain visible across breakpoints
+              backgroundPosition: "center -10%",
               y: backgroundY, // Parallax scroll
               opacity: backgroundOpacity,
               x: driftTransform, // Subtle left-to-right drift
@@ -786,48 +856,102 @@ export default function TeamPage() {
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 mt-8">
             {activeCategory === "all" ? (
               <div className="max-w-7xl mx-auto">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-                  {allCategoryGroupPhotos.map((item) => (
-                    <motion.div
-                      key={`group-grid-${item.key}-${categoryChangeKey}`}
-                      variants={zoomIn}
-                      initial="hidden"
-                      animate="visible"
-                      className="relative"
-                    >
-                      <div className="relative group rounded-2xl overflow-hidden bg-white dark:bg-gray-800 shadow-lg hover:shadow-2xl hover:shadow-[#3b3dac]/20 dark:hover:shadow-[#3b3dac]/30 transition-all duration-500 border border-gray-200 dark:border-gray-700">
-                        <div className="relative w-full aspect-[16/9] overflow-hidden">
-                          {item.groupPhoto ? (
-                            <Image
-                              key={`group-photo-grid-${item.key}-${categoryChangeKey}-${pathname}`}
-                              src={urlFor(item.groupPhoto)
-                                .width(1200)
-                                .height(675)
-                                .quality(80)
-                                .format("webp")
-                                .url()}
-                              alt={`${item.label} group photo`}
-                              fill
-                              loading="lazy"
-                              className="object-cover transition-all duration-300 ease-in-out group-hover:scale-105 group-hover:brightness-110"
-                              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                              quality={85}
-                            />
-                          ) : (
-                            <div className="w-full h-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
-                              <span className="text-gray-400 text-sm">No group photo</span>
+                <div
+                  ref={teamCardsScrollRef}
+                  className="overflow-x-auto overscroll-x-contain touch-pan-x scrollbar-hide"
+                  onMouseEnter={() => setTeamCardsAutoScrollPaused(true)}
+                  onMouseLeave={() => setTeamCardsAutoScrollPaused(false)}
+                  onTouchStart={() => setTeamCardsAutoScrollPaused(true)}
+                  onTouchEnd={() => {
+                    // small delay so the user can finish the swipe naturally
+                    window.setTimeout(() => setTeamCardsAutoScrollPaused(false), 450)
+                  }}
+                >
+                  <div className="flex gap-4 sm:gap-6 w-max py-2">
+                    <div ref={teamCardsSetRef} className="flex gap-4 sm:gap-6 w-max">
+                      {allCategoryGroupPhotos.map((item) => (
+                        <motion.div
+                          key={`group-carousel-${item.key}-${categoryChangeKey}`}
+                          variants={zoomIn}
+                          initial="hidden"
+                          animate="visible"
+                          className="relative shrink-0 min-w-[280px] sm:min-w-[360px] lg:min-w-[420px]"
+                        >
+                          <div className="relative group rounded-2xl overflow-hidden bg-white dark:bg-gray-800 shadow-lg hover:shadow-2xl hover:shadow-[#3b3dac]/20 dark:hover:shadow-[#3b3dac]/30 transition-all duration-500 border border-gray-200 dark:border-gray-700">
+                            <div className="relative w-full aspect-[16/9] overflow-hidden">
+                              {item.groupPhoto ? (
+                                <Image
+                                  key={`group-photo-carousel-${item.key}-${categoryChangeKey}-${pathname}`}
+                                  src={urlFor(item.groupPhoto)
+                                    .width(1200)
+                                    .height(675)
+                                    .quality(80)
+                                    .format("webp")
+                                    .url()}
+                                  alt={`${item.label} group photo`}
+                                  fill
+                                  loading="lazy"
+                                  className="object-cover transition-all duration-300 ease-in-out group-hover:scale-105 group-hover:brightness-110"
+                                  sizes="(max-width: 640px) 280px, (max-width: 1024px) 360px, 420px"
+                                  quality={85}
+                                />
+                              ) : (
+                                <div className="w-full h-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+                                  <span className="text-gray-400 text-sm">No group photo</span>
+                                </div>
+                              )}
+                              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+                              <div className="absolute bottom-3 left-3 right-3">
+                                <span className="inline-block px-3 py-1 rounded-full bg-[#3b3dac]/80 text-white text-xs font-bold uppercase tracking-wider">
+                                  {item.badgeName || item.label}
+                                </span>
+                              </div>
                             </div>
-                          )}
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
-                          <div className="absolute bottom-3 left-3 right-3">
-                            <span className="inline-block px-3 py-1 rounded-full bg-[#3b3dac]/80 text-white text-xs font-bold uppercase tracking-wider">
-                              {item.badgeName || item.label}
-                            </span>
+                          </div>
+                        </motion.div>
+                      ))}
+                    </div>
+
+                    {/* Duplicate set for seamless looping */}
+                    <div aria-hidden="true" className="flex gap-4 sm:gap-6 w-max">
+                      {allCategoryGroupPhotos.map((item) => (
+                        <div
+                          key={`group-carousel-dup-${item.key}-${categoryChangeKey}`}
+                          className="relative shrink-0 min-w-[280px] sm:min-w-[360px] lg:min-w-[420px]"
+                        >
+                          <div className="relative group rounded-2xl overflow-hidden bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-700">
+                            <div className="relative w-full aspect-[16/9] overflow-hidden">
+                              {item.groupPhoto ? (
+                                <Image
+                                  key={`group-photo-carousel-dup-${item.key}-${categoryChangeKey}-${pathname}`}
+                                  src={urlFor(item.groupPhoto)
+                                    .width(1200)
+                                    .height(675)
+                                    .quality(80)
+                                    .format("webp")
+                                    .url()}
+                                  alt={`${item.label} group photo`}
+                                  fill
+                                  loading="lazy"
+                                  className="object-cover"
+                                  sizes="(max-width: 640px) 280px, (max-width: 1024px) 360px, 420px"
+                                  quality={85}
+                                />
+                              ) : (
+                                <div className="w-full h-full bg-gray-200 dark:bg-gray-700" />
+                              )}
+                              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+                              <div className="absolute bottom-3 left-3 right-3">
+                                <span className="inline-block px-3 py-1 rounded-full bg-[#3b3dac]/80 text-white text-xs font-bold uppercase tracking-wider">
+                                  {item.badgeName || item.label}
+                                </span>
+                              </div>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </motion.div>
-                  ))}
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </div>
             ) : (
@@ -856,7 +980,7 @@ export default function TeamPage() {
                         alt="Team group photo"
                         fill
                         loading="lazy"
-                        className="object-cover transition-all duration-300 ease-in-out group-hover:scale-105 group-hover:brightness-110"
+                        className="object-cover object-top transition-all duration-300 ease-in-out group-hover:scale-105 group-hover:brightness-110"
                         sizes="(max-width: 1280px) 100vw, 1280px"
                         quality={90}
                       />
@@ -864,31 +988,33 @@ export default function TeamPage() {
                     </div>
                   </div>
                 ) : (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-                    {activeCategoryGroupPhotos.map((img, idx) => (
-                      <div
-                        key={`active-group-stack-${activeCategory}-${idx}-${categoryChangeKey}`}
-                        className="relative group rounded-2xl overflow-hidden bg-white dark:bg-gray-800 shadow-lg hover:shadow-2xl hover:shadow-[#3b3dac]/20 dark:hover:shadow-[#3b3dac]/30 transition-all duration-500 border border-gray-200 dark:border-gray-700"
-                      >
-                        <div className="relative w-full aspect-[16/9] overflow-hidden">
-                          <Image
-                            src={urlFor(img)
-                              .width(1600)
-                              .height(900)
-                              .quality(80)
-                              .format("webp")
-                              .url()}
-                            alt="Team group photo"
-                            fill
-                            loading="lazy"
-                            className="object-cover transition-all duration-300 ease-in-out group-hover:scale-105 group-hover:brightness-110"
-                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 50vw"
-                            quality={85}
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+                  <div className="overflow-x-auto overscroll-x-contain touch-pan-x scrollbar-hide">
+                    <div className="grid grid-flow-col auto-cols-[minmax(280px,1fr)] sm:auto-cols-[minmax(420px,1fr)] gap-4 sm:gap-6 w-max py-1">
+                      {activeCategoryGroupPhotos.map((img, idx) => (
+                        <div
+                          key={`active-group-row-${activeCategory}-${idx}-${categoryChangeKey}`}
+                          className="relative group rounded-2xl overflow-hidden bg-white dark:bg-gray-800 shadow-lg hover:shadow-2xl hover:shadow-[#3b3dac]/20 dark:hover:shadow-[#3b3dac]/30 transition-all duration-500 border border-gray-200 dark:border-gray-700"
+                        >
+                          <div className="relative w-full aspect-[16/9] overflow-hidden">
+                            <Image
+                              src={urlFor(img)
+                                .width(1600)
+                                .height(900)
+                                .quality(80)
+                                .format("webp")
+                                .url()}
+                              alt="Team group photo"
+                              fill
+                              loading="lazy"
+                              className="object-cover object-top transition-all duration-300 ease-in-out group-hover:scale-105 group-hover:brightness-110"
+                              sizes="(max-width: 640px) 90vw, (max-width: 1024px) 420px, 520px"
+                              quality={85}
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
                 )}
               </motion.div>
@@ -1192,7 +1318,7 @@ export default function TeamPage() {
               className="max-w-4xl mx-auto"
             >
               <GlowCard>
-                <div className="overflow-x-auto">
+                <div className="overflow-x-auto overscroll-x-contain touch-pan-x scrollbar-hide">
                   <table className="w-full">
                     <thead>
                       <tr className="border-b border-gray-200 dark:border-gray-700">
