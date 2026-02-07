@@ -440,46 +440,17 @@ export default function Home({ params }: { params: Promise<{ lang: string }> }) 
               transition={{ duration: 0.3 }}
               className="translate-y-6 sm:translate-y-8 md:translate-y-10 space-y-6 sm:space-y-8 w-full px-6 sm:px-8"
             >
-              {(() => {
-                const heroTitle = heroData?.heroTitle ? getLocalizedContent(heroData.heroTitle, language) : ""
-                const heroTitleZurich = heroData?.heroTitleZurich ? getLocalizedContent(heroData.heroTitleZurich, language) : ""
-                const heroSubtitle = heroData?.heroSubtitle ? getLocalizedContent(heroData.heroSubtitle, language) : ""
-                const heroDescription = heroData?.heroDescription ? getLocalizedText(heroData.heroDescription, language) : ""
-                const primaryText = heroData?.heroButtons?.primary?.text
-                  ? getLocalizedContent(heroData.heroButtons.primary.text, language)
-                  : ""
-                const primaryLink = heroData?.heroButtons?.primary?.link || ""
-                const secondaryText = heroData?.heroButtons?.secondary?.text
-                  ? getLocalizedContent(heroData.heroButtons.secondary.text, language)
-                  : ""
-                const secondaryLink = heroData?.heroButtons?.secondary?.link || ""
-
-                const hasAnyHeroContent = Boolean(
-                  heroTitle ||
-                    heroTitleZurich ||
-                    heroSubtitle ||
-                    heroDescription ||
-                    (primaryText && primaryLink) ||
-                    (secondaryText && secondaryLink)
-                )
-
-                // Never show the "missing hero content" notice while data is still loading.
-                // This prevents a 1s flash on refresh in production.
-                if (loading || hasAnyHeroContent) return null
-
-                // Keep the notice available in dev for authors, but never show it in production.
-                if (process.env.NODE_ENV === "production") return null
-
-                return (
-                  <div className="mx-auto max-w-2xl rounded-2xl border border-white/20 bg-black/35 px-6 py-5 text-white">
-                    <p className="text-lg font-bold">Hero content isn’t published in Sanity yet.</p>
-                    <p className="mt-2 text-sm text-white/90">
-                      Open Sanity Studio → <span className="font-semibold">Hero Section</span> and publish:
-                      Title / Subtitle / Description and button text + links.
-                    </p>
+              {loading ? (
+                <div aria-hidden="true" className="mx-auto max-w-2xl w-full space-y-4">
+                  <div className="h-10 sm:h-12 rounded-2xl bg-white/15 backdrop-blur-sm animate-pulse" />
+                  <div className="h-6 rounded-2xl bg-white/10 backdrop-blur-sm animate-pulse" />
+                  <div className="h-6 w-4/5 mx-auto rounded-2xl bg-white/10 backdrop-blur-sm animate-pulse" />
+                  <div className="pt-4 flex justify-center gap-3">
+                    <div className="h-12 w-36 rounded-full bg-white/15 backdrop-blur-sm animate-pulse" />
+                    <div className="h-12 w-36 rounded-full bg-white/10 backdrop-blur-sm animate-pulse" />
                   </div>
-                )
-              })()}
+                </div>
+              ) : null}
               {(() => {
                 const heroTitle = heroData?.heroTitle ? getLocalizedContent(heroData.heroTitle, language) : ""
                 const heroTitleZurich = heroData?.heroTitleZurich ? getLocalizedContent(heroData.heroTitleZurich, language) : ""

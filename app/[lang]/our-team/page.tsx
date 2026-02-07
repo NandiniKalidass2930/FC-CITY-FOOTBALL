@@ -587,39 +587,63 @@ export default function TeamPage() {
     }
   }, [activeCategory, allCategoryGroupPhotos.length])
 
-  // Smooth, continuous left-to-right auto-scroll that still allows touch scroll
+  // Auto-slide the team cards (right-to-left) every 3 seconds, smooth + infinite loop.
+  // Uses native scrolling so touch/trackpad scrolling stays natural.
   useEffect(() => {
     if (activeCategory !== "all") return
     if (!teamCardsScrollRef.current) return
+    if (!teamCardsSetRef.current) return
     if (allCategoryGroupPhotos.length <= 1) return
     if (teamCardsSetWidth <= 0) return
+    if (teamCardsAutoScrollPaused) return
 
     const scroller = teamCardsScrollRef.current
-    let raf = 0
-    let lastTs = 0
+    const setEl = teamCardsSetRef.current
 
-    const isCoarse = typeof window !== "undefined" && window.matchMedia?.("(pointer: coarse)")?.matches
-    const pxPerSec = isCoarse ? 14 : 24 // slow, professional; slower on mobile
-
-    const tick = (ts: number) => {
-      if (!lastTs) lastTs = ts
-      const dt = (ts - lastTs) / 1000
-      lastTs = ts
-
-      if (!teamCardsAutoScrollPaused) {
-        scroller.scrollLeft += pxPerSec * dt
-
-        // Loop seamlessly by wrapping when passing one full set width
-        if (scroller.scrollLeft >= teamCardsSetWidth) {
-          scroller.scrollLeft -= teamCardsSetWidth
-        }
+    const getStepPx = () => {
+      const first = setEl.children?.[0] as HTMLElement | undefined
+      const second = setEl.children?.[1] as HTMLElement | undefined
+      if (first && second) {
+        const step = second.offsetLeft - first.offsetLeft
+        if (step > 0) return step
       }
-
-      raf = window.requestAnimationFrame(tick)
+      if (first) return first.getBoundingClientRect().width + 24
+      return 320
     }
 
-    raf = window.requestAnimationFrame(tick)
-    return () => window.cancelAnimationFrame(raf)
+    let timeoutId = 0
+    let intervalId = 0
+
+    const wrapIfNeeded = () => {
+      if (teamCardsSetWidth <= 0) return
+      // When we enter the duplicated set, wrap back by one full set width (seamless).
+      if (scroller.scrollLeft >= teamCardsSetWidth) {
+        scroller.scrollLeft -= teamCardsSetWidth
+      }
+    }
+
+    const tick = () => {
+      const step = getStepPx()
+      scroller.scrollBy({ left: step, behavior: "smooth" })
+
+      // After the smooth scroll completes, wrap if needed.
+      window.clearTimeout(timeoutId)
+      timeoutId = window.setTimeout(wrapIfNeeded, 750)
+    }
+
+    // Start after a short delay so layout settles (avoids tiny jump on first paint)
+    timeoutId = window.setTimeout(tick, 600)
+    intervalId = window.setInterval(tick, 3000)
+
+    // Also guard against manual scroll crossing the boundary
+    const onScroll = () => wrapIfNeeded()
+    scroller.addEventListener("scroll", onScroll, { passive: true })
+
+    return () => {
+      window.clearTimeout(timeoutId)
+      window.clearInterval(intervalId)
+      scroller.removeEventListener("scroll", onScroll as any)
+    }
   }, [activeCategory, allCategoryGroupPhotos.length, teamCardsAutoScrollPaused, teamCardsSetWidth])
   
   // Parallax scroll effect
@@ -896,9 +920,7 @@ export default function TeamPage() {
                                   quality={85}
                                 />
                               ) : (
-                                <div className="w-full h-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
-                                  <span className="text-gray-400 text-sm">No group photo</span>
-                                </div>
+                                <div className="w-full h-full bg-gray-200 dark:bg-gray-700" />
                               )}
                               <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
                               <div className="absolute bottom-3 left-3 right-3">
