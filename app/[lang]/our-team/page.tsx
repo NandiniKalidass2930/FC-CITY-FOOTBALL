@@ -11,6 +11,7 @@ import { usePathname } from "next/navigation"
 import { client } from "@/sanity/lib/client"
 import { urlFor } from "@/sanity/lib/image"
 import { getLocalizedContent, getLocalizedText } from "@/lib/sanity-locale"
+import { TeamGroupPhotosMarquee } from "@/components/team/TeamGroupPhotosMarquee"
 
 /* ---------------- Reusable Glow Card ---------------- */
 
@@ -270,12 +271,6 @@ export default function TeamPage() {
   const heroRef = useRef<HTMLDivElement>(null)
   const [activeCategory, setActiveCategory] = useState<TeamCategory>("all")
   const [categoryChangeKey, setCategoryChangeKey] = useState(0) // Track category changes for image reload
-
-  // Auto-scroll (left -> right) for "All" team category cards
-  const teamCardsScrollRef = useRef<HTMLDivElement | null>(null)
-  const teamCardsSetRef = useRef<HTMLDivElement | null>(null)
-  const [teamCardsSetWidth, setTeamCardsSetWidth] = useState(0)
-  const [teamCardsAutoScrollPaused, setTeamCardsAutoScrollPaused] = useState(false)
   
   // Sanity data state
   const [players, setPlayers] = useState<Player[]>([])
@@ -559,88 +554,6 @@ export default function TeamPage() {
       })
   }, [categories, teamGroupPhotoByCategory])
 
-  // Measure the width of one full set of team cards for seamless looping
-  useEffect(() => {
-    if (activeCategory !== "all") return
-    if (!teamCardsSetRef.current) return
-
-    const el = teamCardsSetRef.current
-
-    const update = () => {
-      const w = el.scrollWidth || el.getBoundingClientRect().width || 0
-      setTeamCardsSetWidth(w)
-    }
-
-    update()
-
-    let ro: ResizeObserver | null = null
-    if (typeof ResizeObserver !== "undefined") {
-      ro = new ResizeObserver(() => update())
-      ro.observe(el)
-    } else {
-      window.addEventListener("resize", update)
-    }
-
-    return () => {
-      if (ro) ro.disconnect()
-      else window.removeEventListener("resize", update)
-    }
-  }, [activeCategory, allCategoryGroupPhotos.length])
-
-  // Continuous running slider / marquee (left-to-right), infinite + smooth + non-stop.
-  // Uses native scrolling so touch/trackpad scrolling stays natural.
-  useEffect(() => {
-    if (activeCategory !== "all") return
-    if (!teamCardsScrollRef.current) return
-    if (allCategoryGroupPhotos.length <= 1) return
-    if (teamCardsSetWidth <= 0) return
-
-    const scroller = teamCardsScrollRef.current
-
-    // Only animate if content actually overflows
-    if (scroller.scrollWidth <= scroller.clientWidth) return
-
-    // Fixed speed across all screen sizes (px/sec)
-    const pxPerSec = 22
-
-    // Start from the duplicated half so we can scroll "backwards" seamlessly
-    // (decreasing scrollLeft makes cards appear to move left-to-right).
-    scroller.scrollLeft = teamCardsSetWidth
-
-    const wrap = () => {
-      if (teamCardsSetWidth <= 0) return
-      if (scroller.scrollLeft <= 0) scroller.scrollLeft += teamCardsSetWidth
-      else if (scroller.scrollLeft >= teamCardsSetWidth) scroller.scrollLeft -= teamCardsSetWidth
-    }
-
-    let raf = 0
-    let lastTs = 0
-
-    const tick = (ts: number) => {
-      if (!lastTs) lastTs = ts
-      const dt = (ts - lastTs) / 1000
-      lastTs = ts
-
-      if (!teamCardsAutoScrollPaused) {
-        let next = scroller.scrollLeft - pxPerSec * dt
-        // Keep scrollLeft in [0, teamCardsSetWidth) for seamless looping
-        while (next <= 0) next += teamCardsSetWidth
-        while (next >= teamCardsSetWidth) next -= teamCardsSetWidth
-        scroller.scrollLeft = next
-      }
-
-      raf = window.requestAnimationFrame(tick)
-    }
-
-    raf = window.requestAnimationFrame(tick)
-    const onScroll = () => wrap()
-    scroller.addEventListener("scroll", onScroll, { passive: true })
-
-    return () => {
-      window.cancelAnimationFrame(raf)
-      scroller.removeEventListener("scroll", onScroll)
-    }
-  }, [activeCategory, allCategoryGroupPhotos.length, teamCardsAutoScrollPaused, teamCardsSetWidth])
   
   // Parallax scroll effect
   const { scrollYProgress } = useScroll({
@@ -876,101 +789,20 @@ export default function TeamPage() {
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 mt-8">
             {activeCategory === "all" ? (
               <div className="max-w-7xl mx-auto">
-                <div
-                  ref={teamCardsScrollRef}
-                  className="overflow-x-auto overscroll-x-contain touch-pan-x scrollbar-hide"
-                  onMouseEnter={() => setTeamCardsAutoScrollPaused(true)}
-                  onMouseLeave={() => setTeamCardsAutoScrollPaused(false)}
-                  onTouchStart={() => setTeamCardsAutoScrollPaused(true)}
-                  onTouchEnd={() => {
-                    // small delay so the user can finish the swipe naturally
-                    window.setTimeout(() => setTeamCardsAutoScrollPaused(false), 450)
-                  }}
-                >
-                  <div className="flex gap-4 sm:gap-6 w-max py-2">
-                    <div ref={teamCardsSetRef} className="flex gap-4 sm:gap-6 w-max">
-                      {allCategoryGroupPhotos.map((item) => (
-                        <motion.div
-                          key={`group-carousel-${item.key}-${categoryChangeKey}`}
-                          variants={zoomIn}
-                          initial="hidden"
-                          animate="visible"
-                          className="relative shrink-0 min-w-[280px] sm:min-w-[360px] lg:min-w-[420px]"
-                        >
-                          <div className="relative group rounded-2xl overflow-hidden bg-white dark:bg-gray-800 shadow-lg hover:shadow-2xl hover:shadow-[#3b3dac]/20 dark:hover:shadow-[#3b3dac]/30 transition-all duration-500 border border-gray-200 dark:border-gray-700">
-                            <div className="relative w-full aspect-[16/9] overflow-hidden">
-                              {item.groupPhoto ? (
-                                <Image
-                                  key={`group-photo-carousel-${item.key}-${categoryChangeKey}-${pathname}`}
-                                  src={urlFor(item.groupPhoto)
-                                    .width(1200)
-                                    .height(675)
-                                    .quality(80)
-                                    .format("webp")
-                                    .url()}
-                                  alt={`${item.label} group photo`}
-                                  fill
-                                  loading="lazy"
-                                  className="object-cover transition-all duration-300 ease-in-out group-hover:scale-105 group-hover:brightness-110"
-                                  sizes="(max-width: 640px) 280px, (max-width: 1024px) 360px, 420px"
-                                  quality={85}
-                                />
-                              ) : (
-                                <div className="w-full h-full bg-gray-200 dark:bg-gray-700" />
-                              )}
-                              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
-                              <div className="absolute bottom-3 left-3 right-3">
-                                <span className="inline-block px-3 py-1 rounded-full bg-[#3b3dac]/80 text-white text-xs font-bold uppercase tracking-wider">
-                                  {item.badgeName || item.label}
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                        </motion.div>
-                      ))}
-                    </div>
-
-                    {/* Duplicate set for seamless looping */}
-                    <div aria-hidden="true" className="flex gap-4 sm:gap-6 w-max">
-                      {allCategoryGroupPhotos.map((item) => (
-                        <div
-                          key={`group-carousel-dup-${item.key}-${categoryChangeKey}`}
-                          className="relative shrink-0 min-w-[280px] sm:min-w-[360px] lg:min-w-[420px]"
-                        >
-                          <div className="relative group rounded-2xl overflow-hidden bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-700">
-                            <div className="relative w-full aspect-[16/9] overflow-hidden">
-                              {item.groupPhoto ? (
-                                <Image
-                                  key={`group-photo-carousel-dup-${item.key}-${categoryChangeKey}-${pathname}`}
-                                  src={urlFor(item.groupPhoto)
-                                    .width(1200)
-                                    .height(675)
-                                    .quality(80)
-                                    .format("webp")
-                                    .url()}
-                                  alt={`${item.label} group photo`}
-                                  fill
-                                  loading="lazy"
-                                  className="object-cover"
-                                  sizes="(max-width: 640px) 280px, (max-width: 1024px) 360px, 420px"
-                                  quality={85}
-                                />
-                              ) : (
-                                <div className="w-full h-full bg-gray-200 dark:bg-gray-700" />
-                              )}
-                              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
-                              <div className="absolute bottom-3 left-3 right-3">
-                                <span className="inline-block px-3 py-1 rounded-full bg-[#3b3dac]/80 text-white text-xs font-bold uppercase tracking-wider">
-                                  {item.badgeName || item.label}
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
+                <TeamGroupPhotosMarquee
+                  items={allCategoryGroupPhotos
+                    .filter((x) => Boolean(x.groupPhoto))
+                    .map((x) => ({
+                      key: `${x.key}-${categoryChangeKey}`,
+                      badge: (x.badgeName || x.label || "").toUpperCase(),
+                      imageUrl: x.groupPhoto
+                        ? urlFor(x.groupPhoto).width(1200).height(675).quality(80).format("webp").url()
+                        : "",
+                      alt: `${x.label} group photo`,
+                    }))}
+                  // slow, smooth marquee-style speed
+                  pxPerSecond={22}
+                />
               </div>
             ) : (
               <motion.div

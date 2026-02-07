@@ -576,6 +576,34 @@
   }
 }
 
+/* Team Group Photos - Continuous running marquee (right -> left), no hover pause */
+@keyframes team-marquee-rtl {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.team-marquee-track {
+  display: flex;
+  width: fit-content;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  animation-name: team-marquee-rtl;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-duration: var(--team-marquee-duration, 45s);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .team-marquee-track {
+    animation: none;
+    transform: none;
+  }
+}
+
 /* Masonry Gallery Layout */
 .masonry-grid {
   display: flex;
